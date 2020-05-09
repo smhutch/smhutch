@@ -1,13 +1,11 @@
 import { fontSizes, space } from 'lib/theme'
 
-import { FontCSS } from './FontCSS'
 import { ResetCSS } from './ResetCSS'
 import { SpaceCSS } from './SpaceCSS'
 
 export const GlobalCSS = () => {
   return (
     <>
-      <FontCSS />
       <ResetCSS />
       <SpaceCSS />
       <style global jsx>{`
@@ -24,7 +22,6 @@ export const GlobalCSS = () => {
           --space-5: ${space[5]};
           --space-6: ${space[6]};
           --font: Inter, Helvetica Neue, sans-serif;
-          --font-mono: FiraCode, monospace, monospace;
           --font-size-xxl: ${fontSizes.scale[6]};
           --font-size-xl: ${fontSizes.scale[5]};
           --font-size-l: ${fontSizes.scale[4]};
@@ -59,6 +56,10 @@ export const GlobalCSS = () => {
           text-decoration: none;
         }
 
+        p {
+          line-height: 1.6rem;
+        }
+
         ul {
           list-style: none;
           margin: 0;
@@ -77,7 +78,7 @@ export const GlobalCSS = () => {
         ul li::before {
           content: '—';
           color: var(--color-light);
-          font-weight: bold;
+          font-weight: 800;
           display: inline-block;
           position: absolute;
           left: 0px;
