@@ -1,0 +1,54 @@
+.text {
+  color: var(--color-dark);
+}
+
+.h1,
+.h2 {
+  font-family: var(--font);
+}
+
+.h1 {
+  font-size: var(--font-size-xxl);
+}
+
+.h2 {
+  font-size: var(--font-size-xl);
+}
+
+.h3 {
+  font-size: var(--font-size-l);
+}
+
+.h4 {
+  font-size: var(--font-size-m);
+}
+
+.h5 {
+  font-size: var(--font-size);
+}
+
+.h6 {
+  color: var(--color-offset);
+  font-size: var(--font-size);
+}
+
+.p {
+  color: var(--color-text);
+  font-size: var(--font-size);
+  font-weight: 300;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+}
+
+.upper {
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-weight: 300;
+}
+
+.light {
+  color: var(--color-light);
+}

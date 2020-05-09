@@ -1,0 +1,7 @@
+article.box h1 {
+  margin-bottom: var(--space-4);
+}
+
+article.box > * {
+  margin-bottom: var(--space-3);
+}

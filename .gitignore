@@ -1,0 +1,15 @@
+# Next.js builds
+.next
+
+# Dependencies
+node_modules/
+
+# Logs
+yarn-debug.log*
+yarn-error.log*
+
+# VSCode
+*.code-workspace
+
+# Mac stuff
+.DS_Store

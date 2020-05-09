@@ -1,0 +1,27 @@
+{
+  "author": "smhutch",
+  "homepage": "https://www.smhutch.dev",
+  "license": "MIT",
+  "dependencies": {
+    "@mdx-js/loader": "^1.6.1",
+    "@next/bundle-analyzer": "^9.3.6",
+    "@next/mdx": "^9.3.6",
+    "classnames": "^2.2.6",
+    "next": "^9.3.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "scripts": {
+    "analyze": "ANALYZE=true yarn build",
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "eslint '**/*.js'",
+    "start": "next start"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0"
+  }
+}
