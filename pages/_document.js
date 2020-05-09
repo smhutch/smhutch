@@ -11,7 +11,7 @@ class I18nDocument extends Document {
       <Html lang="en">
         <head>
           <link
-            href="https://fonts.googleapis.com/css?family=Inter:300,400,800&amp;display=swap"
+            href="https://fonts.googleapis.com/css?family=Inter:300,800&display=swap"
             rel="stylesheet"
           />
         </head>
