@@ -38,11 +38,6 @@
   font-weight: 300;
 }
 
-.mono {
-  font-family: var(--font-mono);
-  font-weight: 400;
-}
-
 .upper {
   text-transform: uppercase;
   letter-spacing: 6px;

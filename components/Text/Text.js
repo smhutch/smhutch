@@ -20,7 +20,6 @@ export const Text = ({
         [styles.h5]: looksLike === 'h5',
         [styles.h6]: looksLike === 'h6',
         [styles.p]: looksLike === 'p',
-        [styles.mono]: variant === 'mono',
         [styles.upper]: variant === 'upper',
         [styles.light]: variant === 'light',
       })}
