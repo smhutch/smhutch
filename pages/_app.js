@@ -4,6 +4,7 @@ import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { MDX } from 'components/MDX'
+import { GlobalMeta } from 'components/Meta'
 import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
 
 Router.events.on('routeChangeComplete', (url) => {
@@ -17,6 +18,7 @@ const App = ({ Component, pageProps }) => {
   return (
     <>
       <GlobalCSS />
+      <GlobalMeta />
       <div className="app">
         <Header />
         <div className="page">{page}</div>
