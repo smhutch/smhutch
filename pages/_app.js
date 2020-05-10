@@ -1,7 +1,14 @@
+import Router from 'next/router'
+
 import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { MDX } from 'components/MDX'
+import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
+
+Router.events.on('routeChangeComplete', (url) => {
+  GA_TRACKING_ID && trackPage(url)
+})
 
 const App = ({ Component, pageProps }) => {
   const ui = <Component {...pageProps} />
