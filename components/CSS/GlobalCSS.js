@@ -54,6 +54,29 @@ export const GlobalCSS = () => {
         a {
           color: var(--color-link);
           text-decoration: none;
+          position: relative;
+        }
+
+        a:after {
+          content: '';
+          position: absolute;
+          background: transparent;
+          left: 0px;
+          right: 0px;
+          bottom: 0px;
+          height: 40%;
+          pointer-events: none;
+          transition: 0.2s ease all;
+          transform: scaleX(0);
+          transform-origin: left center;
+          z-index: -1;
+          opacity: 0.5;
+        }
+
+        a:focus:after,
+        a:hover:after {
+          background: gold;
+          transform: scaleX(1);
         }
 
         p {
@@ -86,10 +109,12 @@ export const GlobalCSS = () => {
 
         /* Utils */
         .container {
-          margin: 0 auto;
+          margin-left: auto;
+          margin-right: auto;
           max-width: 1000px;
           width: 100%;
-          padding: 0 20px;
+          padding-left: 20px;
+          padding-right: 20px;
         }
 
         article {
@@ -98,6 +123,10 @@ export const GlobalCSS = () => {
 
         article > * {
           margin-bttom: 20px !important;
+        }
+
+        .nums {
+          font-variant-numeric: tabular-nums;
         }
       `}</style>
     </>

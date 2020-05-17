@@ -13,6 +13,7 @@
     // Added globally by Next
     "React": true
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -70,7 +71,15 @@
     // Don't use prop-types.
     "react/prop-types": "off",
     // Next.js adds React to JSX scope.
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    // No unused variables
+    "no-unused-vars": [
+      "error",
+      {
+        // Unless they are prefixed with "_" for documentation purposes
+        "argsIgnorePattern": "^_"
+      }
+    ]
   },
   "overrides": [
     {
