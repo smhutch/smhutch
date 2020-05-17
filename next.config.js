@@ -11,7 +11,7 @@ module.exports = (_phase, { defaultConfig }) => {
   }
 
   if (process.env.ANALYZE === 'true') {
-    return withBundleAnalyzer(config)
+    return withBundleAnalyzer(withMDX(config))
   }
 
   return withMDX(config)

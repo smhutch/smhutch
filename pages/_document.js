@@ -13,7 +13,7 @@ class I18nDocument extends Document {
       <Html lang="en">
         <Head>
           <link
-            href="https://fonts.googleapis.com/css?family=Inter:300,800&display=swap"
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Inter:wght@400;800"
             rel="stylesheet"
           />
           {GA_TRACKING_ID && (

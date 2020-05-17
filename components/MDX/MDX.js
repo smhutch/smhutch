@@ -3,9 +3,11 @@ import { MDXProvider } from '@mdx-js/react'
 import { Stack } from '../Stack'
 import { Text } from '../Text'
 
-const text = (styleProps) => (mdxProps) => (
-  <Text {...styleProps} {...mdxProps} />
-)
+function text(styleProps) {
+  return function MDXText(mdxProps) {
+    return <Text {...styleProps} {...mdxProps} />
+  }
+}
 
 const components = {
   h1: text({ el: 'h1' }),

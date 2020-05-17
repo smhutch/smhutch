@@ -44,7 +44,7 @@ export const Header = () => {
         </div>
         <nav>
           <Link href="/about">
-            <a className="highlight">About</a>
+            <a>About</a>
           </Link>
         </nav>
         {/* <button

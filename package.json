@@ -6,8 +6,11 @@
     "@mdx-js/loader": "^1.6.1",
     "@next/bundle-analyzer": "^9.3.6",
     "@next/mdx": "^9.3.6",
+    "canvas-sketch-util": "^1.10.0",
     "classnames": "^2.2.6",
+    "eases": "^1.0.8",
     "next": "^9.4.0",
+    "nice-color-palettes": "^3.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },

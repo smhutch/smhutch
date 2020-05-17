@@ -21,7 +21,7 @@ export const Text = ({
         [styles.h6]: looksLike === 'h6',
         [styles.p]: looksLike === 'p',
         [styles.upper]: variant === 'upper',
-        [styles.light]: variant === 'light',
+        [styles.mono]: variant === 'mono',
       })}
       {...props}
     />
