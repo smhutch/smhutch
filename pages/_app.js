@@ -20,11 +20,13 @@ const App = ({ Component, pageProps }) => {
       <GlobalCSS />
       <GlobalMeta />
       <div className="app">
-        <Header />
+        {!Component.meta && <Header />}
         <div className="page">{page}</div>
-        <div className="footer">
-          <Footer />
-        </div>
+        {!Component.meta && (
+          <div className="footer">
+            <Footer />
+          </div>
+        )}
       </div>
       <style jsx>{`
         .app {

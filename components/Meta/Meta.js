@@ -1,10 +1,18 @@
 import Head from 'next/head'
 
-export const Meta = ({ description, title = 'SMHutch' }) => {
+import { absolutePath } from 'lib/assets'
+
+export const Meta = ({ description, image, title = 'SMHutch' }) => {
   return (
     <Head>
       <title>{title}</title>
+      <meta content={title} property="og:title" />
+
+      {/* Description */}
       {description && <meta content={description} name="description" />}
+
+      {/* Images */}
+      {image && <meta content={absolutePath(image)} property="og:image" />}
     </Head>
   )
 }

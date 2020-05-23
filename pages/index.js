@@ -1,5 +1,5 @@
-import Random from 'canvas-sketch-util/random'
 import { lerp } from 'canvas-sketch-util/math'
+import Random from 'canvas-sketch-util/random'
 import cn from 'classnames'
 import { quadIn } from 'eases'
 import { useEffect, useRef, useState } from 'react'

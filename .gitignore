@@ -13,3 +13,6 @@ yarn-error.log*
 
 # Mac stuff
 .DS_Store
+
+# Deployment
+.vercel

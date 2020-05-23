@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useRef, useEffect, useState } from 'react'
 
 import { Button } from 'components/Button'
+import { Meta } from 'components/Meta'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'
 import { sketchIds, sketchSettings } from 'lib/paths'
@@ -22,7 +23,6 @@ const Sketch = ({ id, title, next, prev }) => {
   const canvasRef = useRef()
   const ctxRef = useRef()
   const drawFnRef = useRef()
-  const downloadRef = useRef()
 
   const reSeed = () => {
     const newSeed = random.getRandomSeed()
@@ -104,7 +104,7 @@ const Sketch = ({ id, title, next, prev }) => {
           // Prevent browser from saving.
           e.preventDefault()
           const data = canvasRef.current.toDataURL('image/png')
-          const anchor = downloadRef.current
+          const anchor = document.createElement('a')
           anchor.setAttribute('download', `${id}-${seed}.png`)
           anchor.setAttribute('href', data)
           anchor.click()
@@ -145,6 +145,11 @@ const Sketch = ({ id, title, next, prev }) => {
 
   return (
     <>
+      <Meta
+        description="A generative sketch by Scott Hutcheson."
+        image={`sketches/${id}/meta.png`}
+        title={`${id} — ${title}.`}
+      />
       <main className="py4">
         <div className="sketch container">
           <div className="info">
@@ -175,7 +180,6 @@ const Sketch = ({ id, title, next, prev }) => {
               </Button>
             )}
           </div>
-          <a ref={downloadRef} style={{ display: 'none' }} />
         </div>
         <div className="bg" />
       </main>
@@ -214,12 +218,6 @@ const Sketch = ({ id, title, next, prev }) => {
               background: linear-gradient(#f5f5f5, white);
             }
 
-            .content {
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-
             .info {
               margin-top: var(--space-5);
             }
@@ -244,8 +242,6 @@ export async function getStaticProps({ params }) {
   const { title } = await sketchSettings(id)
   const ids = await sketchIds()
   const currentIndex = ids.findIndex((v) => v === id)
-  // console.log(foo)
-  console.log(currentIndex)
   const next = ids[currentIndex + 1] || null
   const prev = ids[currentIndex - 1] || null
 
