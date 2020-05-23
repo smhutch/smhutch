@@ -1,4 +1,5 @@
 import Random from 'canvas-sketch-util/random'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useRef, useEffect, useState } from 'react'
 
@@ -11,7 +12,7 @@ import { sketchIds, sketchSettings } from 'lib/paths'
 const random = Random.createRandom()
 const canvasSize = 1000
 
-const Sketch = ({ id, title }) => {
+const Sketch = ({ id, title, next, prev }) => {
   const router = useRouter()
 
   // State
@@ -30,11 +31,15 @@ const Sketch = ({ id, title }) => {
     // Re-seed the random module
     random.setSeed(seed)
     // Update URL state, to enable sharing.
-    router.push('/sketches/[id]', `/sketches/001?seed=${newSeed}`)
+    router.push('/sketches/[id]', `/sketches/${id}?seed=${newSeed}`)
   }
 
   // Fetch sketch module when page hydrates.
   useEffect(() => {
+    // Re-set all state when id changes.
+    setCanvasStatus('PREFLIGHT')
+    setSeed(null)
+
     // Async effect due to import.
     const init = async () => {
       // Dynamically import the sketch.
@@ -57,7 +62,7 @@ const Sketch = ({ id, title }) => {
     }
 
     init()
-  }, [])
+  }, [id])
 
   // Handle back and forward within the url.
   useEffect(() => {
@@ -73,7 +78,32 @@ const Sketch = ({ id, title }) => {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [])
+  }, [id])
+
+  // Key listeners.
+  useEffect(() => {
+    const handleKeys = (e) => {
+      // Space
+      if (e.keyCode == 32) {
+        reSeed()
+      }
+
+      // Left
+      if (prev && e.keyCode == 37) {
+        router.push('/sketches/[id]', `/sketches/${prev}`)
+      }
+
+      // Right
+      if (next && e.keyCode == 39) {
+        router.push('/sketches/[id]', `/sketches/${next}`)
+      }
+    }
+
+    document.addEventListener('keyup', handleKeys)
+    return () => {
+      document.removeEventListener('keyup', handleKeys)
+    }
+  }, [id, next, prev])
 
   // Transform URL query seed to local state.
   useEffect(() => {
@@ -98,7 +128,7 @@ const Sketch = ({ id, title }) => {
         random,
       })
     }
-  }, [seed, canvasStatus])
+  }, [id, seed, canvasStatus])
 
   return (
     <>
@@ -107,7 +137,21 @@ const Sketch = ({ id, title }) => {
           <div className="info">
             <Stack>
               <Text el="h1">{title}.</Text>
-              <Text variant="mono">{id}</Text>
+              {prev && (
+                <Link as={`/sketches/${prev}`} href="/sketches/[id]">
+                  <a className="mr3" title="previous">
+                    &larr;
+                  </a>
+                </Link>
+              )}
+              <Text className="mr3" variant="mono" inline>
+                {id}
+              </Text>
+              {next && (
+                <Link as={`/sketches/${next}`} href="/sketches/[id]">
+                  <a title="next">&rarr;</a>
+                </Link>
+              )}
             </Stack>
           </div>
           <canvas ref={canvasRef} height={canvasSize} width={canvasSize} />
@@ -197,11 +241,19 @@ const Sketch = ({ id, title }) => {
 export async function getStaticProps({ params }) {
   const { id } = params
   const { title } = await sketchSettings(id)
+  const ids = await sketchIds()
+  const currentIndex = ids.findIndex((v) => v === id)
+  // console.log(foo)
+  console.log(currentIndex)
+  const next = ids[currentIndex + 1] || null
+  const prev = ids[currentIndex - 1] || null
 
   return {
     props: {
       id,
-      title: title,
+      title,
+      next,
+      prev,
     },
   }
 }

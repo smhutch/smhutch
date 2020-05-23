@@ -8,7 +8,6 @@ export const settings = {
 const count = 20
 
 export const sketch = () => {
-  // render loop
   return ({ ctx, size, random }) => {
     const palette = random.pick(palettes)
     const margin = size / 10
@@ -35,7 +34,7 @@ export const sketch = () => {
         ctx.beginPath()
         ctx.translate(x, y)
         ctx.scale(scale, scale)
-        ctx.fillRect(-space, -space, space, space)
+        ctx.fillRect(-space / 2, -space / 2, space, space)
         ctx.fill()
         ctx.restore()
       }
