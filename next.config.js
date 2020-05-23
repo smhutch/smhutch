@@ -6,7 +6,7 @@ module.exports = (_phase, { defaultConfig }) => {
     ...defaultConfig,
     env: {
       GA_TRACKING_ID: process.env.GA_TRACKING_ID,
-      VERCEL_URL: process.env.VERCEL_URL
+      SITE_URL: process.env.SITE_URL
     },
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   }
