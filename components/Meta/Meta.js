@@ -9,7 +9,12 @@ export const Meta = ({ description, image, title = 'SMHutch' }) => {
       <meta content={title} property="og:title" />
 
       {/* Description */}
-      {description && <meta content={description} name="description" />}
+      {description && (
+        <>
+          <meta content={description} name="description" />
+          <meta content={description} name="og:description" />
+        </>
+      )}
 
       {/* Images */}
       {image && <meta content={absolutePath(image)} property="og:image" />}
