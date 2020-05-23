@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { useRef, useEffect, useState } from 'react'
 
 import { Button } from 'components/Button'
-import { Flex } from 'components/Flex'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'
 import { sketchIds, sketchSettings } from 'lib/paths'
@@ -23,6 +22,7 @@ const Sketch = ({ id, title, next, prev }) => {
   const canvasRef = useRef()
   const ctxRef = useRef()
   const drawFnRef = useRef()
+  const downloadRef = useRef()
 
   const reSeed = () => {
     const newSeed = random.getRandomSeed()
@@ -84,26 +84,39 @@ const Sketch = ({ id, title, next, prev }) => {
   useEffect(() => {
     const handleKeys = (e) => {
       // Space
-      if (e.keyCode == 32) {
+      if (e.keyCode === 32) {
         reSeed()
       }
 
       // Left
-      if (prev && e.keyCode == 37) {
+      if (prev && e.keyCode === 37) {
         router.push('/sketches/[id]', `/sketches/${prev}`)
       }
 
       // Right
-      if (next && e.keyCode == 39) {
+      if (next && e.keyCode === 39) {
         router.push('/sketches/[id]', `/sketches/${next}`)
+      }
+
+      // s character
+      if (e.keyCode == 83) {
+        if (e.getModifierState('Meta')) {
+          // Prevent browser from saving.
+          e.preventDefault()
+          const data = canvasRef.current.toDataURL('image/png')
+          const anchor = downloadRef.current
+          anchor.setAttribute('download', `${id}-${seed}.png`)
+          anchor.setAttribute('href', data)
+          anchor.click()
+        }
       }
     }
 
-    document.addEventListener('keyup', handleKeys)
+    document.addEventListener('keydown', handleKeys)
     return () => {
-      document.removeEventListener('keyup', handleKeys)
+      document.removeEventListener('keydown', handleKeys)
     }
-  }, [id, next, prev])
+  }, [id, seed, next, prev])
 
   // Transform URL query seed to local state.
   useEffect(() => {
@@ -156,25 +169,13 @@ const Sketch = ({ id, title, next, prev }) => {
           </div>
           <canvas ref={canvasRef} height={canvasSize} width={canvasSize} />
           <div className="actions">
-            <Flex gap={4}>
-              {seed && (
-                <Button onClick={reSeed} variant="link">
-                  Randomize
-                </Button>
-              )}
-              <a
-                href="#download"
-                onClick={({ currentTarget }) => {
-                  const data = canvasRef.current.toDataURL('image/png')
-                  currentTarget.setAttribute('download', `${id}-${seed}.png`)
-                  currentTarget.setAttribute('href', data)
-                }}
-                variant="link"
-              >
-                Download
-              </a>
-            </Flex>
+            {seed && (
+              <Button onClick={reSeed} variant="link">
+                Randomize
+              </Button>
+            )}
           </div>
+          <a ref={downloadRef} style={{ display: 'none' }} />
         </div>
         <div className="bg" />
       </main>
