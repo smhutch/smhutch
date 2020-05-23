@@ -9,13 +9,15 @@ const Sketches = ({ sketches }) => {
     <>
       <main>
         <div className="container py4">
-          <Text el="h1">Sketches</Text>
+          <Text className="mb4" el="h1">
+            Sketches
+          </Text>
           <Stack el="ul">
             {sketches.map((sketch) => (
               <li key={sketch.id}>
                 <Link as={`/sketches/${sketch.id}`} href="/sketches/[id]">
                   <a>
-                    {sketch.id} — {sketch.title}
+                    {sketch.id}. {sketch.title}
                   </a>
                 </Link>
               </li>

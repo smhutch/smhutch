@@ -51,3 +51,7 @@
 .mono {
   font-family: 'IBM Plex Mono', monospace, monospace;
 }
+
+.inline {
+  display: inline;
+}

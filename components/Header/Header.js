@@ -44,7 +44,10 @@ export const Header = () => {
         </div>
         <nav>
           <Link href="/about">
-            <a>About</a>
+            <a className="mr3">About</a>
+          </Link>
+          <Link href="/sketches">
+            <a>Sketches</a>
           </Link>
         </nav>
         {/* <button

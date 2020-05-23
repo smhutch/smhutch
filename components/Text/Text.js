@@ -7,6 +7,7 @@ export const Text = ({
   className,
   look,
   variant,
+  inline,
   ...props
 }) => {
   const looksLike = look ? look : Component
@@ -22,6 +23,7 @@ export const Text = ({
         [styles.p]: looksLike === 'p',
         [styles.upper]: variant === 'upper',
         [styles.mono]: variant === 'mono',
+        [styles.inline]: inline,
       })}
       {...props}
     />
