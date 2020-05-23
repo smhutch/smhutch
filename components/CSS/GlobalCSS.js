@@ -107,6 +107,10 @@ export const GlobalCSS = () => {
           left: 0px;
         }
 
+        ul.reset li::before {
+          display: none;
+        }
+
         /* Utils */
         .container {
           margin-left: auto;

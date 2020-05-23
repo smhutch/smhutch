@@ -2,6 +2,7 @@ import { lerp } from 'canvas-sketch-util/math'
 
 export const settings = {
   title: 'Bezier Arc',
+  previewSeed: '629560'
 }
 
 export const sketch = () => {

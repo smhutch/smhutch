@@ -3,6 +3,7 @@ import palettes from 'nice-color-palettes/200'
 
 export const settings = {
   title: 'Noise grid',
+  previewSeed: '14168'
 }
 
 const count = 20
