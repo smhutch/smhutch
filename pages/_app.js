@@ -1,4 +1,5 @@
 import Router from 'next/router'
+import { useState, useEffect } from 'react'
 
 import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'
@@ -11,19 +12,20 @@ Router.events.on('routeChangeComplete', (url) => {
   GA_TRACKING_ID && trackPage(url)
 })
 
-const App = ({ Component, pageProps, router }) => {
+const isPuppeteer = process.env.IS_PUPPETEER
+
+const App = ({ Component, pageProps }) => {
   const ui = <Component {...pageProps} />
   const page = Component.isMDXComponent ? <MDX>{ui}</MDX> : ui
-  const isPupeteer = router.query.pupeteer
 
   return (
     <>
       <GlobalCSS />
       <GlobalMeta />
       <div className="app">
-        {!isPupeteer && <Header />}
+        {!isPuppeteer && <Header />}
         <div className="page">{page}</div>
-        {!isPupeteer && (
+        {!isPuppeteer && (
           <div className="footer">
             <Footer />
           </div>

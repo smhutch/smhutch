@@ -9,7 +9,7 @@ const random = Random.createRandom()
 export const settings = {
   id: '001',
   title: 'Noise grid',
-  previewSeed: '14168'
+  initialSeed: '14168'
 }
 
 const count = 20

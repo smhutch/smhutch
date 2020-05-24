@@ -8,7 +8,7 @@ const random = Random.createRandom()
 export const settings = {
   id: '002',
   title: 'Bezier Arc',
-  previewSeed: '629560'
+  initialSeed: '629560'
 }
 
 function sketch({ ctx, size }) {

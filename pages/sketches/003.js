@@ -8,6 +8,7 @@ const random = Random.createRandom()
 export const settings = {
   id: '003',
   title: 'Photo grid',
+  initialSeed: '764883',
   data: {
     images: [
       {

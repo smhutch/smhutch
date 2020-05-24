@@ -10,9 +10,12 @@ import { Text } from 'components/Text'
 
 const size = 1000
 
+const isPuppeteer = process.env.IS_PUPPETEER
+
 export const Sketch = ({
   extra = null,
   id,
+  initialSeed,
   next,
   prev,
   random,
@@ -21,14 +24,18 @@ export const Sketch = ({
 }) => {
   const router = useRouter()
   const canvasRef = useRef()
-  const isPupeteer = router.query.pupeteer
 
-  const randomize = () => {
-    const seed = random.getRandomSeed()
+  const reseed = (seed = random.getRandomSeed()) => {
     // Re-seed the random module
     random.setSeed(seed)
+
     // Update URL state, to enable sharing.
-    router.push(`/sketches/${id}?seed=${seed}`)
+    router.push({
+      pathname: `/sketches/${id}`,
+      query: {
+        seed
+      }
+    })
   }
 
   const draw = () => {
@@ -42,7 +49,7 @@ export const Sketch = ({
   }
 
   const redraw = () => {
-    randomize()
+    reseed()
     draw()
   }
 
@@ -56,7 +63,7 @@ export const Sketch = ({
     if (urlSeed) {
       random.setSeed(urlSeed)
     } else {
-      randomize()
+      reseed(initialSeed)
     }
 
     // Draw initial sketch.
@@ -110,19 +117,19 @@ export const Sketch = ({
       />
       <main
         className={cn('py4', {
-          isPupeteer,
+          isPuppeteer,
         })}
       >
         <div className="sketch container">
           <div className="info">
             <Stack>
-              {isPupeteer && (
+              {isPuppeteer && (
                 <Text className="mb3" variant="mono">
                   Generative sketches — {id}
                 </Text>
               )}
               <Text el="h1">{title}.</Text>
-              {!isPupeteer && <Pagination id={id} next={next} prev={prev} />}
+              {!isPuppeteer && <Pagination id={id} next={next} prev={prev} />}
             </Stack>
           </div>
           <div className="canvas">
@@ -130,13 +137,13 @@ export const Sketch = ({
             {extra}
           </div>
           <div className="actions">
-            {random.getSeed() && !isPupeteer && (
+            {random.getSeed() && !isPuppeteer && (
               <Button onClick={redraw} variant="link">
                 Randomize
               </Button>
             )}
           </div>
-          {isPupeteer && <img alt="SMHutch" src="/logo-dark.svg" />}
+          {isPuppeteer && <img alt="SMHutch" src="/logo-dark.svg" />}
         </div>
         <div className="bg" />
       </main>
@@ -149,31 +156,35 @@ export const Sketch = ({
             max-width: 1000px;
           }
 
-          .isPupeteer {
+          .isPuppeteer {
             width: 100%;
             height: 100vh;
           }
 
-          .isPupeteer .sketch {
+          .isPuppeteer .sketch {
             position: relative;
             height: calc(100vh - var(--space-4) - var(--space-4));
             grid-template-columns: 1fr 500px;
             grid-template-rows: 100%;
           }
 
-          .isPupeteer .canvas {
+          .isPuppeteer .sketch.container {
+            max-width: 1100px;
+          }
+
+          .isPuppeteer .canvas {
             display: flex;
             align-items: center;
           }
 
-          .isPupeteer img {
+          .isPuppeteer img {
             width: 50px;
             position: absolute;
             bottom: 30px;
             left: 20px;
           }
 
-          .isPupeteer canvas {
+          .isPuppeteer canvas {
             width: 566px;
           }
 
