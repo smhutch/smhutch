@@ -40,6 +40,10 @@
             "group": "internal"
           },
           {
+            "pattern": "layouts/**",
+            "group": "internal"
+          },
+          {
             "pattern": "lib/**",
             "group": "internal"
           }

@@ -23,7 +23,11 @@ yarn start
 yarn analyze
 
 # Lint JS.
-yarn lint 
+yarn lint
+
+# Generate sketch previews
+yarn meta:start
+yarn meta:generate
 ```
 
 ## Production

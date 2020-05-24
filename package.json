@@ -19,7 +19,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint '**/*.js'",
-    "meta": "node -r esm scripts/getMetaAssets.js",
+    "meta:start": "META=true next dev -p 5000",
+    "meta:generate": "node -r esm scripts/getMetaAssets.js",
     "start": "next start"
   },
   "devDependencies": {
