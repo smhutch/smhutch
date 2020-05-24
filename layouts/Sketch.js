@@ -1,3 +1,4 @@
+import cn from 'classnames'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
@@ -20,6 +21,7 @@ export const Sketch = ({
 }) => {
   const router = useRouter()
   const canvasRef = useRef()
+  const isPupeteer = router.query.pupeteer
 
   const randomize = () => {
     const seed = random.getRandomSeed()
@@ -106,26 +108,21 @@ export const Sketch = ({
         image={`sketches/${id}/meta.png`}
         title={`${id} — ${title}.`}
       />
-      <main className="py4">
+      <main
+        className={cn('py4', {
+          isPupeteer,
+        })}
+      >
         <div className="sketch container">
           <div className="info">
             <Stack>
+              {isPupeteer && (
+                <Text className="mb3" variant="mono">
+                  Generative sketches — {id}
+                </Text>
+              )}
               <Text el="h1">{title}.</Text>
-              {prev && (
-                <Link href={`/sketches/${prev}`}>
-                  <a className="mr3" title="previous">
-                    &larr;
-                  </a>
-                </Link>
-              )}
-              <Text className="mr3" variant="mono" inline>
-                {id}
-              </Text>
-              {next && (
-                <Link href={`/sketches/${next}`}>
-                  <a title="next">&rarr;</a>
-                </Link>
-              )}
+              {!isPupeteer && <Pagination id={id} next={next} prev={prev} />}
             </Stack>
           </div>
           <div className="canvas">
@@ -133,12 +130,13 @@ export const Sketch = ({
             {extra}
           </div>
           <div className="actions">
-            {random.getSeed() && (
+            {random.getSeed() && !isPupeteer && (
               <Button onClick={redraw} variant="link">
                 Randomize
               </Button>
             )}
           </div>
+          {isPupeteer && <img alt="SMHutch" src="/logo-dark.svg" />}
         </div>
         <div className="bg" />
       </main>
@@ -149,6 +147,34 @@ export const Sketch = ({
             grid-template-columns: 1fr;
             grid-gap: var(--space-4);
             max-width: 1000px;
+          }
+
+          .isPupeteer {
+            width: 100%;
+            height: 100vh;
+          }
+
+          .isPupeteer .sketch {
+            position: relative;
+            height: calc(100vh - var(--space-4) - var(--space-4));
+            grid-template-columns: 1fr 500px;
+            grid-template-rows: 100%;
+          }
+
+          .isPupeteer .canvas {
+            display: flex;
+            align-items: center;
+          }
+
+          .isPupeteer img {
+            width: 50px;
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+          }
+
+          .isPupeteer canvas {
+            width: 566px;
           }
 
           canvas {
@@ -175,6 +201,7 @@ export const Sketch = ({
               width: 100%;
               left: 0;
               background: linear-gradient(#f5f5f5, white);
+              margin-top: calc(0px - var(--space-6));
             }
 
             .info {
@@ -185,13 +212,31 @@ export const Sketch = ({
               margin-bottom: var(--space-6);
               padding-bottom: var(--space-3);
             }
-
-            .bg {
-              margin-top: calc(0px - var(--space-6));
-            }
           }
         `}
       </style>
+    </>
+  )
+}
+
+function Pagination({ id, next, prev }) {
+  return (
+    <>
+      {prev && (
+        <Link href={`/sketches/${prev}`}>
+          <a className="mr3" title="previous">
+            &larr;
+          </a>
+        </Link>
+      )}
+      <Text className="mr3" variant="mono" inline>
+        {id}
+      </Text>
+      {next && (
+        <Link href={`/sketches/${next}`}>
+          <a title="next">&rarr;</a>
+        </Link>
+      )}
     </>
   )
 }

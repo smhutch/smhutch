@@ -11,18 +11,19 @@ Router.events.on('routeChangeComplete', (url) => {
   GA_TRACKING_ID && trackPage(url)
 })
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps, router }) => {
   const ui = <Component {...pageProps} />
   const page = Component.isMDXComponent ? <MDX>{ui}</MDX> : ui
+  const isPupeteer = router.query.pupeteer
 
   return (
     <>
       <GlobalCSS />
       <GlobalMeta />
       <div className="app">
-        {!Component.meta && <Header />}
+        {!isPupeteer && <Header />}
         <div className="page">{page}</div>
-        {!Component.meta && (
+        {!isPupeteer && (
           <div className="footer">
             <Footer />
           </div>
