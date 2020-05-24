@@ -134,7 +134,7 @@ export const Sketch = ({
           </div>
           <div className="canvas">
             <canvas ref={canvasRef} height={size} width={size} />
-            {extra}
+            <div className="py3">{extra}</div>
           </div>
           <div className="actions">
             {random.getSeed() && !isPuppeteer && (

@@ -1,6 +1,7 @@
 import { lerp } from 'canvas-sketch-util/math'
 import Random from 'canvas-sketch-util/random'
 
+import { Credit } from 'components/Credit'
 import { Sketch } from 'layouts/Sketch'
 
 const random = Random.createRandom()
@@ -9,26 +10,66 @@ export const settings = {
   id: '003',
   title: 'Photo grid',
   initialSeed: '764883',
-  data: {
-    images: [
-      {
-        src: '/sketches/003/images/surf.jpg',
-        credit: {
-          id: 'cmt3JdS5MC4',
-          owner: 'Jeremy Bishop',
-          site: 'unsplash'
-        }
-      }
-    ]
-  }
+  images: [
+    {
+      src: '/sketches/003/images/surf.jpg',
+      credit: {
+        id: 'cmt3JdS5MC4',
+        owner: 'Jeremy Bishop',
+        site: 'unsplash',
+      },
+    },
+    {
+      src: '/sketches/003/images/pier.jpg',
+      credit: {
+        id: 'VBBGigIuaDY',
+        owner: 'Sherman Yang',
+        site: 'unsplash',
+      },
+    },
+    {
+      src: '/sketches/003/images/tokyo.jpg',
+      credit: {
+        id: '71l9zO0RBEM',
+        owner: 'Aleksandar Langer',
+        site: 'unsplash',
+      },
+    },
+    {
+      src: '/sketches/003/images/porsche.jpg',
+      credit: {
+        id: 'znzlxOfFbWs',
+        owner: 'Eric Saunders',
+        site: 'unsplash',
+      },
+    },
+    {
+      src: '/sketches/003/images/skate.jpg',
+      credit: {
+        id: 'ISkeH2SLqNU',
+        owner: 'Robson Hatsukami Morgan',
+        site: 'unsplash',
+      },
+    },
+    {
+      src: '/sketches/003/images/plane.jpg',
+      credit: {
+        id: 'rGVxtVVtv7E',
+        owner: 'Joshua Sortino',
+        site: 'unsplash',
+      },
+    },
+  ],
 }
 
-function sketch({ ctx, size }) {
-  const asset = random.pick(settings.data.images)
+let asset = random.pick(settings.images)
 
+function sketch({ ctx, size }) {
   ctx.globalAlpha = 1
   ctx.fillStyle = 'white'
   ctx.fillRect(0, 0, size, size)
+
+  asset = random.pick(settings.images)
 
   const grid = 5
   const square = size / grid
@@ -41,19 +82,29 @@ function sketch({ ctx, size }) {
 
       crops.push({
         x: lerp(0, size - square, px),
-        y: lerp(0, size - square, py)
+        y: lerp(0, size - square, py),
       })
     }
   }
-  
+
   const places = random.shuffle(crops)
 
   const image = new Image()
   image.onload = () => {
     crops.forEach((crop, i) => {
       const place = places[i]
-      ctx.drawImage(image, crop.x, crop.y, square, square, place.x, place.y, square, square);
-    }) 
+      ctx.drawImage(
+        image,
+        crop.x,
+        crop.y,
+        square,
+        square,
+        place.x,
+        place.y,
+        square,
+        square
+      )
+    })
   }
 
   image.src = asset.src
@@ -62,7 +113,7 @@ function sketch({ ctx, size }) {
 const props = {
   ...settings,
   random,
-  sketch
+  sketch,
 }
 
 export async function getStaticProps() {
@@ -71,5 +122,7 @@ export async function getStaticProps() {
 }
 
 export default function UI(initialProps) {
-  return <Sketch {...props} {...initialProps} />
+  return (
+    <Sketch extra={<Credit {...asset.credit} />} {...props} {...initialProps} />
+  )
 }

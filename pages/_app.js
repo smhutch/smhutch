@@ -1,5 +1,4 @@
 import Router from 'next/router'
-import { useState, useEffect } from 'react'
 
 import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'

@@ -20,12 +20,8 @@ const getSketchImages = async () => {
     return
   }
 
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--user-agent=meta-puppeteer'],
-  })
-
   const getImages = async (ids) => {
+    const browser = await puppeteer.launch()
     const page = await browser.newPage()
   
     // Sized for OG meta images.
