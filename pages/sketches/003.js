@@ -65,10 +65,6 @@ export const settings = {
 let asset = random.pick(settings.images)
 
 function sketch({ ctx, size }) {
-  ctx.globalAlpha = 1
-  ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, size, size)
-
   asset = random.pick(settings.images)
 
   const grid = 5

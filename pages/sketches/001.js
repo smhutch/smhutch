@@ -9,17 +9,15 @@ const random = Random.createRandom()
 export const settings = {
   id: '001',
   title: 'Noise grid',
-  initialSeed: '14168'
+  initialSeed: '14168',
 }
 
 const count = 20
 const sketch = ({ ctx, size }) => {
+  ctx.fillStyle = 'white'
+
   const palette = random.pick(palettes)
   const margin = size / 10
-
-  ctx.globalAlpha = 1
-  ctx.fillStyle = 'white'
-  ctx.fillRect(0, 0, size, size)
 
   for (let col = 0; col < count; col++) {
     for (let row = 0; row < count; row++) {
@@ -49,7 +47,7 @@ const sketch = ({ ctx, size }) => {
 const props = {
   ...settings,
   random,
-  sketch
+  sketch,
 }
 
 export async function getStaticProps() {

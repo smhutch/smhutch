@@ -8,15 +8,13 @@ const random = Random.createRandom()
 export const settings = {
   id: '002',
   title: 'Bezier Arc',
-  initialSeed: '629560'
+  initialSeed: '629560',
 }
 
 function sketch({ ctx, size }) {
-  ctx.globalAlpha = 1
   ctx.fillStyle = 'white'
   ctx.strokeStyle = 'black'
-  ctx.lineWidth = '2'
-  ctx.fillRect(0, 0, size, size)
+  ctx.lineWidth = 2
 
   // Geometry
   const margin = size * 0.1
@@ -54,7 +52,7 @@ function sketch({ ctx, size }) {
 const props = {
   ...settings,
   random,
-  sketch
+  sketch,
 }
 
 export async function getStaticProps() {
