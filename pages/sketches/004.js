@@ -8,7 +8,7 @@ const random = Random.createRandom()
 export const settings = {
   id: '004',
   title: 'Convergence',
-  initialSeed: '764883',
+  initialSeed: '873674',
 }
 
 function sketch({ ctx, size }) {

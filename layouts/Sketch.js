@@ -64,6 +64,7 @@ export const Sketch = ({
     const currentSeed = random.getSeed()
     // Early return on initial render.
     if (!currentSeed) return
+    if (!router.query.seed) return
     if (currentSeed !== router.query.seed) {
       random.setSeed(router.query.seed)
       draw()
@@ -79,12 +80,11 @@ export const Sketch = ({
     const urlSeed = params.get('seed')
     if (urlSeed) {
       random.setSeed(urlSeed)
+      draw()
     } else {
       reseed(initialSeed)
+      draw()
     }
-
-    // Draw initial sketch.
-    draw()
 
     const handleKeys = (e) => {
       // Space

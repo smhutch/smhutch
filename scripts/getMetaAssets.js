@@ -9,8 +9,10 @@ const getSketchImages = async () => {
   const ids = await sketchIds()
   const publicSketchAssets = path.join(process.cwd(), 'public/sketches')
 
-  const idsToGenerate = ids.filter(id => {
-    const needsPreview = !fs.existsSync(`${publicSketchAssets}/${id}/preview.png`)
+  const idsToGenerate = ids.filter((id) => {
+    const needsPreview = !fs.existsSync(
+      `${publicSketchAssets}/${id}/preview.png`
+    )
     return needsPreview
   })
 
@@ -21,9 +23,10 @@ const getSketchImages = async () => {
   }
 
   const getImages = async (ids) => {
-    const browser = await puppeteer.launch()
+    // use headless: false to debug.
+    const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage()
-  
+
     // Sized for OG meta images.
     await page.setViewport({
       width: 1200,
