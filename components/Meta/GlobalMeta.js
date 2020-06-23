@@ -1,7 +1,7 @@
 import Head from 'next/head'
 
 export const GlobalMeta = () => {
-  const icon = (name) => `/favicons/${name}`
+  const icon = name => `/favicons/${name}`
 
   return (
     <Head>
