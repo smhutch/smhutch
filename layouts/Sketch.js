@@ -33,8 +33,8 @@ export const Sketch = ({
     router.push({
       pathname: `/sketches/${id}`,
       query: {
-        seed
-      }
+        seed,
+      },
     })
   }
 
@@ -42,16 +42,34 @@ export const Sketch = ({
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
 
+    ctx.save()
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, size, size)
+
     sketch({
       ctx,
       size,
     })
+
+    ctx.restore()
   }
 
   const redraw = () => {
     reseed()
     draw()
   }
+
+  // Handle navigating back and forward in browser
+  useEffect(() => {
+    const currentSeed = random.getSeed()
+    // Early return on initial render.
+    if (!currentSeed) return
+    if (!router.query.seed) return
+    if (currentSeed !== router.query.seed) {
+      random.setSeed(router.query.seed)
+      draw()
+    }
+  }, [router.query])
 
   // Initial sketch.
   useEffect(() => {
@@ -62,12 +80,11 @@ export const Sketch = ({
     const urlSeed = params.get('seed')
     if (urlSeed) {
       random.setSeed(urlSeed)
+      draw()
     } else {
       reseed(initialSeed)
+      draw()
     }
-
-    // Draw initial sketch.
-    draw()
 
     const handleKeys = (e) => {
       // Space
@@ -197,7 +214,7 @@ export const Sketch = ({
 
           @media screen and (min-width: 800px) {
             .sketch {
-              grid-template-columns: 1fr 1fr;
+              grid-template-columns: 1fr 500px;
               grid-template-rows: 1fr auto;
             }
 
