@@ -3,13 +3,13 @@ import path from 'path'
 
 import puppeteer from 'puppeteer'
 
-import { sketchIds } from '../lib/paths'
+import { sketchIds } from '../lib/paths/sketches'
 
 const getSketchImages = async () => {
   const ids = await sketchIds()
   const publicSketchAssets = path.join(process.cwd(), 'public/sketches')
 
-  const idsToGenerate = ids.filter((id) => {
+  const idsToGenerate = ids.filter(id => {
     const needsPreview = !fs.existsSync(
       `${publicSketchAssets}/${id}/preview.png`
     )
@@ -22,7 +22,7 @@ const getSketchImages = async () => {
     return
   }
 
-  const getImages = async (ids) => {
+  const getImages = async ids => {
     // use headless: false to debug.
     const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage()

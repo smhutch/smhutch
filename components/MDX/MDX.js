@@ -1,5 +1,6 @@
 import { MDXProvider } from '@mdx-js/react'
 
+import { Code } from '../Code'
 import { Stack } from '../Stack'
 import { Text } from '../Text'
 
@@ -10,6 +11,7 @@ function text(styleProps) {
 }
 
 const components = {
+  code: Code,
   h1: text({ el: 'h1' }),
   h2: text({ className: 'pt3', el: 'h2' }),
   h3: text({ el: 'h3' }),
@@ -19,7 +21,7 @@ const components = {
   p: text({ el: 'p' }),
 }
 
-export const MDX = (props) => {
+export const MDX = props => {
   return (
     <MDXProvider components={components}>
       <main className="container">

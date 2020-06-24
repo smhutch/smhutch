@@ -121,12 +121,13 @@ export const GlobalCSS = () => {
           padding-right: 20px;
         }
 
-        article {
-          max-width: 600px;
+        article > pre {
+          max-width: 1000px;
         }
 
         article > * {
-          margin-bttom: 20px !important;
+          max-width: 600px;
+          margin-bottom: 20px !important;
         }
 
         .nums {

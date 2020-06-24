@@ -8,12 +8,12 @@ module.exports = (_phase, { defaultConfig }) => {
     ...defaultConfig,
     devIndicators: {
       // Hide prerender indicator during automation.
-      autoPrerender: !isPuppeteer
+      autoPrerender: !isPuppeteer,
     },
     env: {
       GA_TRACKING_ID: process.env.GA_TRACKING_ID,
       IS_PUPPETEER: isPuppeteer,
-      SITE_URL: process.env.SITE_URL
+      SITE_URL: process.env.SITE_URL,
     },
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
   }

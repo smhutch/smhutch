@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 import { Text } from 'components/Text'
-import { sketchIndex } from 'lib/paths'
+import { sketchIndex } from 'lib/paths/sketches'
 
 const Sketches = ({ sketches }) => {
   return (
@@ -12,7 +12,7 @@ const Sketches = ({ sketches }) => {
             Sketches
           </Text>
           <ul className="reset">
-            {sketches.map((sketch) => (
+            {sketches.map(sketch => (
               <li key={sketch.id}>
                 <Link as={`/sketches/${sketch.id}`} href="/sketches/[id]">
                   <a>

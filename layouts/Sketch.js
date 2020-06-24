@@ -86,7 +86,7 @@ export const Sketch = ({
       draw()
     }
 
-    const handleKeys = (e) => {
+    const handleKeys = e => {
       // Space
       if (e.keyCode === 32) {
         // Prevent scrolling.

@@ -10,7 +10,7 @@ import { Text } from 'components/Text'
 
 const random = Random.createRandom()
 
-const sketch = (canvas) => {
+const sketch = canvas => {
   const { height, width } = canvas.getBoundingClientRect()
 
   canvas.width = width
@@ -19,7 +19,7 @@ const sketch = (canvas) => {
   const ctx = canvas.getContext('2d')
 
   // returns a draw function.
-  return (playhead) => {
+  return playhead => {
     ctx.globalAlpha = 1
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, width, height)
@@ -66,7 +66,7 @@ const Index = () => {
     let timeout = null
     let raf = null
 
-    const tick = (timestamp) => {
+    const tick = timestamp => {
       if (!start) {
         start = timestamp
       }
