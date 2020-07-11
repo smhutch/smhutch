@@ -8,7 +8,7 @@ const random = Random.createRandom()
 export const settings = {
   id: '005',
   title: 'Noise wave',
-  initialSeed: '873674',
+  initialSeed: '450581',
 }
 
 const sketch = ({ ctx, size }) => {
