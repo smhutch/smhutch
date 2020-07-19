@@ -10,20 +10,17 @@ import { Text } from 'components/Text'
 
 const random = Random.createRandom()
 
-const sketch = canvas => {
+const sketch = (canvas) => {
   const { height, width } = canvas.getBoundingClientRect()
 
   canvas.width = width
   canvas.height = height
 
   const ctx = canvas.getContext('2d')
-
-  // returns a draw function.
-  return playhead => {
+  return (playhead) => {
     ctx.globalAlpha = 1
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, width, height)
-
     ctx.strokeStyle = 'black'
 
     const rowGap = 10
@@ -34,19 +31,20 @@ const sketch = canvas => {
     for (let row = 0; row < rowCount; row++) {
       const p = row / (rowCount - 1)
       const noise = random.noise2D(p, loop)
+      const y = lerp(height, 0, p)
 
-      ctx.globalAlpha = lerp(0.8, 0, p)
+      ctx.globalAlpha = lerp(0, 0.8, p)
       ctx.save()
       ctx.beginPath()
+      ctx.moveTo(0, y)
       ctx.bezierCurveTo(
-        0,
-        lerp(lerp(0, height / 4, loop), height, p),
         width / 2 + width * noise,
-        height / 4,
+        0,
+        width / 2,
+        height / 2 + (height / 8) * noise,
         width,
-        lerp(0, height, p)
+        y
       )
-
       ctx.stroke()
       ctx.closePath()
       ctx.restore()
@@ -54,19 +52,19 @@ const sketch = canvas => {
   }
 }
 
-const Index = () => {
+export default function Index() {
   const canvasRef = useRef(null)
   const [resizing, setResizing] = useState(false)
 
   useEffect(() => {
-    const duration = 20000 //ms
+    const duration = 20000 // 20s in ms
 
     let draw = sketch(canvasRef.current)
     let start = null
     let timeout = null
     let raf = null
 
-    const tick = timestamp => {
+    const tick = (timestamp) => {
       if (!start) {
         start = timestamp
       }
@@ -111,7 +109,7 @@ const Index = () => {
   return (
     <>
       <Meta
-        description="Scott M. Hutcheson. JavaScript Engineer at Sticker Mule."
+        description="Scott M. Hutcheson. JavaScript Engineer."
         title="SMHutch"
       />
       <main>
@@ -120,7 +118,7 @@ const Index = () => {
             <Text el="h1" look="h2">
               Scott M. Hutcheson.
             </Text>
-            <Text el="p">JavaScript Engineer at Sticker Mule.</Text>
+            <Text el="p">JavaScript Engineer.</Text>
           </Stack>
         </Stack>
         <canvas ref={canvasRef} className={cn({ resizing })} />
@@ -140,5 +138,3 @@ const Index = () => {
     </>
   )
 }
-
-export default Index
