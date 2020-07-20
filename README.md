@@ -2,7 +2,7 @@
 
 🌿 Personal site.
 
-<img src="https://www.smhutch.dev/api/generative-svg" />
+<img src="https://www.smhutch.dev/api/generative-svg" height="250px" />
 
 
 ## Technologies
