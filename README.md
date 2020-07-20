@@ -2,6 +2,9 @@
 
 🌿 Personal site.
 
+<img src="https://www.smhutch.dev/api/generative-svg" />
+
+
 ## Technologies
 
 * [Next.js](https://nextjs.org/) — Static site generator.
