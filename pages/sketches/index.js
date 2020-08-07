@@ -14,7 +14,10 @@ const Sketches = ({ sketches }) => {
           <ul className="reset">
             {sketches.map(sketch => (
               <li key={sketch.id}>
-                <Link as={`/sketches/${sketch.id}`} href="/sketches/[id]">
+                <Link
+                  as={`/sketches/${sketch.id}?seed=${sketch.initialSeed}`}
+                  href="/sketches/[id]"
+                >
                   <a>
                     <span className="mb2">
                       {sketch.id}. {sketch.title}

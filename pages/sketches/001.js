@@ -17,7 +17,7 @@ const sketch = ({ ctx, size }) => {
   ctx.fillStyle = 'white'
 
   const palette = random.pick(palettes)
-  const margin = size / 10
+  const margin = size * 0.1
 
   for (let col = 0; col < count; col++) {
     for (let row = 0; row < count; row++) {
