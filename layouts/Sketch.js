@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 
 import { Button } from 'components/Button'
+import { Flex } from 'components/Flex'
 import { Meta } from 'components/Meta'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'
@@ -86,7 +87,7 @@ export const Sketch = ({
       draw()
     }
 
-    const handleKeys = e => {
+    const handleKeys = (e) => {
       // Space
       if (e.keyCode === 32) {
         // Prevent scrolling.
@@ -151,13 +152,23 @@ export const Sketch = ({
           </div>
           <div className="canvas">
             <canvas ref={canvasRef} height={size} width={size} />
-            <div className="py3">{extra}</div>
+            {!isPuppeteer && <div className="py3">{extra}</div>}
           </div>
           <div className="actions">
             {random.getSeed() && !isPuppeteer && (
-              <Button onClick={redraw} variant="link">
+              <Button className="mr4" onClick={redraw} variant="link">
                 Randomize
               </Button>
+            )}
+            {!isPuppeteer && (
+              <a
+                href={`https://github.com/smhutch/smhutch/tree/master/pages/sketches/${id}.js`}
+                rel="noopener noreferrer"
+                target="_blank"
+                title="previous"
+              >
+                View code
+              </a>
             )}
           </div>
           {isPuppeteer && <img alt="SMHutch" src="/logo-dark.svg" />}

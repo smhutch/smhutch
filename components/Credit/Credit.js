@@ -1,4 +1,4 @@
-export const Credit = ({ id, owner, site }) => {
+export const Credit = ({ id, owner, site = 'unsplash' }) => {
   switch (site) {
     case 'unsplash':
       return (
