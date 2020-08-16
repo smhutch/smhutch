@@ -162,7 +162,7 @@ export const Sketch = ({
             )}
             {!isPuppeteer && (
               <a
-                href={`https://github.com/smhutch/smhutch/tree/master/pages/sketches/${id}.js`}
+                href={`https://github.com/smhutch/smhutch/tree/main/pages/sketches/${id}.js`}
                 rel="noopener noreferrer"
                 target="_blank"
                 title="previous"
