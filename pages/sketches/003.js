@@ -12,51 +12,45 @@ export const settings = {
   initialSeed: '764883',
   images: [
     {
-      src: '/sketches/003/images/surf.jpg',
+      src: '/open/surf.jpg',
       credit: {
         id: 'cmt3JdS5MC4',
         owner: 'Jeremy Bishop',
-        site: 'unsplash',
       },
     },
     {
-      src: '/sketches/003/images/pier.jpg',
+      src: '/open/pier.jpg',
       credit: {
         id: 'VBBGigIuaDY',
         owner: 'Sherman Yang',
-        site: 'unsplash',
       },
     },
     {
-      src: '/sketches/003/images/tokyo.jpg',
+      src: '/open/tokyo.jpg',
       credit: {
         id: '71l9zO0RBEM',
         owner: 'Aleksandar Langer',
-        site: 'unsplash',
       },
     },
     {
-      src: '/sketches/003/images/porsche.jpg',
+      src: '/open/porsche.jpg',
       credit: {
         id: 'znzlxOfFbWs',
         owner: 'Eric Saunders',
-        site: 'unsplash',
       },
     },
     {
-      src: '/sketches/003/images/skate.jpg',
+      src: '/open/skate.jpg',
       credit: {
         id: 'ISkeH2SLqNU',
         owner: 'Robson Hatsukami Morgan',
-        site: 'unsplash',
       },
     },
     {
-      src: '/sketches/003/images/plane.jpg',
+      src: '/open/plane.jpg',
       credit: {
         id: 'rGVxtVVtv7E',
         owner: 'Joshua Sortino',
-        site: 'unsplash',
       },
     },
   ],

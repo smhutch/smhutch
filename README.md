@@ -4,15 +4,14 @@
 
 <img src="https://www.smhutch.dev/api/generative-svg" height="250px" />
 
-
 ## Technologies
 
-* [Next.js](https://nextjs.org/) — Static site generator.
-* [MDX](https://mdxjs.com/) — MD composition.
+- [Next.js](https://nextjs.org/) — SSG.
+- [MDX](https://mdxjs.com/) — MD composition.
 
 ## Scripts
 
-``` sh
+```sh
 # Start dev server.
 yarn dev
 
