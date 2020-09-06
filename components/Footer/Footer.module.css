@@ -6,3 +6,7 @@
   padding: var(--space-5) 0;
   border-top: 1px solid var(--color-light);
 }
+
+.icon {
+  width: 20px;
+}
