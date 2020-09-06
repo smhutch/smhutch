@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 
 import { Text } from 'components/Text'
 
@@ -8,9 +8,9 @@ const now = new Date()
 
 export const Footer = () => {
   return (
-    <footer className={cn('footer', styles.footer)}>
+    <footer className={cx('footer', styles.footer)}>
       <div className="container">
-        <div className={cn(styles.content)}>
+        <div className={cx(styles.content)}>
           <Text>&copy; {now.getFullYear()} &mdash; SMHutch</Text>
         </div>
       </div>

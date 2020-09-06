@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 import { resolve } from 'styled-jsx/css'
 
 import { Box } from 'components/Box'
@@ -17,7 +17,7 @@ export const Stack = ({ className, gap = 3, ...props }) => {
   return (
     <>
       <Box
-        className={cn('stack', className, stackStyles.className)}
+        className={cx('stack', className, stackStyles.className)}
         {...props}
       />
       {stackStyles.styles}

@@ -1,6 +1,6 @@
 import { lerp } from 'canvas-sketch-util/math'
 import Random from 'canvas-sketch-util/random'
-import cn from 'classnames'
+import cx from 'clsx'
 import { quadIn } from 'eases'
 import { useEffect, useRef, useState } from 'react'
 
@@ -121,7 +121,7 @@ export default function Index() {
             <Text el="p">JavaScript Engineer.</Text>
           </Stack>
         </Stack>
-        <canvas ref={canvasRef} className={cn({ resizing })} />
+        <canvas ref={canvasRef} className={cx({ resizing })} />
       </main>
       <style jsx>{`
         canvas {

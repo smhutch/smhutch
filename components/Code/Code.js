@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import theme from 'prism-react-renderer/themes/duotoneLight'
 import React from 'react'
@@ -23,7 +23,7 @@ export const Code = ({ children, className = 'js' }) => {
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <div
-            className={cn(className, preStyles.className)}
+            className={cx(className, preStyles.className)}
             style={{ ...style }}
           >
             {tokens.map((line, i) => (
