@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 import Link from 'next/link'
 
 import { Flex } from 'components/Flex'
@@ -30,7 +30,7 @@ export const Header = () => {
 
   return (
     <div
-      className={cn('header', styles.header, {
+      className={cx('header', styles.header, {
         [styles.scrolled]: scrolled,
       })}
     >
@@ -52,7 +52,7 @@ export const Header = () => {
         </nav>
         {/* <button
           aria-label={isMenuOpen ? 'open menu' : 'close menu'}
-          className={cn('reset', styles.mobileToggle, {
+          className={cx('reset', styles.mobileToggle, {
             [styles.isMenuOpen]: isMenuOpen,
           })}
           onClick={() => {

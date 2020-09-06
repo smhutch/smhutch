@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
@@ -134,7 +134,7 @@ export const Sketch = ({
         title={`${id} — ${title}.`}
       />
       <main
-        className={cn('py4', {
+        className={cx('py4', {
           isPuppeteer,
         })}
       >

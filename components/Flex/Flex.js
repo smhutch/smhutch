@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 import { resolve } from 'styled-jsx/css'
 
 import styles from './Flex.module.css'
@@ -21,7 +21,7 @@ export const Flex = ({
     <>
       <El
         {...props}
-        className={cn('flex', styles.flex, className, flexStyles.className, {
+        className={cx('flex', styles.flex, className, flexStyles.className, {
           // Justify
           [styles.jb]: justify === 'between',
           [styles.ac]: align === 'center',

@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cx from 'clsx'
 
 import styles from './Text.module.css'
 
@@ -13,7 +13,7 @@ export const Text = ({
   const looksLike = look ? look : Component
   return (
     <Component
-      className={cn('text', styles.text, className, {
+      className={cx('text', styles.text, className, {
         [styles.h1]: looksLike === 'h1',
         [styles.h2]: looksLike === 'h2',
         [styles.h3]: looksLike === 'h3',
