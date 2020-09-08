@@ -9,4 +9,9 @@
 
 .icon {
   width: 20px;
+  opacity: 0.6;
+}
+
+.icon:hover {
+  opacity: unset;
 }
