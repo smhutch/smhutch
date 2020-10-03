@@ -10,7 +10,15 @@ function text(styleProps) {
   }
 }
 
-const components = {
+function wrapper(props) {
+  return (
+    <main className="container">
+      <Stack className="pt4 pb6" el="article" gap={4} {...props} />
+    </main>
+  )
+}
+
+export const components = {
   code: Code,
   h1: text({ el: 'h1' }),
   h2: text({ className: 'pt3', el: 'h2' }),
@@ -19,14 +27,13 @@ const components = {
   h5: text({ el: 'h5' }),
   h6: text({ el: 'h6' }),
   p: text({ el: 'p' }),
+  wrapper
 }
 
 export const MDX = props => {
   return (
     <MDXProvider components={components}>
-      <main className="container">
-        <Stack className="pt4 pb6" el="article" gap={4} {...props} />
-      </main>
+      {props.children}
     </MDXProvider>
   )
 }

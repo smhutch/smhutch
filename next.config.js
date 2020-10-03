@@ -1,5 +1,11 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')()
-const withMDX = require('@next/mdx')()
+import bundleAnalyzer from '@next/bundle-analyzer'
+import nextMdx from '@next/mdx'
+import { mdxOptions } from './lib/mdx'
+
+const withBundleAnalyzer = bundleAnalyzer()
+const withMDX = nextMdx({
+  options: mdxOptions,
+})
 
 module.exports = (_phase, { defaultConfig }) => {
   const isPuppeteer = !!process.env.META
@@ -15,7 +21,7 @@ module.exports = (_phase, { defaultConfig }) => {
       IS_PUPPETEER: isPuppeteer,
       SITE_URL: process.env.SITE_URL,
     },
-    pageExtensions: ['js', 'jsx', 'md', 'mdx'],
+    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'tsx'],
   }
 
   if (process.env.ANALYZE === 'true') {

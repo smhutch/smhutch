@@ -1,0 +1,16 @@
+# Writing Next.js pages with MDX
+
+## Getting started
+
+1. Update your `next.config.js` to use the
+   [official MDX plugin for Next.js](https://github.com/vercel/next.js/tree/canary/packages/next-mdx).
+   Your `next.config.js` should look _something like_:
+
+   ```tsx
+   const withMDX = require('@next/mdx')()
+   module.exports = withMDX({ pageExtensions: ['js', 'jsx', 'mdx'] })
+   ```
+
+2. Create an `.mdx` file within your `pages/` directory. For example, I wrote my
+   about page as
+   [about.mdx](https://github.com/smhutch/smhutch/blob/main/pages/about.mdx).

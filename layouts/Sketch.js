@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { useEffect, useRef } from 'react'
 
 import { Button } from 'components/Button'
-import { Flex } from 'components/Flex'
 import { Meta } from 'components/Meta'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'

@@ -1,20 +1,12 @@
+---
+title: 'Foo'
+---
+
 # Gist markdown examples
 
 A collection of Markdown code and tricks that were tested to work in Gist.
 
 This and all public gists in https://gist.github.com/ww9 are [Public Domain](https://en.wikipedia.org/wiki/Public_domain_equivalent_license). Do whatever you want with it including , no need to credit me.
-
-### Todo
-
-- Reformat this whole document and assimilate these:
-  - https://gist.github.com/jonschlinkert/5854601
-  - https://gist.github.com/ringmatthew/9f7bbfd102003963f9be7dbcf7d40e51
-  - https://gist.github.com/DavidWells/7d2e0e1bc78f4ac59a123ddf8b74932d
-  - https://gist.github.com/haydenk/958b433ee107537bb166b98b59262b2a
-  - https://gist.github.com/asabaylus/3071099
-  - https://gist.github.com/t-nissie/9580883 (Add images, secret gists, anti-spam protection)
-  - https://guides.github.com/features/mastering-markdown/
-  - https://gist.github.com/cyhsutw/d5983d166fb70ff651f027b2aa56ee4e#file-mathjax-ipynb (Python notebook, Math syntax)
 
 ##### Table of Contents
 
@@ -48,7 +40,7 @@ Result:
 
 ### Collapsible content (spoilers)
 
-<details><summaryClick me to expand</summary>
+<details><summary>Click me to expand</summary>
 
 Content between &lt;details&gt; and &lt;/details&gt; is hidden. You need to [escape HTML](https://www.freeformatter.com/html-escape.html) tags them.
 
@@ -70,13 +62,6 @@ print("hello world!")
 ##### H5
 ###### H6
 
-Alternatively, for H1 and H2, an underline-ish style:
-
-Alt-H1
-======
-
-Alt-H2
-------
 ```
 
 # H1
@@ -90,14 +75,6 @@ Alt-H2
 ##### H5
 
 ###### H6
-
-Alternatively, for H1 and H2, an underline-ish style:
-
-# Alt-H1
-
-## Alt-H2
-
-<a name="emphasis" />
 
 ## Emphasis
 
@@ -440,3 +417,7 @@ $\forall x \in X, \quad \exists y \leq \epsilon$
 ```
 
 The beginning and ending dollar signs (`$`) are the delimiters for the TeX markup.
+
+## Emoji
+
+✨

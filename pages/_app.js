@@ -7,8 +7,10 @@ import { MDX } from 'components/MDX'
 import { GlobalMeta } from 'components/Meta'
 import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
 
-Router.events.on('routeChangeComplete', url => {
-  GA_TRACKING_ID && trackPage(url)
+Router.events.on('routeChangeComplete', (url) => {
+  if (GA_TRACKING_ID) {
+    trackPage(url)
+  }
 })
 
 const isPuppeteer = process.env.IS_PUPPETEER
