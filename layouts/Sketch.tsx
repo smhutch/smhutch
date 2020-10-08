@@ -21,7 +21,6 @@ interface Props {
   next?: string
   prev?: string
   random: Random
-  sketch: SketchFn
   title: string
 }
 
@@ -31,12 +30,26 @@ export const Sketch: React.FC<Props> = ({
   next,
   prev,
   random,
-  sketch,
   title,
 }) => {
   const router = useRouter()
   const canvasRef = useRef<HTMLCanvasElement>()
   const [asset, setAsset] = useState<SketchAsset>()
+  const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
+
+  useEffect(() => {
+    const getSketch = async () => {
+      if (sketchCache[id]) return
+
+      const mod = await import(`../sketches/${id}`)
+      setSketchCache({
+        ...sketchCache,
+        [id]: mod.sketch,
+      })
+    }
+
+    getSketch()
+  }, [id, sketchCache])
 
   useEffect(() => {
     const reseed = (seed = random.getRandomSeed()) => {
@@ -65,8 +78,8 @@ export const Sketch: React.FC<Props> = ({
       reseed(initialSeed)
     }
 
+    const sketch = sketchCache[id]
     if (!sketch) return
-
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
     ctx.save()
@@ -131,9 +144,7 @@ export const Sketch: React.FC<Props> = ({
     return () => {
       document.removeEventListener('keydown', handleKeys)
     }
-  }, [id, sketch, router.asPath])
-
-  console.log(asset)
+  }, [id, sketchCache, router.asPath])
 
   return (
     <>
@@ -184,7 +195,7 @@ export const Sketch: React.FC<Props> = ({
             )}
             {!isPuppeteer && (
               <a
-                href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.js`}
+                href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
                 rel="noopener noreferrer"
                 target="_blank"
                 title="previous"
