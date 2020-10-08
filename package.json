@@ -10,7 +10,7 @@
     "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.1.1",
     "eases": "^1.0.8",
-    "next": "^9.5.3",
+    "next": "^9.5.4",
     "nice-color-palettes": "^3.0.0",
     "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
