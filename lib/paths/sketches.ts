@@ -4,16 +4,13 @@ import path from 'path'
 
 import { SketchSettings } from 'types/sketches'
 
-const sketchDir = path.join(process.cwd(), 'pages/sketches')
+const sketchDir = path.join(process.cwd(), '/sketches')
 const sketchFiles = fs
   .readdirSync(sketchDir)
-  .filter((fn) => fn !== 'index.tsx')
-  .map((filename) => filename.replace('.tsx', ''))
+  .map((filename) => filename.replace('.ts', ''))
 
 export const sketchIds = (): string[] => {
-  const ids = sketchFiles.map((fileName) => fileName.replace('.tsx', ''))
-
-  return ids
+  return sketchFiles
 }
 
 type SketchIndex = Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
@@ -38,9 +35,9 @@ export const sketchIndex = (): SketchIndex[] => {
 type Sketch = {
   settings: SketchSettings
 }
-const sketchSettings = (fileName: string): SketchSettings => {
+export const sketchSettings = (fileName: string): SketchSettings => {
   try {
-    const sketch: Sketch = require(`../../pages/sketches/${fileName}`)
+    const sketch: Sketch = require(`../../sketches/${fileName}`)
     return sketch.settings
   } catch (error) {
     // Build-time error.

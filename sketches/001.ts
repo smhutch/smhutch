@@ -1,17 +1,6 @@
 import { lerp } from 'canvas-sketch-util/math'
-import Random from 'canvas-sketch-util/random'
-import type { GetStaticProps, NextPage } from 'next'
 import palettes from 'nice-color-palettes/200.json'
-import type {
-  SketchFn,
-  SketchInitialProps,
-  SketchSettings,
-} from 'types/sketches'
-
-import { Sketch } from 'layouts/Sketch'
-import { getSketchProps } from 'lib/sketchProps'
-
-const random = Random.createRandom()
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '001',
@@ -19,8 +8,8 @@ export const settings: SketchSettings = {
   initialSeed: '14168',
 }
 
-const count = 20
-const sketch: SketchFn = ({ ctx, size }) => {
+const sketch001: SketchFn = ({ ctx, size, random }) => {
+  const count = 20
   ctx.fillStyle = 'white'
 
   const palette = random.pick(palettes)
@@ -51,18 +40,4 @@ const sketch: SketchFn = ({ ctx, size }) => {
   }
 }
 
-const props = {
-  ...settings,
-  random,
-  sketch,
-}
-
-export const getStaticProps: GetStaticProps<SketchInitialProps> = async () => {
-  return getSketchProps(settings.id)
-}
-
-const UI: NextPage<SketchInitialProps> = (initialProps) => {
-  return <Sketch {...props} {...initialProps} />
-}
-
-export default UI
+export const sketch = sketch001

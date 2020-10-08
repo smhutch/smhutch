@@ -1,17 +1,5 @@
 import { lerp } from 'canvas-sketch-util/math'
-import Random from 'canvas-sketch-util/random'
-import type { GetStaticProps, NextPage } from 'next'
-import type {
-  SketchFn,
-  SketchInitialProps,
-  SketchSettings,
-} from 'types/sketches'
-
-import { Credit } from 'components/Credit'
-import { Sketch } from 'layouts/Sketch'
-import { getSketchProps } from 'lib/sketchProps'
-
-const random = Random.createRandom()
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '003',
@@ -63,10 +51,8 @@ export const settings: SketchSettings = {
   ],
 }
 
-let asset = random.pick(settings.images)
-
-const sketch: SketchFn = ({ ctx, size }) => {
-  asset = random.pick(settings.images)
+export const sketch003: SketchFn = ({ expose, ctx, size, random }) => {
+  const asset = random.pick(settings.images)
 
   const grid = 5
   const square = size / grid
@@ -105,22 +91,10 @@ const sketch: SketchFn = ({ ctx, size }) => {
   }
 
   image.src = asset.src
+
+  expose({
+    asset,
+  })
 }
 
-const props = {
-  ...settings,
-  random,
-  sketch,
-}
-
-export const getStaticProps: GetStaticProps<SketchInitialProps> = async () => {
-  return getSketchProps(settings.id)
-}
-
-const UI: NextPage<SketchInitialProps> = (initialProps) => {
-  return (
-    <Sketch extra={<Credit {...asset.credit} />} {...props} {...initialProps} />
-  )
-}
-
-export default UI
+export const sketch = sketch003

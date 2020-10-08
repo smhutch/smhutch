@@ -1,12 +1,5 @@
 import { lerp } from 'canvas-sketch-util/math'
-import Random from 'canvas-sketch-util/random'
-import { GetStaticProps, NextPage } from 'next'
-import { SketchFn, SketchInitialProps, SketchSettings } from 'types/sketches'
-
-import { Sketch } from 'layouts/Sketch'
-import { getSketchProps } from 'lib/sketchProps'
-
-const random = Random.createRandom()
+import { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '005',
@@ -14,7 +7,7 @@ export const settings: SketchSettings = {
   initialSeed: '450581',
 }
 
-const sketch: SketchFn = ({ ctx, size }) => {
+const sketch005: SketchFn = ({ ctx, size, random }) => {
   ctx.fillStyle = 'white'
   const lines = random.range(50, 150)
   const steps = 100
@@ -38,18 +31,4 @@ const sketch: SketchFn = ({ ctx, size }) => {
   ctx.restore()
 }
 
-const props = {
-  ...settings,
-  random,
-  sketch,
-}
-
-export const getStaticProps: GetStaticProps<SketchInitialProps> = async () => {
-  return getSketchProps(settings.id)
-}
-
-const UI: NextPage<SketchInitialProps> = (initialProps) => {
-  return <Sketch {...props} {...initialProps} />
-}
-
-export default UI
+export const sketch = sketch005

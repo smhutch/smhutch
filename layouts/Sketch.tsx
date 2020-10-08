@@ -2,10 +2,11 @@ import { Random } from 'canvas-sketch-util/random'
 import cx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
-import { SketchFn } from 'types/sketches'
+import { useEffect, useRef, useState } from 'react'
+import type { SketchAsset, SketchFn } from 'types/sketches'
 
 import { Button } from 'components/Button'
+import { Credit } from 'components/Credit'
 import { Meta } from 'components/Meta'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'
@@ -15,7 +16,6 @@ const size = 1000
 const isPuppeteer = process.env.IS_PUPPETEER
 
 interface Props {
-  extra?: React.ReactChild
   id: string
   initialSeed: string
   next?: string
@@ -26,7 +26,6 @@ interface Props {
 }
 
 export const Sketch: React.FC<Props> = ({
-  extra = null,
   id,
   initialSeed,
   next,
@@ -37,83 +36,80 @@ export const Sketch: React.FC<Props> = ({
 }) => {
   const router = useRouter()
   const canvasRef = useRef<HTMLCanvasElement>()
+  const [asset, setAsset] = useState<SketchAsset>()
 
-  const reseed = (seed = random.getRandomSeed()) => {
-    // Re-seed the random module
-    random.setSeed(seed)
-
-    // Update URL state, to enable sharing.
-    router.push({
-      pathname: `/sketches/${id}`,
-      query: {
-        seed,
-      },
-    })
-  }
-
-  const draw = () => {
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
-
-    ctx.save()
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, size, size)
-
-    sketch({
-      ctx,
-      size,
-    })
-
-    ctx.restore()
-  }
-
-  const redraw = () => {
-    reseed()
-    draw()
-  }
-
-  // Handle navigating back and forward in browser
   useEffect(() => {
-    const currentSeed = random.getSeed()
-    if (!currentSeed) return
-    if (!router.query.seed) return
-    if (currentSeed !== router.query.seed) {
-      random.setSeed(router.query.seed)
-      draw()
+    const reseed = (seed = random.getRandomSeed()) => {
+      // Re-seed the random singleton
+      random.setSeed(seed)
+
+      // Update URL state, to enable sharing.
+      router.push('/sketches/[sketch]', {
+        pathname: `/sketches/${id}`,
+        query: {
+          seed,
+        },
+      })
     }
-  }, [router.query])
 
-  // Initial sketch.
-  useEffect(() => {
     // Get search params from URL.
     // Next.js router won't work here because CSR query string
     // is empty on first render, which creates a race condition.
-    const params = new URL(document.location.href).searchParams
+    const url = new URL(document.location.href)
+    const params = new URLSearchParams(url.search)
     const urlSeed = params.get('seed')
     if (urlSeed) {
       random.setSeed(urlSeed)
-      draw()
+      reseed(urlSeed)
     } else {
       reseed(initialSeed)
-      draw()
     }
 
-    const handleKeys = (e) => {
+    if (!sketch) return
+
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    ctx.save()
+
+    const clear = () => {
+      setAsset(null)
+      ctx.clearRect(0, 0, size, size)
+    }
+
+    const draw = () => {
+      clear()
+      sketch({
+        expose: ({ asset }) => {
+          setAsset(asset)
+        },
+        ctx,
+        size,
+        random,
+      })
+
+      ctx.restore()
+    }
+
+    draw()
+
+    const handleKeys = (e: KeyboardEvent) => {
       // Space
       if (e.keyCode === 32) {
         // Prevent scrolling.
         e.preventDefault()
-        redraw()
+        reseed()
       }
 
       // Left
       if (prev && e.keyCode === 37) {
-        router.push(`/sketches/${prev}`)
+        clear()
+        router.push('/sketches/[sketch]', `/sketches/${prev}`)
       }
 
       // Right
       if (next && e.keyCode === 39) {
-        router.push(`/sketches/${next}`)
+        clear()
+        router.push('/sketches/[sketch]', `/sketches/${next}`)
       }
 
       // s character
@@ -135,7 +131,9 @@ export const Sketch: React.FC<Props> = ({
     return () => {
       document.removeEventListener('keydown', handleKeys)
     }
-  }, [])
+  }, [id, sketch, router.asPath])
+
+  console.log(asset)
 
   return (
     <>
@@ -163,17 +161,30 @@ export const Sketch: React.FC<Props> = ({
           </div>
           <div className="canvas">
             <canvas ref={canvasRef} height={size} width={size} />
-            {!isPuppeteer && <div className="py3">{extra}</div>}
+            {!isPuppeteer && (
+              <div className="py3">{asset && <Credit {...asset.credit} />}</div>
+            )}
           </div>
           <div className="actions">
             {random.getSeed() && !isPuppeteer && (
-              <Button className="mr4" onClick={redraw} variant="link">
+              <Button
+                className="mr4"
+                onClick={() =>
+                  router.push('/sketches/[sketch]', {
+                    pathname: `/sketches/${id}`,
+                    query: {
+                      seed: random.getRandomSeed(),
+                    },
+                  })
+                }
+                variant="link"
+              >
                 Randomize
               </Button>
             )}
             {!isPuppeteer && (
               <a
-                href={`https://github.com/smhutch/smhutch/tree/main/pages/sketches/${id}.js`}
+                href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.js`}
                 rel="noopener noreferrer"
                 target="_blank"
                 title="previous"
@@ -269,11 +280,17 @@ export const Sketch: React.FC<Props> = ({
   )
 }
 
-function Pagination({ id, next, prev }) {
+interface PaginationProps {
+  id: string
+  next?: string
+  prev?: string
+}
+
+const Pagination: React.FC<PaginationProps> = ({ id, next, prev }) => {
   return (
     <>
       {prev && (
-        <Link href={`/sketches/${prev}`}>
+        <Link as={`/sketches/${prev}`} href="/sketches/[sketch]">
           <a className="mr3" title="previous">
             &larr;
           </a>
@@ -283,7 +300,7 @@ function Pagination({ id, next, prev }) {
         {id}
       </Text>
       {next && (
-        <Link href={`/sketches/${next}`}>
+        <Link as={`/sketches/${next}`} href="/sketches/[sketch]">
           <a title="next">&rarr;</a>
         </Link>
       )}
