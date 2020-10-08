@@ -6,6 +6,7 @@
     "@mdx-js/loader": "^1.6.1",
     "@next/bundle-analyzer": "^9.3.6",
     "@next/mdx": "^9.3.6",
+    "@types/eases": "^1.0.1",
     "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.1.1",
     "eases": "^1.0.8",
@@ -19,18 +20,23 @@
     "analyze": "ANALYZE=true yarn build",
     "build": "next build",
     "dev": "next dev",
-    "lint": "eslint '**/*.js'",
+    "lint": "eslint '**/*.{ts,tsx,js}'",
     "meta:start": "META=true next dev -p 5000",
     "meta:generate": "node -r esm scripts/getMetaAssets.js",
     "start": "next start"
   },
   "devDependencies": {
+    "@types/react": "^16.9.51",
+    "@types/styled-jsx": "^2.2.8",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "esm": "^3.2.25",
-    "puppeteer": "^3.1.0"
+    "puppeteer": "^3.1.0",
+    "typescript": "^4.0.3"
   }
 }

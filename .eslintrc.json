@@ -6,6 +6,7 @@
   },
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
     "plugin:react/recommended"
   ],
@@ -13,7 +14,7 @@
     // Added globally by Next
     "React": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -87,7 +88,7 @@
   },
   "overrides": [
     {
-      "files": ["pages/**/*.js"],
+      "files": ["pages/**/*.{tsx,ts}"],
       "rules": {
         // Allow default exports inside pages. Required by Next.js
         "import/no-default-export": "off"

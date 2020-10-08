@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withBundleAnalyzer = require('@next/bundle-analyzer')()
 const withMDX = require('@next/mdx')()
 
@@ -15,7 +16,7 @@ module.exports = (_phase, { defaultConfig }) => {
       IS_PUPPETEER: isPuppeteer,
       SITE_URL: process.env.SITE_URL,
     },
-    pageExtensions: ['js', 'jsx', 'md', 'mdx'],
+    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   }
 
   if (process.env.ANALYZE === 'true') {
