@@ -1,8 +1,8 @@
+<img src="https://www.smhutch.dev/api/generative-waves?w=800&h=200&padX=0.02&padY=0.2" width="100%" title="This is a generative SVG. Refresh to see a new design." />
+
 # SMHutch
 
 🌿 Personal site.
-
-<img src="https://www.smhutch.dev/api/generative-api" height="250px" />
 
 ## Technologies
 
