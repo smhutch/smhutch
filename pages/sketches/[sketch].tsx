@@ -1,10 +1,11 @@
+import { sketchIds, sketchSettings } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
-import type { SketchInitialProps } from 'types/sketches'
+
 
 import { Sketch } from 'layouts/Sketch'
 import { getSketchPagination } from 'lib/pagination'
-import { sketchIds, sketchSettings } from 'lib/paths/sketches'
+import type { SketchInitialProps } from 'types/sketches'
 
 const random = createRandom()
 

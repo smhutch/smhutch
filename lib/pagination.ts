@@ -1,6 +1,6 @@
 import { SketchInitialProps } from 'types/sketches'
 
-import { sketchIds } from './paths/sketches'
+import { sketchIds } from '../build/sketches'
 
 type PaginationProps = Pick<SketchInitialProps, 'next' | 'prev'>
 

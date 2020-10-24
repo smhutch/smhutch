@@ -37,15 +37,7 @@
         "pathGroupsExcludedImportTypes": [],
         "pathGroups": [
           {
-            "pattern": "components/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "layouts/**",
-            "group": "internal"
-          },
-          {
-            "pattern": "lib/**",
+            "pattern": "+(components|layouts|lib|types|posts|)/**",
             "group": "internal"
           }
         ],

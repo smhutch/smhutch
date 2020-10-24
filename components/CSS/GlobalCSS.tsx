@@ -14,6 +14,7 @@ export const GlobalCSS: React.FC = () => {
           --color-dark: #222;
           --color-offset: #5b7588;
           --color-light: #ddd;
+          --color-ultralight: #f5f5f5;
           --color-link: #1767a1;
           --space-1: ${space[1]};
           --space-2: ${space[2]};
@@ -22,6 +23,7 @@ export const GlobalCSS: React.FC = () => {
           --space-5: ${space[5]};
           --space-6: ${space[6]};
           --font: Inter, Helvetica Neue, sans-serif;
+          --font-mono: 'IBM Plex Mono', monospace, monospace;
           --font-size-xxl: ${fontSizes.scale[6]};
           --font-size-xl: ${fontSizes.scale[5]};
           --font-size-l: ${fontSizes.scale[4]};
@@ -37,12 +39,13 @@ export const GlobalCSS: React.FC = () => {
 
         html {
           font-size: ${fontSizes.base};
+          scroll-behavior: smooth;
         }
 
         body {
           color: var(--color-text);
           font-family: var(--font);
-          font-weight: 300;
+          font-weight: 400;
         }
 
         hr {
@@ -83,28 +86,50 @@ export const GlobalCSS: React.FC = () => {
           line-height: 1.6rem;
         }
 
+        code {
+          font-family: var(--font-mono);
+        }
+
+        ol,
         ul {
           list-style: none;
           margin: 0;
           padding: 0;
         }
 
+        ol {
+          counter-reset: ol-counter;
+        }
+
+        ol li,
         ul li {
           padding-left: var(--space-4);
           position: relative;
         }
 
+        ol li:not(:last-of-type),
         ul li:not(:last-of-type) {
           margin-bottom: var(--space-3);
+        }
+
+        ol li::before,
+        ul li::before {
+          display: inline-block;
+          position: absolute;
+          left: 0px;
+          speak: none;
         }
 
         ul li::before {
           content: '—';
           color: var(--color-light);
-          font-weight: 800;
-          display: inline-block;
-          position: absolute;
-          left: 0px;
+        }
+
+        ol li::before {
+          counter-increment: ol-counter;
+          content: counter(ol-counter) '.';
+          color: var(--color-offset);
+          font-family: var(--font-mono);
         }
 
         ul.reset li::before {
@@ -119,15 +144,6 @@ export const GlobalCSS: React.FC = () => {
           width: 100%;
           padding-left: 20px;
           padding-right: 20px;
-        }
-
-        article > pre {
-          max-width: 1000px;
-        }
-
-        article > * {
-          max-width: 600px;
-          margin-bottom: 20px !important;
         }
 
         .nums {

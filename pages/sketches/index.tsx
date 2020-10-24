@@ -1,9 +1,10 @@
+import { sketchIndex } from 'build/sketches'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
-import { SketchSettings } from 'types/sketches'
 
 import { Text } from 'components/Text'
-import { sketchIndex } from 'lib/paths/sketches'
+import { SketchSettings } from 'types/sketches'
+
 
 interface Props {
   sketches: SketchSettings[]

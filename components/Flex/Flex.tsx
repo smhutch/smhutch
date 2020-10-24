@@ -1,5 +1,6 @@
 import cx from 'clsx'
 import { resolve } from 'styled-jsx/css'
+
 import { SpaceLookup } from 'types/theme'
 
 import styles from './Flex.module.css'

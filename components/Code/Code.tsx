@@ -1,14 +1,11 @@
-import cx from 'clsx'
-import Highlight, { defaultProps, Language } from 'prism-react-renderer'
-import theme from 'prism-react-renderer/themes/duotoneLight'
 import React from 'react'
-import { resolve } from 'styled-jsx/css'
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
+import js from 'react-syntax-highlighter/dist/cjs/languages/hljs/javascript'
+import ts from 'react-syntax-highlighter/dist/cjs/languages/hljs/typescript'
+import syntaxTheme from 'react-syntax-highlighter/dist/cjs/styles/hljs/tomorrow-night-blue'
 
-const preStyles = resolve`
-  padding: 2rem;
-  overflow-y: auto;
-  max-width: 1000px;
-`
+SyntaxHighlighter.registerLanguage('js', js)
+SyntaxHighlighter.registerLanguage('ts', ts)
 
 interface Props {
   children: string
@@ -16,37 +13,54 @@ interface Props {
 }
 
 export const Code: React.FC<Props> = ({
-  children,
-  className = 'javascript',
+  children: codeString,
+  className = 'js',
 }) => {
-  // Typecasting is not guaranteed, but nothing bad will happen
-  // if a language match is not found.
-  const language = className.replace(/language-/, '') as Language
-
   return (
     <>
-      <Highlight
-        {...defaultProps}
-        code={children.trim()}
-        language={language}
-        theme={theme}
+      <SyntaxHighlighter
+        className="syntax"
+        customStyle={{
+          padding: '40px',
+        }}
+        language={className.replace('language-', '')}
+        style={syntaxTheme}
+        wrapLines
       >
-        {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <div
-            className={cx(className, preStyles.className)}
-            style={{ ...style }}
-          >
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({ line, key: i })}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token, key })} />
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
-      </Highlight>
-      {preStyles.styles}
+        {codeString}
+      </SyntaxHighlighter>
+      <style global jsx>{`
+        .syntax code {
+          font-size: 0.9rem;
+          font-family: var(--font-mono);
+        }
+
+        .syntax code > span {
+          display: block;
+          margin-top: var(--space-2);
+        }
+
+        .syntax code > span:first-child {
+          margin-top: 0;
+        }
+
+        .syntax code > span:last-child {
+          display: none;
+        }
+
+        .remark-code-title {
+          background-color: ${syntaxTheme.hljs.background};
+          color: ${syntaxTheme.hljs.color};
+          font-family: var(--font-mono);
+          font-size: 0.9em;
+          padding-top: var(--space-2);
+          padding-bottom: var(--space-2);
+          margin-bottom: -0px !important;
+          border-top-right-radius: 5px;
+          border-top-left-radius: 5px;
+          opacity: 0.8;
+        }
+      `}</style>
     </>
   )
 }

@@ -1,8 +1,9 @@
 import cx from 'clsx'
 import { resolve } from 'styled-jsx/css'
-import { SpaceLookup } from 'types/theme'
 
 import { Box } from 'components/Box'
+import { SpaceLookup } from 'types/theme'
+
 
 interface Props extends React.ComponentProps<typeof Box> {
   gap?: SpaceLookup

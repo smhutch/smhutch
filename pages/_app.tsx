@@ -2,10 +2,10 @@ import type { NextComponentType } from 'next'
 import type { AppProps } from 'next/app'
 import Router from 'next/router'
 
+import { Article } from 'components/Article'
 import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
-import { MDX } from 'components/MDX'
 import { GlobalMeta } from 'components/Meta'
 import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
 
@@ -22,7 +22,7 @@ interface Props extends AppProps {
 
 const App: React.FC<Props> = ({ Component, pageProps }) => {
   const ui = <Component {...pageProps} />
-  const page = Component.isMDXComponent ? <MDX>{ui}</MDX> : ui
+  const page = Component.isMDXComponent ? <Article>{ui}</Article> : ui
 
   return (
     <>
