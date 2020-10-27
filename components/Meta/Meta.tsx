@@ -10,20 +10,28 @@ interface Props {
 
 export const Meta: React.FC<Props> = ({
   description,
-  image,
+  image = 'og.png',
   title = 'SMHutch',
 }) => {
   return (
     <Head>
       <title>{title}</title>
       <meta content={title} property="og:title" />
+      <meta content={title} name="twitter:title"></meta>
       {description && (
         <>
           <meta content={description} name="description" />
-          <meta content={description} name="og:description" />
+          <meta content={description} property="og:description" />
+          <meta content={description} name="twitter:description" />
         </>
       )}
-      {image && <meta content={absolutePath(image)} property="og:image" />}
+      {image && (
+        <>
+          <meta content={absolutePath(image)} property="og:image" />
+          <meta content={absolutePath(image)} name="twitter:image" />
+          <meta content="summary_large_image" name="twitter:card" />
+        </>
+      )}
     </Head>
   )
 }
