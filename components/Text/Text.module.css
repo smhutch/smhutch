@@ -1,5 +1,6 @@
 .text {
   color: var(--color-dark);
+  scroll-margin-top: 95px;
 }
 
 .h1,
@@ -35,7 +36,6 @@
 .p {
   color: var(--color-text);
   font-size: var(--font-size);
-  font-weight: 300;
 }
 
 .upper {
@@ -49,7 +49,7 @@
 }
 
 .mono {
-  font-family: 'IBM Plex Mono', monospace, monospace;
+  font-family: var(--font-mono);
 }
 
 .inline {

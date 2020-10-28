@@ -37,7 +37,7 @@ type Sketch = {
 }
 export const sketchSettings = (fileName: string): SketchSettings => {
   try {
-    const sketch: Sketch = require(`../../sketches/${fileName}`)
+    const sketch: Sketch = require(`../sketches/${fileName}`)
     return sketch.settings
   } catch (error) {
     // Build-time error.

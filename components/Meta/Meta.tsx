@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 import { absolutePath } from 'lib/assets'
 
@@ -13,6 +14,10 @@ export const Meta: React.FC<Props> = ({
   image = 'og.png',
   title = 'SMHutch',
 }) => {
+  const { asPath } = useRouter()
+  const path = asPath.split('?')[0] // strip query string
+  const url = `https://smhutch.dev${path}`
+
   return (
     <Head>
       <title>{title}</title>
@@ -32,6 +37,7 @@ export const Meta: React.FC<Props> = ({
           <meta content="summary_large_image" name="twitter:card" />
         </>
       )}
+      <link href={url} rel="canonical" />
     </Head>
   )
 }

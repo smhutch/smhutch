@@ -1,9 +1,9 @@
 import cx from 'clsx'
 
 import styles from './Text.module.css'
+import type { Tag } from './types'
 
 type DomEl = HTMLParagraphElement | HTMLHeadingElement
-export type Tag = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 
 interface Props extends React.HTMLAttributes<DomEl> {
   el?: Tag

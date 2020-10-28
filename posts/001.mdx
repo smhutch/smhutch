@@ -1,0 +1,249 @@
+import examplePost from '!!raw-loader!../pages/blog/mdx-ts-next-blog.tsx'
+
+I recently decided to re-launch my personal blog. My goals were to:
+
+1. Write posts in [MDX](#writing-posts-in-mdx)
+2. [Enforce post settings](#enforcing-post-settings) with TypeScript
+3. [Build a blog index](#creating-the-post-list), without duplicating blog data
+
+## Writing posts in MDX
+
+[MDX](https://mdxjs.com) is document format that extends Markdown, adding
+support for inline JSX. The easiest way to get started with MDX and
+[Next.js](https://nextjs.org/) is to use the
+[official plugin](https://mdxjs.com/getting-started/next):
+
+```js:next.config.js
+const withMDX = require('@next/mdx')()
+
+module.exports = (_phase, { defaultConfig }) => {
+  return withMDX({
+    ...defaultConfig,
+    // Only support MDX and TypeScript pages
+    pageExtensions: ['mdx', 'tsx'],
+  })
+}
+```
+
+> Remember to restart your dev server after editing `next.config.js`
+
+This configuration allows me to:
+
+1. Write pages using **MDX**.
+2. Import MDX files as React Components.
+
+### Adding an MDX page
+
+Adding an **MDX** page is now as simple as creating an `.mdx` file in the
+`/pages` directory and writing some markdown. Next.js recognizes the new page,
+and takes care of compiling the markdown to HTML.
+
+By default, MDX converts markdown headings to their HTML counterparts. For
+example, it compiles a markdown heading of `# Hello` to `<h1>example</h1>`. To
+customize the compiled output, I needed to wrap the page component in an
+[`MDXProvider`](https://mdxjs.com/getting-started#mdxprovider). I chose to
+create an `MDX` component, which defines the `components` map, and passes it
+down to `<MDXProvider/>`.
+
+```ts:MDX.tsx
+import { MdxProps, MDXProvider } from '@mdx-js/react'
+
+import { Code } from '../Code'
+import { Text } from '../Text'
+import type { Tag } from '../Text/types'
+
+function text(textProps) {
+  return function MDXText(mdxProps: MdxProps) {
+    return <Text {...textProps} {...mdxProps} />
+  }
+}
+
+export const MDXComponents = {
+  // Map code tags to <Code />
+  code: Code,
+  // Map <h*> and <p> to <Text />
+  h1: text({ el: 'h1' }),
+  h2: text({ el: 'h2' }),
+  h3: text({ el: 'h3' }),
+  // ...etc
+  p: text({ el: 'p' }),
+}
+
+export const MDX: React.FC = ({ children }) => {
+  return <MDXProvider components={MDXComponents}>{children}</MDXProvider>
+}
+```
+
+Instead of mapping directly to HTML counterparts, I now have a way to customize
+the rendered output for each element. To make use of this, I wrap every MDX
+**pages** in an `<MDX/>` **component**. While this can be achieved by
+[exporting a default ”wrapper” component](https://mdxjs.com/getting-started#default-exports)
+in each `.mdx` file, I chose to wrap MDX pages conditionally within my
+[custom `_app.tsx`](https://nextjs.org/docs/advanced-features/custom-app).
+
+```ts:_app.tsx
+import type { NextComponentType } from 'next'
+import type { AppProps } from 'next/app'
+
+import { MDX } from 'components/MDX'
+
+interface Props extends AppProps {
+  // MDX adds isMDXComponent as a static property to pages written in .mdx
+  Component: NextComponentType & { isMDXComponent?: boolean }
+}
+
+const App: React.FC<Props> = ({ Component, pageProps }) => {
+  const ui = <Component {...pageProps} />
+  // Conditionally wrap MDX pages.
+  const page = Component.isMDXComponent ? <MDX>{ui}</MDX> : ui
+
+  return (
+    <div className="app">
+      <div className="page">{page}</div>
+    </div>
+  )
+}
+
+export default App
+```
+
+This is the approach I took for my`/about` page. For blog posts, I decided to
+take an approach which would give me more flexibility to customize the layout
+and configuration of each post.
+
+### Adding blog pages
+
+Instead of including my markdown content in `/pages`, I created a new top-top
+level directory for `/posts`. This directory contains one `.mdx` file for each
+blog post, which is then imported into a related `.tsx` file within
+`/pages/blog`. With this setup, my project has the following structure:
+
+```
+├── pages/
+│   ├── blog/
+│   │   ├── post-one.tsx
+│   │   ├── post-two.tsx
+│   │   ├── post-three.tsx
+│   │   └── index.tsx
+│   ├── about.mdx
+│   ├── index.tsx
+│   └── _app.tsx
+└── posts/
+    ├── one.mdx
+    ├── two.mdx
+    └── three.mdx
+```
+
+Within each `/pages/blog/*.tsx`, I import the `.mdx` file, and declare some
+related post meta-data (`settings`).
+
+<div className="remark-code-title">mdx-ts-next-blog.tsx</div>
+<code className="ts">{examplePost}</code>
+
+## Enforcing post settings
+
+While it's possible to declare post meta-data as
+[frontmatter in `.mdx`](https://github.com/hashicorp/next-mdx-enhanced), I chose
+to do this in a TypeScript file to gain a little type safety. When I declare my
+`settings`, I also specify a type of `BlogSettings` to ensure I don't forget or
+misspell any of this configuration.
+
+```diff:mdx-ts-next-blog.tsx
+- export const settings = {
++ export const settings: BlogSettings = {
+  id: '001',
+  title: 'Building a blog with MDX, Next.js, and TypeScript',
+  description: 'My approach to building...',
+}
+```
+
+This consistent `settings` export is also used to create my blog index.
+
+## Creating the post list
+
+To build my blog index, I created a new page at `/posts/blog/index.tsx`. This
+file contains a component to list blog posts, and a `getStaticProps` function
+which fetches data about each blog post at build-time.
+
+```ts:/pages/blog/index.tsx
+import { postIndex } from 'build/posts'
+import { GetStaticProps } from 'next'
+
+import type { BlogPreview } from 'types/blog'
+
+interface Props {
+  posts: BlogPreview[]
+}
+
+const Blog: React.FC<Props> = ({ posts }) => {
+  // some JSX
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  return {
+    props: {
+      posts: await postIndex(),
+    },
+  }
+}
+
+export default Blog
+```
+
+In my case, the `posts` prop passed to the `Blog` component is returned by
+`getPostIndex`. This function works as follows:
+
+```ts:/build/blog.ts
+// Since this function is only called at build-time,
+// it's safe to use node built-ins
+import fs from 'fs'
+import path from 'path'
+
+import type { BlogPreview } from 'types/blog'
+
+// Get an array of filenames in /pages/blog
+const blogDir = path.join(process.cwd(), '/pages/blog')
+const blogPosts = fs
+  .readdirSync(blogDir)
+  .filter((file) => file !== 'index.tsx')
+  .map((fileName) => fileName.replace('.tsx', ''))
+
+export const getBlogIndex = async (): Promise<BlogPreview[]> => {
+  const posts: BlogPreview[] = []
+
+  for await (const fileName of blogPosts) {
+    // Import the post module
+    const post = await import(`../pages/blog/${fileName}`)
+
+    // Check that the post has settings
+    if (post.settings === undefined) {
+      // Throw a build error if any post is missing settings
+      throw new Error(`${fileName} must export a settings object`)
+    }
+
+    posts.push({
+      ...post.settings,
+      permalink: fileName,
+    })
+  }
+
+  return posts
+}
+```
+
+The benefit of this approach is that post `settings` can be used to within each
+post, and to populate the list of posts.
+
+## Summary
+
+This is one of many ways to build a blog using Next.js and MDX. Other approaches
+are outlined in:
+
+- Lee Robinson’s guide to [improving his MDX Blog](https://leerob.io/blog/mdx)
+- Ibrahima Ndaw’s
+  [Smashing guide](https://www.smashingmagazine.com/2020/09/build-blog-nextjs-mdx/)
+  on the topic.
+- The
+  [`next-mdx-enhanced` docs](https://github.com/hashicorp/next-mdx-enhanced).
+
+Have you built a blog using MDX? [Let me know](https://twitter.com/SMHutcheson)!

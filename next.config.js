@@ -1,6 +1,27 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const remarkCodeTitles = require('remark-code-titles')
+const remarkExternalLinks = require('remark-external-links')
+const remarkSlug = require('remark-slug')
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')()
-const withMDX = require('@next/mdx')()
+const withMDX = require('@next/mdx')({
+  options: {
+    remarkPlugins: [
+      // adds .remark-code-title, and filename above code blocks.
+      remarkCodeTitles,
+      [
+        // Add html attributes to external links
+        remarkExternalLinks,
+        {
+          target: '_blank',
+          rel: ['noopener', 'noreferrer'],
+        },
+      ],
+      remarkSlug,
+    ],
+    rehypePlugins: [],
+  },
+})
 
 module.exports = (_phase, { defaultConfig }) => {
   const isPuppeteer = !!process.env.META
@@ -16,7 +37,8 @@ module.exports = (_phase, { defaultConfig }) => {
       IS_PUPPETEER: isPuppeteer,
       SITE_URL: process.env.SITE_URL,
     },
-    pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+    // Only allow MDX and TypeScript pages
+    pageExtensions: ['mdx', 'tsx'],
   }
 
   if (process.env.ANALYZE === 'true') {

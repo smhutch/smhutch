@@ -1,9 +1,8 @@
 import { MdxProps, MDXProvider } from '@mdx-js/react'
 
 import { Code } from '../Code'
-import { Stack } from '../Stack'
 import { Text } from '../Text'
-import type { Tag } from '../Text/Text'
+import type { Tag } from '../Text/types'
 
 interface TextProps {
   el: Tag
@@ -16,25 +15,25 @@ function text(textProps: TextProps) {
   }
 }
 
-const components = {
+function Pre(props) {
+  // Strip <pre> tag, with the assumption that
+  // ``` is only used for Code blocks.
+  // this prevents MDX from creating nested `pre` tags.
+  return <>{props.children}</>
+}
+
+const component = {
   code: Code,
   h1: text({ el: 'h1' }),
-  h2: text({ className: 'pt3', el: 'h2' }),
+  h2: text({ el: 'h2' }),
   h3: text({ el: 'h3' }),
   h4: text({ el: 'h4' }),
   h5: text({ el: 'h5' }),
   h6: text({ el: 'h6' }),
   p: text({ el: 'p' }),
+  pre: Pre,
 }
 
-type Props = Partial<React.ComponentProps<typeof Stack>>
-
-export const MDX: React.FC<Props> = (props) => {
-  return (
-    <MDXProvider components={components}>
-      <main className="container">
-        <Stack className="pt4 pb6" el="article" gap={4} {...props} />
-      </main>
-    </MDXProvider>
-  )
+export const MDX: React.FC = ({ children }) => {
+  return <MDXProvider components={component}>{children}</MDXProvider>
 }

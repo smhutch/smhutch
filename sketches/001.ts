@@ -1,5 +1,6 @@
 import { lerp } from 'canvas-sketch-util/math'
 import palettes from 'nice-color-palettes/200.json'
+
 import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {

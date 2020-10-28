@@ -12,9 +12,12 @@
     "eases": "^1.0.8",
     "next": "^9.5.4",
     "nice-color-palettes": "^3.0.0",
-    "prism-react-renderer": "^1.1.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-syntax-highlighter": "^15.2.1",
+    "remark-code-titles": "^0.1.1",
+    "remark-external-links": "^8.0.0",
+    "remark-slug": "^6.0.0"
   },
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
@@ -27,6 +30,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.51",
+    "@types/react-syntax-highlighter": "^13.5.0",
     "@types/styled-jsx": "^2.2.8",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
@@ -37,6 +41,7 @@
     "eslint-plugin-react": "^7.19.0",
     "esm": "^3.2.25",
     "puppeteer": "^3.1.0",
+    "raw-loader": "^4.0.2",
     "typescript": "^4.0.3"
   }
 }
