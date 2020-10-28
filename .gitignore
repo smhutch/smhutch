@@ -16,3 +16,6 @@ yarn-error.log*
 
 # Deployment
 .vercel
+
+# Env
+.env
