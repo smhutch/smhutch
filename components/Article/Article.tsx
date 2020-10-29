@@ -5,13 +5,21 @@ export const Article: React.FC = ({ children }) => {
   return (
     <>
       <main>
-        <Stack className="pt4 pb6" el="article" gap={4}>
+        <Stack className="article-stack pt4 pb6" el="article" gap={4}>
           <MDX>{children}</MDX>
         </Stack>
       </main>
       <style global jsx>{`
         article > pre {
           max-width: 100%;
+        }
+
+        article > * + h2 {
+          margin-top: var(--space-5);
+        }
+
+        article > * + h3 {
+          margin-top: var(--space-5);
         }
 
         article > pre > code,
