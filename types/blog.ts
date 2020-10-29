@@ -5,7 +5,8 @@ export interface BlogSettings {
   title: string
   /** Used as the page meta description */
   description: string
-  hidden?: boolean
+  /** date string */
+  publishedOn: string
 }
 
 export interface BlogPreview extends BlogSettings {

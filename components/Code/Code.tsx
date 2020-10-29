@@ -21,7 +21,7 @@ export const Code: React.FC<Props> = ({
       <SyntaxHighlighter
         className="syntax"
         customStyle={{
-          padding: '40px',
+          padding: '40px 0',
         }}
         language={className.replace('language-', '')}
         style={syntaxTheme}
@@ -52,7 +52,7 @@ export const Code: React.FC<Props> = ({
           background-color: ${syntaxTheme.hljs.background};
           color: ${syntaxTheme.hljs.color};
           font-family: var(--font-mono);
-          font-size: 0.9em;
+          font-size: 0.8em;
           padding-top: var(--space-2);
           padding-bottom: var(--space-2);
           margin-bottom: -0px !important;
