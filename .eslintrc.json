@@ -85,6 +85,15 @@
         // Allow default exports inside pages. Required by Next.js
         "import/no-default-export": "off"
       }
+    },
+    {
+      "files": [
+        "*.config.js"
+      ],
+      "rules": {
+        // Allow CJS imports in config
+        "@typescript-eslint/no-var-requires": "off"
+      }
     }
   ],
   "settings": {

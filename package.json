@@ -23,7 +23,7 @@
     "analyze": "ANALYZE=true yarn build",
     "build": "next build",
     "dev": "next dev",
-    "lint": "eslint '**/*.{ts,tsx,js}'",
+    "lint": "eslint . --ext .js,.ts,.tsx",
     "meta:start": "META=true next dev -p 5000",
     "meta:generate": "node -r esm scripts/getMetaAssets.js",
     "start": "next start"
