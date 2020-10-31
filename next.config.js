@@ -1,10 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+const bundleAnalyzerPlugin = require('@next/bundle-analyzer')
+const mdxPlugin = require('@next/mdx')
 const remarkCodeTitles = require('remark-code-titles')
 const remarkExternalLinks = require('remark-external-links')
 const remarkSlug = require('remark-slug')
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')()
-const withMDX = require('@next/mdx')({
+const withBundleAnalyzer = bundleAnalyzerPlugin()
+const withMDX = mdxPlugin({
   options: {
     remarkPlugins: [
       // adds .remark-code-title, and filename above code blocks.
