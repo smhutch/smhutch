@@ -38,7 +38,7 @@ module.exports = (_phase, { defaultConfig }) => {
       SITE_URL: process.env.SITE_URL,
     },
     // Only allow MDX and TypeScript pages
-    pageExtensions: ['mdx', 'tsx'],
+    pageExtensions: ['ts', 'mdx', 'tsx'],
   }
 
   if (process.env.ANALYZE === 'true') {
