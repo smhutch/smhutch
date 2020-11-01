@@ -6,6 +6,7 @@ import type { Tag } from './types'
 type DomEl = HTMLParagraphElement | HTMLHeadingElement
 
 interface Props extends React.HTMLAttributes<DomEl> {
+  color?: 'dark' | 'offset'
   el?: Tag
   look?: Tag
   variant?: 'upper' | 'mono'
@@ -14,6 +15,7 @@ interface Props extends React.HTMLAttributes<DomEl> {
 
 export const Text: React.FC<Props> = ({
   el: Component = 'p',
+  color = 'dark',
   className = '',
   look,
   variant,
@@ -34,6 +36,7 @@ export const Text: React.FC<Props> = ({
         [styles.upper]: variant === 'upper',
         [styles.mono]: variant === 'mono',
         [styles.inline]: inline,
+        [styles.offset]: color === 'offset',
       })}
       {...props}
     />

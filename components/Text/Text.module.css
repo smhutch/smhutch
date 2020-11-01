@@ -44,8 +44,8 @@
   font-weight: 300;
 }
 
-.light {
-  opacity: 0.8;
+.offset {
+  color: var(--color-offset);
 }
 
 .mono {

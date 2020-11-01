@@ -1,5 +1,6 @@
 const bundleAnalyzerPlugin = require('@next/bundle-analyzer')
 const mdxPlugin = require('@next/mdx')
+const emojis = require('rehype-accessible-emojis')
 const remarkCodeTitles = require('remark-code-titles')
 const remarkExternalLinks = require('remark-external-links')
 const remarkSlug = require('remark-slug')
@@ -20,7 +21,10 @@ const withMDX = mdxPlugin({
       ],
       remarkSlug,
     ],
-    rehypePlugins: [],
+    rehypePlugins: [
+      // makes emoji a11y compliant
+      emojis.rehypeAccessibleEmojis,
+    ],
   },
 })
 
