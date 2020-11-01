@@ -24,12 +24,21 @@ const Blog: React.FC<Props> = ({ posts }) => {
               <li key={post.permalink}>
                 <Link href={`/blog/${post.permalink}`}>
                   <a>
-                    <Text className="post-title mb3" el="h2" look="h3">
+                    <Text className="post-title mb2" el="h2" look="h3">
                       {post.title}
                     </Text>
                   </a>
                 </Link>
-                <span className="mb2">{post.description}</span>
+                <Text className="mb1">{post.description}</Text>
+                <Text className="mb4" color="offset" variant="mono">
+                  <small>
+                    {new Date(post.publishedOn).toLocaleDateString(undefined, {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </small>
+                </Text>
               </li>
             ))}
           </ul>
@@ -37,7 +46,11 @@ const Blog: React.FC<Props> = ({ posts }) => {
       </main>
       <style jsx>{`
         a :global(.post-title) {
-          color: unset;
+          color: inherit;
+        }
+
+        span {
+          display: block;
         }
       `}</style>
     </>
