@@ -1,0 +1,153 @@
+Working on a modern JavaScript application, it's likely you will have automated
+checks in place. Before merging, these checks typically all need to pass. They
+may include:
+
+- Lint rules, enforced with [`eslint`](https://eslint.org/)
+- [TypeScript](https://www.typescriptlang.org/) checks
+- [Prettier](https://prettier.io/) formatting
+- Unit tests
+
+We often run these automated checks during CI. While this avoids problematic
+code from being merged, it sometimes takes a while to run. To help with this,
+engineers may manually run scripts before pushing their code. This guide will
+outline how to automate these checks, and how to keep them running fast.
+
+## Setting up pre-commit hooks
+
+[Pre-commit hooks](https://git-scm.com/docs/githooks#_pre_commit) are scripts
+which run before `git commit` runs. The easiest way to set up pre-commit hooks
+in a JavaScript project, is to use [Husky](https://typicode.github.io/husky).
+
+First, follow the
+[Husky installation guide](https://typicode.github.io/husky/#/?id=install). This
+makes us easy to run scripts during the pre-commit stage. To run `eslint`, for
+example, we can add the following to `package.json`:
+
+```json:package.json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "eslint . --ext .js,.ts,.tsx"
+    }
+  }
+}
+```
+
+In this example, we're running `eslint` on the entire code base. But in most
+cases, we're only committing changes to a few files at a time. Let's only check
+what we need to.
+
+## Limiting checks to staged files
+
+[`lint-staged`](https://www.npmjs.com/package/lint-staged) allows us to run
+checks only on the files we're committing. To configure it, run
+`yarn add --dev lint-staged`, then update our husky settings to use
+`lint-staged`:
+
+```json:package.json
+{
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --relative"
+    }
+  }
+}
+```
+
+To configure `lint-staged`, add a `lint-staged.config.js` file. This file should
+export an object, where each key is a glob pattern, and each value describes the
+scripts to run on files which match the pattern. For example:
+
+```js:lint-staged.config.js
+module.exports = {
+  '*.{js,ts,tsx}': 'eslint . --ext .js,.ts,.tsx',
+}
+```
+
+Now, `lint-staged` will run `eslint` when any `.js`, `.ts`, or `.tsx` file is
+committed. This is a little better than before, but we're still linting more
+than we need to. Thankfully, `lint-staged` gives us a way to run checks on only
+committed files. To configure this, we need to update our exported configuration
+to export a function:
+
+```js:lint-staged.config.js
+module.exports = {
+  '*.{js,ts,tsx}': (filenames) =>
+    `yarn eslint ${filenames.join(' ')} --quiet --fix`,
+}
+```
+
+The `filenames` argument in this example is an array of strings which match the
+glob pattern of `*.{js,ts,tsx}`. We use this array of strings to tell `eslint`
+to run only on the files we pass as a CLI argument. In my case, I also passed
+the `--quiet` flag to ignore warnings, and the `--fix` flag to automatically fix
+errors where possible.
+
+Now, `eslint` will only run on the files being committed. 🎉
+
+To wrap up, I'll share some examples of how to run additional checks via
+`lint-staged`.
+
+### Running prettier on staged files
+
+If you already integrate
+[`prettier` with `eslint`](https://prettier.io/docs/en/integrating-with-linters.html),
+there's nothing else to do here.
+
+If you use the `prettier` CLI, update your `lint-staged` configuration to first
+run `eslint`, then `prettier`:
+
+```js:lint-staged.config.js
+module.exports = {
+  '*.{js,ts,tsx}': (filenames) => [
+    `yarn eslint ${filenames.join(' ')} --quiet --fix`,
+    `yarn prettier ${filenames.join(' ')} --write`,
+  ],
+}
+```
+
+### Running related Jest tests
+
+[Jest](https://jestjs.io/) supports a
+[`--findRelatedTests`](https://jestjs.io/docs/en/cli#--findrelatedtests-spaceseparatedlistofsourcefiles)
+filter flag in their CLI. We can use this to only run tests related to changed
+files. For example:
+
+```js:lint-staged.config.js
+module.exports = {
+  '*.{js,ts,tsx}': (filenames) => [
+    `yarn eslint ${filenames.join(' ')} --quiet --fix`,
+    `yarn jest --findRelatedTests ${filenames.join(' ')}`,
+  ],
+}
+```
+
+### Running TypeScript checks
+
+Unlike `jest` and `eslint`, we can only run TypeScript checks on the entire
+project. To run this check when any TypeScript files changed, add:
+
+```js:lint-staged.config.js
+module.exports = {
+  '*.{js,ts,tsx}': (filenames) =>
+    `yarn eslint ${filenames.join(' ')} --quiet --fix`,
+  '*.{ts,tsx}': 'yarn tsc --noEmit',
+}
+```
+
+### Skipping automated checks
+
+Sometimes we want to commit code without automated checks. To do so, run:
+
+```bash
+git commit --no-verify
+```
+
+## Summary
+
+1. Use [Husky](https://typicode.github.io/husky) to make it easy to manage git
+   hooks.
+2. Use [lint-staged](https://www.npmjs.com/package/lint-staged) to access the
+   files being committed.
+3. Use a `lint-staged.config.js` to run relevant automated checks only committed
+   files.

@@ -6,9 +6,24 @@
   },
   "extends": [
     "eslint:recommended",
+
+    // TypeScript config
+    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    
+    // React config
+    "plugin:react/recommended",
     "plugin:jsx-a11y/recommended",
-    "plugin:react/recommended"
+
+    // Prettier config
+    "prettier",
+    // Override conflicting @typescript-eslint/* rules
+    "prettier/@typescript-eslint",
+    // Override conflicting react/* rules
+    "prettier/react",
+    // Enforce prettier styling within Eslint.
+    "plugin:prettier/recommended"
+    // Prettier MUST come last here.
   ],
   "globals": {
     // Added globally by Next
@@ -24,6 +39,7 @@
   },
   "plugins": ["import", "jsx-a11y", "react"],
   "rules": {
+    "no-console": "error",
     // Prefer named exports.
     "import/no-default-export": "error",
     "import/order": [
@@ -93,6 +109,13 @@
       "rules": {
         // Allow CJS imports in config
         "@typescript-eslint/no-var-requires": "off"
+      }
+    },
+    {
+      "files": ["{build,scripts}/**/*"],
+      "rules": {
+        // Allow in node scripts
+        "no-console": "off"
       }
     }
   ],

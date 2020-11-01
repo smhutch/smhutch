@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { Text } from 'components/Text'
 import { SketchSettings } from 'types/sketches'
 
-
 interface Props {
   sketches: SketchSettings[]
 }

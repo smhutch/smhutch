@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 
-
 import { Button } from 'components/Button'
 import { Credit } from 'components/Credit'
 import { Meta } from 'components/Meta'

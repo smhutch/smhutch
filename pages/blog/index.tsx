@@ -47,7 +47,7 @@ const Blog: React.FC<Props> = ({ posts }) => {
 export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
-      posts: await getBlogIndex()
+      posts: await getBlogIndex(),
     },
   }
 }
