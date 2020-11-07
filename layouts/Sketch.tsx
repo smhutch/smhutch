@@ -91,6 +91,9 @@ export const Sketch: React.FC<Props> = ({
 
     const draw = () => {
       clear()
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, size, size)
+      ctx.fill()
       sketch({
         expose: ({ asset }) => {
           setAsset(asset)

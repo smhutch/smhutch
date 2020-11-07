@@ -4,6 +4,9 @@
 declare module 'canvas-sketch-util/random' {
   type Seed = number
 
+  /** returns -1 or 1 */
+  function sign(): number
+
   /** returns a random float value inclusive or min and max */
   function range(min: number, max: number): number
   /** 1D simplex noise */
@@ -42,6 +45,8 @@ declare module 'canvas-sketch-util/random' {
   function getRandomSeed(): Seed
 
   interface Random {
+    // values
+    sign
     // noise
     noise1D
     noise2D
