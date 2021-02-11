@@ -43,6 +43,8 @@ declare module 'canvas-sketch-util/random' {
   function setSeed(n: Seed): void
   function getSeed(): Seed
   function getRandomSeed(): Seed
+  function weightedSet(set: { value: string; weight: number }): string
+  function weightedSet(set: { value: number; weight: number }): number
 
   interface Random {
     // values
@@ -60,6 +62,8 @@ declare module 'canvas-sketch-util/random' {
     setSeed
     getSeed
     getRandomSeed
+    // object
+    weightedSet
   }
 
   function createRandom(): Random

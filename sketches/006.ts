@@ -8,7 +8,7 @@ export const settings: SketchSettings = {
   initialSeed: '41029',
 }
 
-const sketch005: SketchFn = ({ ctx, size, random }) => {
+const sketch006: SketchFn = ({ ctx, size, random }) => {
   ctx.fillStyle = 'white'
   const maxTriSize = size * 0.35
   const maxOffset = size * 0.3
@@ -69,4 +69,4 @@ const sketch005: SketchFn = ({ ctx, size, random }) => {
   ctx.restore()
 }
 
-export const sketch = sketch005
+export const sketch = sketch006
