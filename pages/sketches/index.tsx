@@ -54,6 +54,10 @@ const Sketches: React.FC<Props> = ({ sketches }) => {
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             margin-top: 20px;
             width: 100%;
+            height: 250px;
+            background-color: #f5f5f5;
+            outline: none;
+            border: none;
           }
         `}
       </style>
