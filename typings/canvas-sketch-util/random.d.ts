@@ -9,6 +9,7 @@ declare module 'canvas-sketch-util/random' {
 
   /** returns a random float value inclusive or min and max */
   function range(min: number, max: number): number
+  function rangeFloor(min: number, max: number): number
   /** 1D simplex noise */
   function noise1D(d1: number, frequency?: number, amplitude?: number): number
   /** 2D simplex noise */
@@ -57,6 +58,7 @@ declare module 'canvas-sketch-util/random' {
     // arrays
     pick
     range
+    rangeFloor
     shuffle
     // seed
     setSeed
