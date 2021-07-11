@@ -25,7 +25,7 @@ const sketch = (canvas: HTMLCanvasElement) => {
     ctx.fillRect(0, 0, width, height)
     ctx.strokeStyle = 'black'
 
-    const rowGap = 10
+    const rowGap = 8
     const rowCount = Math.floor(height / rowGap)
     // Convert 0...1 playhead to 0...1...0
     const loop = quadIn(Math.sin(playhead * Math.PI))
@@ -118,9 +118,9 @@ const Index: NextPage = () => {
         <Stack className="container py4 mb4">
           <Stack gap={4}>
             <Text el="h1" look="h2">
-              Scott M. Hutcheson.
+              SMHutch
             </Text>
-            <Text el="p">JavaScript Engineer.</Text>
+            <Text el="p">Frontend Engineer.</Text>
           </Stack>
         </Stack>
         <canvas ref={canvasRef} className={cx({ resizing })} />

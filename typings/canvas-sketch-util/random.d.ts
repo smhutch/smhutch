@@ -4,8 +4,13 @@
 declare module 'canvas-sketch-util/random' {
   type Seed = number
 
+  function chance(probability: number): boolean
+
   /** returns -1 or 1 */
   function sign(): number
+
+  /** returns a value between 0 and 1 */
+  function value(): number
 
   /** returns a random float value inclusive or min and max */
   function range(min: number, max: number): number
@@ -49,7 +54,9 @@ declare module 'canvas-sketch-util/random' {
 
   interface Random {
     // values
+    chance
     sign
+    value
     // noise
     noise1D
     noise2D

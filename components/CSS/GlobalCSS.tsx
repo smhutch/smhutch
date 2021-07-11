@@ -60,6 +60,11 @@ export const GlobalCSS: React.FC = () => {
           position: relative;
         }
 
+        a:focus {
+          outline: 2px dotted black;
+          outline-offset: 5px;
+        }
+
         a:after {
           content: '';
           position: absolute;
@@ -76,7 +81,10 @@ export const GlobalCSS: React.FC = () => {
           opacity: 0.5;
         }
 
-        a:focus:after,
+        a.reset-hover:after {
+          visibility: hidden;
+        }
+
         a:hover:after {
           background: gold;
           transform: scaleX(1);
@@ -148,6 +156,10 @@ export const GlobalCSS: React.FC = () => {
 
         .nums {
           font-variant-numeric: tabular-nums;
+        }
+
+        .block {
+          display: block;
         }
       `}</style>
     </>

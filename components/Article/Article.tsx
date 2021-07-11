@@ -10,10 +10,6 @@ export const Article: React.FC = ({ children }) => {
         </Stack>
       </main>
       <style global jsx>{`
-        article > pre {
-          max-width: 100%;
-        }
-
         article > * + h2 {
           margin-top: var(--space-5);
         }
@@ -36,7 +32,6 @@ export const Article: React.FC = ({ children }) => {
           background-color: var(--color-ultralight);
           color: var(--color-offset);
           padding: 0 3px;
-          border-radius: 2px;
         }
 
         article > blockquote {
@@ -45,7 +40,6 @@ export const Article: React.FC = ({ children }) => {
           padding-bottom: var(--space-4);
           padding-left: calc(var(--space-4) - var(--space-1));
           position: relative;
-          border-radius: 5px;
           border-left: var(--space-1) solid gold;
         }
       `}</style>

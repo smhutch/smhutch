@@ -25,9 +25,7 @@ const Sketches: React.FC<Props> = ({ sketches }) => {
                   href="/sketches/[id]"
                 >
                   <a>
-                    <span className="mb2">
-                      {sketch.id}. {sketch.title}
-                    </span>
+                    <span className="mb2">{sketch.title}</span>
                     <img alt="" src={`/sketches/${sketch.id}/preview.png`} />
                   </a>
                 </Link>

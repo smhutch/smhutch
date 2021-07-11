@@ -44,10 +44,13 @@ export const Header: React.FC = () => {
         </div>
         <nav>
           <Link href="/about">
-            <a className="mr3">About</a>
+            <a className="mr4">About</a>
           </Link>
           <Link href="/sketches">
-            <a>Sketches</a>
+            <a className="mr4">Sketches</a>
+          </Link>
+          <Link href="/blog">
+            <a>Blog</a>
           </Link>
         </nav>
       </Flex>
