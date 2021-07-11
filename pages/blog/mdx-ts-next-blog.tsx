@@ -6,7 +6,7 @@ import type { BlogSettings } from 'types/blog'
 
 export const settings: BlogSettings = {
   id: '001',
-  title: 'Building a blog with MDX, Next.js, and TypeScript',
+  title: 'Building a blog with MDX, Next.js, and TypeScript ',
   description:
     'My approach to building a blog that is both type-safe, and easy to use.',
   publishedOn: new Date('2020-10-29').toString(),

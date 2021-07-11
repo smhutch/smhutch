@@ -23,32 +23,30 @@ const Blog: React.FC<Props> = ({ posts }) => {
             {posts.map((post) => (
               <li key={post.permalink}>
                 <Link href={`/blog/${post.permalink}`}>
-                  <a>
+                  <a className="reset-hover block mb4">
                     <Text className="post-title mb2" el="h2" look="h3">
                       {post.title}
                     </Text>
+                    <Text color="offset" variant="mono">
+                      <small>
+                        {new Date(post.publishedOn).toLocaleDateString(
+                          undefined,
+                          {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          }
+                        )}
+                      </small>
+                    </Text>
                   </a>
                 </Link>
-                <Text className="mb1">{post.description}</Text>
-                <Text className="mb4" color="offset" variant="mono">
-                  <small>
-                    {new Date(post.publishedOn).toLocaleDateString(undefined, {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </small>
-                </Text>
               </li>
             ))}
           </ul>
         </div>
       </main>
       <style jsx>{`
-        a :global(.post-title) {
-          color: inherit;
-        }
-
         span {
           display: block;
         }

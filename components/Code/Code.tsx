@@ -2,7 +2,7 @@ import React from 'react'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import js from 'react-syntax-highlighter/dist/cjs/languages/hljs/javascript'
 import ts from 'react-syntax-highlighter/dist/cjs/languages/hljs/typescript'
-import syntaxTheme from 'react-syntax-highlighter/dist/cjs/styles/hljs/tomorrow-night-blue'
+import syntaxTheme from 'react-syntax-highlighter/dist/cjs/styles/hljs/nord'
 
 SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('ts', ts)

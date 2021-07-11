@@ -6,7 +6,7 @@ import type { BlogSettings } from 'types/blog'
 
 export const settings: BlogSettings = {
   id: '002',
-  title: 'Automate pre-commit checks with husky & lint-staged',
+  title: 'Automating pre-commit checks',
   description:
     'Using lint-staged and husky to run eslint, tests, and TypeScript checks pre-commit.',
   publishedOn: new Date('2020-10-31').toString(),

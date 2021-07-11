@@ -154,7 +154,7 @@ export const Sketch: React.FC<Props> = ({
       <Meta
         description="A generative sketch by Scott Hutcheson."
         image={`sketches/${id}/meta.png`}
-        title={`${id} — ${title}.`}
+        title={`${id} — ${title}`}
       />
       <main
         className={cx('py4', {
@@ -169,7 +169,7 @@ export const Sketch: React.FC<Props> = ({
                   Generative sketches — {id}
                 </Text>
               )}
-              <Text el="h1">{title}.</Text>
+              <Text el="h1">{title}</Text>
               {!isPuppeteer && <Pagination id={id} next={next} prev={prev} />}
             </Stack>
           </div>
