@@ -6,10 +6,13 @@
     "@mdx-js/loader": "^1.6.19",
     "@next/bundle-analyzer": "^10.0.0",
     "@next/mdx": "^10.0.0",
+    "@react-three/drei": "^7.20.5",
+    "@react-three/fiber": "^7.0.19",
     "@types/eases": "^1.0.1",
     "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.1.1",
     "eases": "^1.0.8",
+    "leva": "^0.9.14",
     "next": "10.0.0",
     "nice-color-palettes": "^3.0.0",
     "react": "^17.0.1",
@@ -17,7 +20,10 @@
     "react-syntax-highlighter": "^15.2.1",
     "remark-code-titles": "^0.1.1",
     "remark-external-links": "^8.0.0",
-    "remark-slug": "^6.0.0"
+    "remark-slug": "^6.0.0",
+    "seed-random": "^2.2.0",
+    "simplex-noise": "^3.0.0",
+    "three": "^0.134.0"
   },
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
@@ -31,7 +37,9 @@
   "devDependencies": {
     "@types/react": "^16.9.51",
     "@types/react-syntax-highlighter": "^13.5.0",
+    "@types/seed-random": "^2.2.1",
     "@types/styled-jsx": "^2.2.8",
+    "@types/three": "^0.134.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "babel-eslint": "^10.1.0",
@@ -48,7 +56,7 @@
     "puppeteer": "^3.1.0",
     "raw-loader": "^4.0.2",
     "rehype-accessible-emojis": "^0.3.2",
-    "typescript": "^4.0.3"
+    "typescript": "^4.4.4"
   },
   "husky": {
     "hooks": {

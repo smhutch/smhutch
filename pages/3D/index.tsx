@@ -1,4 +1,3 @@
-import { sketchIndex } from 'build/sketches'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 
@@ -9,13 +8,13 @@ interface Props {
   sketches: SketchSettings[]
 }
 
-const Sketches: React.FC<Props> = ({ sketches }) => {
+const Sketches: React.FC<Props> = ({ sketches = [] }) => {
   return (
     <>
       <main>
         <div className="container py4">
           <Text className="mb4" el="h1">
-            Sketches
+            3D
           </Text>
           <ul className="reset">
             {sketches.map((sketch) => (
@@ -68,12 +67,8 @@ const Sketches: React.FC<Props> = ({ sketches }) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sketches = sketchIndex()
-
   return {
-    props: {
-      sketches,
-    },
+    props: {},
   }
 }
 

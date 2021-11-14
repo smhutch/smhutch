@@ -1,12 +1,12 @@
 import { Random } from 'canvas-sketch-util/random'
 import cx from 'clsx'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from 'components/Button'
 import { Credit } from 'components/Credit'
 import { Meta } from 'components/Meta'
+import { Pagination } from 'components/Pagination'
 import { Stack } from 'components/Stack'
 import { Text } from 'components/Text'
 import type { SketchAsset, SketchFn } from 'types/sketches'
@@ -170,7 +170,13 @@ export const Sketch: React.FC<Props> = ({
                 </Text>
               )}
               <Text el="h1">{title}</Text>
-              {!isPuppeteer && <Pagination id={id} next={next} prev={prev} />}
+              {!isPuppeteer && (
+                <Pagination
+                  id={id}
+                  next={`/sketch/${next}`}
+                  prev={`/sketch/${prev}`}
+                />
+              )}
             </Stack>
           </div>
           <div className="canvas">
@@ -256,7 +262,7 @@ export const Sketch: React.FC<Props> = ({
             background-color: white;
             width: 100%;
             max-width: 500px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
           }
 
           @media screen and (min-width: 800px) {
@@ -290,34 +296,6 @@ export const Sketch: React.FC<Props> = ({
           }
         `}
       </style>
-    </>
-  )
-}
-
-interface PaginationProps {
-  id: string
-  next?: string
-  prev?: string
-}
-
-const Pagination: React.FC<PaginationProps> = ({ id, next, prev }) => {
-  return (
-    <>
-      {prev && (
-        <Link as={`/sketches/${prev}`} href="/sketches/[sketch]">
-          <a className="mr3" title="previous">
-            &larr;
-          </a>
-        </Link>
-      )}
-      <Text className="mr3" variant="mono" inline>
-        {id}
-      </Text>
-      {next && (
-        <Link as={`/sketches/${next}`} href="/sketches/[sketch]">
-          <a title="next">&rarr;</a>
-        </Link>
-      )}
     </>
   )
 }
