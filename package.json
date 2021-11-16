@@ -10,6 +10,7 @@
     "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.1.1",
     "eases": "^1.0.8",
+    "leva": "^0.9.13",
     "next": "10.0.0",
     "nice-color-palettes": "^3.0.0",
     "react": "^17.0.1",

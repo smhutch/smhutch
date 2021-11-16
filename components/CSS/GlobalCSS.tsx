@@ -152,6 +152,7 @@ export const GlobalCSS: React.FC = () => {
           width: 100%;
           padding-left: 20px;
           padding-right: 20px;
+          height: 100%;
         }
 
         .nums {
@@ -160,6 +161,10 @@ export const GlobalCSS: React.FC = () => {
 
         .block {
           display: block;
+        }
+
+        .page {
+          flex-grow: 1;
         }
       `}</style>
     </>
