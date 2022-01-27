@@ -23,7 +23,7 @@
     "remark-slug": "^6.0.0",
     "seed-random": "^2.2.0",
     "simplex-noise": "^3.0.0",
-    "three": "^0.134.0"
+    "three": "^0.137.0"
   },
   "scripts": {
     "analyze": "ANALYZE=true yarn build",
