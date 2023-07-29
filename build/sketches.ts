@@ -40,7 +40,6 @@ export const sketchSettings = (fileName: string): SketchSettings => {
     const sketch: Sketch = require(`../sketches/${fileName}`)
     return sketch.settings
   } catch (error) {
-    // Build-time error.
-    console.error(error)
+    throw new Error(`Could not find sketch settings for ${fileName}`)
   }
 }

@@ -18,8 +18,8 @@ const isPuppeteer = process.env.IS_PUPPETEER
 interface Props {
   id: string
   initialSeed: string
-  next?: string
-  prev?: string
+  next?: string | null
+  prev?: string | null
   random: Random
   title: string
 }
@@ -33,8 +33,8 @@ export const Sketch: React.FC<Props> = ({
   title,
 }) => {
   const router = useRouter()
-  const canvasRef = useRef<HTMLCanvasElement>()
-  const [asset, setAsset] = useState<SketchAsset>()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [asset, setAsset] = useState<SketchAsset | null>(null)
   const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
 
   useEffect(() => {
@@ -81,7 +81,9 @@ export const Sketch: React.FC<Props> = ({
     const sketch = sketchCache[id]
     if (!sketch) return
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
+    if (!ctx) return
     ctx.save()
 
     const clear = () => {
@@ -96,7 +98,7 @@ export const Sketch: React.FC<Props> = ({
       ctx.fill()
       sketch({
         expose: ({ asset }) => {
-          setAsset(asset)
+          setAsset(asset || null)
         },
         ctx,
         size,
@@ -109,6 +111,8 @@ export const Sketch: React.FC<Props> = ({
     draw()
 
     const handleKeys = (e: KeyboardEvent) => {
+      if (!canvasRef.current) return
+
       // Space
       if (e.keyCode === 32) {
         // Prevent scrolling.

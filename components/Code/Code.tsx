@@ -8,14 +8,11 @@ SyntaxHighlighter.registerLanguage('js', js)
 SyntaxHighlighter.registerLanguage('ts', ts)
 
 interface Props {
-  children: string
+  code: string
   className?: string
 }
 
-export const Code: React.FC<Props> = ({
-  children: codeString,
-  className = 'js',
-}) => {
+export const Code = ({ code, className = 'js' }: Props) => {
   return (
     <>
       <SyntaxHighlighter
@@ -27,7 +24,7 @@ export const Code: React.FC<Props> = ({
         style={syntaxTheme}
         wrapLines
       >
-        {codeString}
+        {code}
       </SyntaxHighlighter>
       <style global jsx>{`
         .syntax code {

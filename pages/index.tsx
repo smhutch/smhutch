@@ -19,6 +19,10 @@ const sketch = (canvas: HTMLCanvasElement) => {
 
   const ctx = canvas.getContext('2d')
 
+  if (!ctx) {
+    throw new Error('Could not get 2d context')
+  }
+
   return (playhead: number): void => {
     ctx.globalAlpha = 1
     ctx.fillStyle = 'white'
@@ -61,10 +65,12 @@ const Index: NextPage = () => {
   useEffect(() => {
     const duration = 20000 // 20s in ms
 
+    if (!canvasRef.current) return
+
     let draw = sketch(canvasRef.current)
-    let start = null
-    let timeout = null
-    let raf = null
+    let start: number | null = null
+    let timeout: number | null = null
+    let raf: number | null = null
 
     const tick = (timestamp: number) => {
       if (!start) {
@@ -81,6 +87,8 @@ const Index: NextPage = () => {
     }
 
     const resetCanvas = () => {
+      if (!canvasRef.current) return
+
       // Reset timeout to allow additional resize
       timeout = null
       // Update drawFn using latest canvas.
@@ -94,9 +102,11 @@ const Index: NextPage = () => {
       if (!timeout) {
         setResizing(true)
       }
-      // Debounce resetCanvas until resizing is complete.
-      clearTimeout(timeout)
-      timeout = setTimeout(resetCanvas, 250)
+      if (timeout) {
+        // Debounce resetCanvas until resizing is complete.
+        clearTimeout(timeout)
+      }
+      timeout = window.setTimeout(resetCanvas, 250)
     }
 
     raf = requestAnimationFrame(tick)
@@ -104,7 +114,7 @@ const Index: NextPage = () => {
 
     return () => {
       window.removeEventListener('resize', debounceResize)
-      cancelAnimationFrame(raf)
+      cancelAnimationFrame(raf as number)
     }
   }, [])
 

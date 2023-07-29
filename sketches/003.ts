@@ -58,7 +58,7 @@ export const sketch003: SketchFn = ({ expose, ctx, size, random }) => {
   const grid = 5
   const square = size / grid
 
-  const crops = []
+  const crops: Array<{ x: number; y: number }> = []
   for (let col = 0; col < grid; col++) {
     for (let row = 0; row < grid; row++) {
       const px = row / (grid - 1)

@@ -32,6 +32,8 @@ const Box: React.FC<BoxProps> = (props) => {
   useFrame(({ clock }) => {
     const mesh = meshRef.current
 
+    if (!mesh) return
+
     const t = Math.sin(clock.getElapsedTime())
     const yBoxScale = SPACE / props.lines
     const yGap = yBoxScale * props.gap

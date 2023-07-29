@@ -28,6 +28,6 @@ export interface SketchSettings {
 }
 
 export type SketchInitialProps = SketchSettings & {
-  next?: string
-  prev?: string
+  next?: string | null
+  prev?: string | null
 }

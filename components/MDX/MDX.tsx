@@ -15,7 +15,11 @@ function text(textProps: TextProps) {
   }
 }
 
-function Pre(props) {
+function MdxCode(mdxProps: MdxProps) {
+  return <Code code={(mdxProps.children as string) || ''} />
+}
+
+function Pre(props: MdxProps) {
   // Strip <pre> tag, with the assumption that
   // ``` is only used for Code blocks.
   // this prevents MDX from creating nested `pre` tags.
@@ -23,7 +27,7 @@ function Pre(props) {
 }
 
 const component = {
-  code: Code,
+  code: MdxCode,
   h1: text({ el: 'h1' }),
   h2: text({ el: 'h2' }),
   h3: text({ el: 'h3' }),
