@@ -22,6 +22,7 @@ const Sketches: React.FC<Props> = ({ sketches = [] }) => {
                 <Link
                   as={`/sketches/${sketch.id}?seed=${sketch.initialSeed}`}
                   href="/sketches/[id]"
+                  legacyBehavior
                 >
                   <a>
                     <span className="mb2">{sketch.title}</span>

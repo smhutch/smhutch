@@ -1,17 +1,11 @@
 import type { NextComponentType } from 'next'
 import type { AppProps } from 'next/app'
-import Router from 'next/router'
 
 import { Article } from 'components/Article'
 import { GlobalCSS } from 'components/CSS'
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { GlobalMeta } from 'components/Meta'
-import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
-
-Router.events.on('routeChangeComplete', (url) => {
-  GA_TRACKING_ID && trackPage(url)
-})
 
 const isPuppeteer = process.env.IS_PUPPETEER
 

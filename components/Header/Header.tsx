@@ -36,20 +36,20 @@ export const Header: React.FC = () => {
     >
       <Flex align="center" className="container" justify="between">
         <div>
-          <Link href="/">
+          <Link href="/" legacyBehavior>
             <a className={styles.logo}>
               <img alt="SMHutch" src="/logo-dark.svg" />
             </a>
           </Link>
         </div>
         <nav>
-          <Link href="/about">
+          <Link href="/about" legacyBehavior>
             <a className="mr4">About</a>
           </Link>
-          <Link href="/sketches">
+          <Link href="/sketches" legacyBehavior>
             <a className="mr4">Sketches</a>
           </Link>
-          <Link href="/blog">
+          <Link href="/blog" legacyBehavior>
             <a>Blog</a>
           </Link>
         </nav>

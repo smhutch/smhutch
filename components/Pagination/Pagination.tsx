@@ -12,7 +12,7 @@ export const Pagination: React.FC<Props> = ({ id, next, prev }) => {
   return (
     <>
       {prev && (
-        <Link href={prev}>
+        <Link href={prev} legacyBehavior>
           <a className="mr3" title="previous">
             &larr;
           </a>
@@ -22,7 +22,7 @@ export const Pagination: React.FC<Props> = ({ id, next, prev }) => {
         {id}
       </Text>
       {next && (
-        <Link href={next}>
+        <Link href={next} legacyBehavior>
           <a title="next">&rarr;</a>
         </Link>
       )}

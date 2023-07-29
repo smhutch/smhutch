@@ -22,7 +22,7 @@ const Blog: React.FC<Props> = ({ posts }) => {
           <ul className="reset">
             {posts.map((post) => (
               <li key={post.permalink}>
-                <Link href={`/blog/${post.permalink}`}>
+                <Link href={`/blog/${post.permalink}`} legacyBehavior>
                   <a className="reset-hover block mb4">
                     <Text className="post-title mb2" el="h2" look="h3">
                       {post.title}
