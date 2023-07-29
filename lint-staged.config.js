@@ -5,5 +5,5 @@ module.exports = {
   // Format markdown, and `.mdx`
   '*.{md,mdx}': (filenames) => `prettier ${filenames.join(' ')} --write`,
   // Type check
-  // '**/*.{ts,tsx}': () => 'yarn tsc',
+  '**/*.{ts,tsx}': () => 'yarn tsc',
 }
