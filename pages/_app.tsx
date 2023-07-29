@@ -1,3 +1,4 @@
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import type { NextComponentType } from 'next'
 import type { AppProps } from 'next/app'
 
@@ -22,6 +23,7 @@ const App: React.FC<Props> = ({ Component, pageProps }) => {
     <>
       <GlobalCSS />
       <GlobalMeta />
+      <VercelAnalytics />
       <div className="app">
         {!isPuppeteer && <Header />}
         <div className="page">{page}</div>

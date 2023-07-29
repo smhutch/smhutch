@@ -9,6 +9,7 @@
     "@react-three/drei": "^7.20.5",
     "@react-three/fiber": "^7.0.19",
     "@types/eases": "^1.0.1",
+    "@vercel/analytics": "^1.0.1",
     "canvas-sketch-util": "^1.10.0",
     "clsx": "^1.1.1",
     "eases": "^1.0.8",
