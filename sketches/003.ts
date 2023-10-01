@@ -93,9 +93,11 @@ export const sketch003: SketchFn = ({ expose, ctx, size, random }) => {
 
   image.src = asset.src
 
-  expose({
-    asset,
-  })
+  if (expose) {
+    expose({
+      asset,
+    })
+  }
 }
 
 export const sketch = sketch003

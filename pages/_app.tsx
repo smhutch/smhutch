@@ -1,49 +1,37 @@
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
-import type { NextComponentType } from 'next'
-import type { AppProps } from 'next/app'
+import '../css/global.css'
 
-import { Article } from 'components/Article'
-import { GlobalCSS } from 'components/CSS'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import type { AppProps } from 'next/app'
+import { css } from 'system/css'
+import { flex } from 'system/patterns'
+
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { GlobalMeta } from 'components/Meta'
 
 const isPuppeteer = process.env.IS_PUPPETEER
 
-interface Props extends AppProps {
-  // MDX adds isMDXComponent as a static property to pages written in .mdx
-  Component: NextComponentType & { isMDXComponent?: boolean }
-}
-
-const App: React.FC<Props> = ({ Component, pageProps }) => {
-  const ui = <Component {...pageProps} />
-  const page = Component.isMDXComponent ? <Article>{ui}</Article> : ui
-
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
-      <GlobalCSS />
       <GlobalMeta />
       <VercelAnalytics />
-      <div className="app">
+      <div
+        className={flex({
+          direction: 'column',
+          minHeight: '100vh',
+          maxHeight: '100vh',
+          overflowY: 'auto',
+        })}
+      >
         {!isPuppeteer && <Header />}
-        <div className="page">{page}</div>
+        <Component {...pageProps} />
         {!isPuppeteer && (
-          <div className="footer">
+          <div className={css({ marginTop: 'auto' })}>
             <Footer />
           </div>
         )}
       </div>
-      <style jsx>{`
-        .app {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-        }
-
-        .footer {
-          margin-top: auto;
-        }
-      `}</style>
     </>
   )
 }

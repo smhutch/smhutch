@@ -12,7 +12,7 @@ interface Props {
   className?: string
 }
 
-export const Code = ({ code, className = 'js' }: Props) => {
+export const Code = ({ code, className = 'js' }: Props): JSX.Element => {
   return (
     <>
       <SyntaxHighlighter

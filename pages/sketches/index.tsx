@@ -1,70 +1,203 @@
 import { sketchIndex } from 'build/sketches'
+import { createRandom } from 'canvas-sketch-util/random'
+import { motion, useInView } from 'framer-motion'
+import { useControls } from 'leva'
 import { GetStaticProps } from 'next'
+import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { css, cx } from 'system/css'
+import { Container, Stack } from 'system/jsx'
+import { flex, stack } from 'system/patterns'
 
-import { Text } from 'components/Text'
-import { SketchSettings } from 'types/sketches'
+import { SketchFn, SketchSettings } from 'types/sketches'
 
-interface Props {
-  sketches: SketchSettings[]
+const CANVAS_SIZE = 1000
+
+const Sketches: React.FC<{ sketches: SketchSettings[] }> = ({ sketches }) => {
+  return (
+    <main>
+      <div
+        className={css({
+          p: 4,
+          background: 'gray.100',
+          height: '100%',
+        })}
+      >
+        <Container mb={12} mt={4}>
+          <ul
+            className={stack({
+              margin: '0 auto',
+              gap: 4,
+              display: 'grid',
+              gridAutoFlow: 'row',
+              md: {
+                gridTemplateColumns: '1fr 1fr',
+              },
+            })}
+          >
+            {sketches.map((sketch) => {
+              return (
+                <SketchGridItem
+                  key={sketch.id}
+                  id={sketch.id}
+                  initialSeed={sketch.initialSeed}
+                  title={sketch.title}
+                />
+              )
+            })}
+          </ul>
+        </Container>
+      </div>
+    </main>
+  )
 }
 
-const Sketches: React.FC<Props> = ({ sketches }) => {
+const DETAILS_CLASSNAME = 'details'
+
+const SketchGridItem = (
+  props: Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
+) => {
+  const randomRef = useRef(createRandom())
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const sketchRef = useRef<SketchFn>()
+  const [ready, setReady] = useState(false)
+  const visible = ready
+
+  useEffect(() => {
+    const getSketch = async () => {
+      if (!randomRef.current) return
+
+      randomRef.current.setSeed(props.initialSeed)
+
+      const mod = await import(`../../sketches/${props.id}`)
+      sketchRef.current = mod.sketch
+      setReady(true)
+    }
+    getSketch()
+  }, [props.id])
+
+  useEffect(() => {
+    if (!ready) return
+
+    const random = randomRef.current
+    if (!random) return
+    const sketch = sketchRef.current
+    if (!sketch) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    ctx.save()
+
+    const draw = () => {
+      ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+      ctx.fillStyle = 'white'
+      ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE)
+      ctx.fill()
+      sketch({
+        ctx,
+        size: CANVAS_SIZE,
+        random,
+      })
+      ctx.restore()
+    }
+
+    draw()
+  }, [props.id, ready])
+
+  const href = getRoute({
+    route: '/sketches/[sketch]',
+    params: {
+      sketch: props.id,
+    },
+    query: {
+      seed: props.initialSeed,
+    },
+  })
+
   return (
-    <>
-      <main>
-        <div className="container py4">
-          <Text className="mb4" el="h1">
-            Sketches
-          </Text>
-          <ul className="reset">
-            {sketches.map((sketch) => (
-              <li key={sketch.id}>
-                <Link
-                  as={`/sketches/${sketch.id}?seed=${sketch.initialSeed}`}
-                  href="/sketches/[id]"
-                  legacyBehavior
-                >
-                  <a>
-                    <span className="mb2">{sketch.title}</span>
-                    <img alt="" src={`/sketches/${sketch.id}/preview.png`} />
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </main>
-      <style jsx>
-        {`
-          ul {
-            display: grid;
-            grid-gap: 40px;
-            grid-template-columns: repeat(auto-fill, 250px);
-            grid-auto-flow: row;
-          }
+    <motion.li
+      animate={{ y: visible ? 0 : 20, opacity: visible ? 1 : 0 }}
+      className={css({
+        position: 'relative',
+        overflow: 'hidden',
 
-          ul li {
-            margin-bottom: 0;
-          }
+        transition: 'box-shadow 0.2s ease-in-out',
+        opacity: 0,
+        borderRadius: '2xl',
+        boxShadow: 'md',
 
-          img {
-            display: block;
-            border: 1px solid var(--color-light);
-            margin-top: 20px;
-            width: 100%;
-            height: 250px;
-            background-color: var(--color-ultralight);
-            outline: none;
-            transition: 0.2s ease box-shadow;
-          }
+        '&:hover': {
+          boxShadow: 'lg',
+        },
+      })}
+      initial={{ opacity: 0 }}
+      whileHover={{ y: -4 }}
+    >
+      <Link href={href}>
+        <canvas
+          ref={canvasRef}
+          className={css({
+            width: '100%',
+            aspectRatio: '1 / 1',
+            transform: '1',
+          })}
+          height={CANVAS_SIZE}
+          width={CANVAS_SIZE}
+        />
+        <motion.div
+          className={cx(
+            DETAILS_CLASSNAME,
+            flex({
+              position: 'absolute',
+              direction: 'column',
+              justify: 'space-between',
+              alignItems: 'flex-start',
+              px: 4,
+              py: 3,
+              left: 2,
+              right: 2,
+              backdropFilter: 'blur(10px) brightness(1.4)',
+              backgroundColor: 'rgba(248, 248, 248, 0.9)',
+              border: '1px solid',
+              borderColor: 'gray.100',
+              borderRadius: 'xl',
+              minHeight: '33%',
+              transition: 'all 0.3s ease-in-out',
+              opacity: 0,
+              bottom: -1,
 
-          img:hover {
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-          }
-        `}
-      </style>
-    </>
+              'li:hover &': {
+                bottom: 2,
+                opacity: 1,
+              },
+            })
+          )}
+        >
+          <span
+            className={css({
+              fontWeight: 'semibold',
+              fontSize: '5xl',
+              letterSpacing: 'tight',
+              lineHeight: 1,
+            })}
+          >
+            {props.title}
+          </span>
+          <span
+            className={css({
+              fontSize: 'sm',
+              color: 'gray.600',
+              lineHeight: 1,
+            })}
+          >
+            #{props.id}
+          </span>
+        </motion.div>
+      </Link>
+    </motion.li>
   )
 }
 

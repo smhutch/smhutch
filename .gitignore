@@ -22,3 +22,9 @@ yarn-error.log*
 
 # Typescript
 *.tsbuildinfo
+
+# Panda
+system
+
+# contentLayer
+.contentlayer

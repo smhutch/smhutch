@@ -1,6 +1,6 @@
 import { Random } from 'canvas-sketch-util/random'
 
-export interface SketchAsset {
+export type SketchAsset = {
   src: string
   credit: {
     id: string
@@ -9,18 +9,18 @@ export interface SketchAsset {
 }
 
 /** Random runtime variables, exposed to React */
-export interface SketchRandomVars {
+export type SketchRandomVars = {
   asset?: SketchAsset
 }
 
 export type SketchFn = (options: {
   ctx: CanvasRenderingContext2D
-  expose: (vars: SketchRandomVars) => void
+  expose?: (vars: SketchRandomVars) => void
   size: number
   random: Random
 }) => void
 
-export interface SketchSettings {
+export type SketchSettings = {
   id: string
   title: string
   initialSeed: string

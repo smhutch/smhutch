@@ -7,6 +7,7 @@ import { SketchSettings } from 'types/sketches'
 const sketchDir = path.join(process.cwd(), '/sketches')
 const sketchFiles = fs
   .readdirSync(sketchDir)
+  .filter((filename) => !filename.endsWith('index.ts'))
   .map((filename) => filename.replace('.ts', ''))
 
 export const sketchIds = (): string[] => {
