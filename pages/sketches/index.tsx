@@ -1,13 +1,12 @@
 import { sketchIndex } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
-import { motion, useInView } from 'framer-motion'
-import { useControls } from 'leva'
+import { motion } from 'framer-motion'
 import { GetStaticProps } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'system/css'
-import { Container, Stack } from 'system/jsx'
+import { Container } from 'system/jsx'
 import { flex, stack } from 'system/patterns'
 
 import { SketchFn, SketchSettings } from 'types/sketches'
@@ -19,20 +18,23 @@ const Sketches: React.FC<{ sketches: SketchSettings[] }> = ({ sketches }) => {
     <main>
       <div
         className={css({
-          p: 4,
           background: 'gray.100',
           height: '100%',
         })}
       >
-        <Container mb={12} mt={4}>
+        <Container pb={12} pt={4}>
           <ul
             className={stack({
               margin: '0 auto',
               gap: 4,
               display: 'grid',
-              gridAutoFlow: 'row',
-              md: {
-                gridTemplateColumns: '1fr 1fr',
+              gridAutoFlow: 'row dense',
+              sm: {
+                gridTemplateColumns: '1fr 1fr 1fr',
+              },
+              xl: {
+                gap: 5,
+                gridTemplateColumns: '1fr 1fr 1fr 1fr',
               },
             })}
           >
@@ -132,6 +134,23 @@ const SketchGridItem = (
         '&:hover': {
           boxShadow: 'lg',
         },
+
+        sm: {
+          '&:nth-of-type(4n + 1)': {
+            gridColumn: 'span 2',
+            gridRow: 'span 2',
+          },
+        },
+        xl: {
+          '&:nth-of-type(4n + 1)': {
+            gridColumn: 'span 1',
+            gridRow: 'span 1',
+          },
+          '&:nth-of-type(7n + 1)': {
+            gridColumn: 'span 2',
+            gridRow: 'span 2',
+          },
+        },
       })}
       initial={{ opacity: 0 }}
       whileHover={{ y: -4 }}
@@ -164,7 +183,7 @@ const SketchGridItem = (
               border: '1px solid',
               borderColor: 'gray.100',
               borderRadius: 'xl',
-              minHeight: '33%',
+              minHeight: '100px',
               transition: 'all 0.3s ease-in-out',
               opacity: 0,
               bottom: -1,
@@ -179,9 +198,13 @@ const SketchGridItem = (
           <span
             className={css({
               fontWeight: 'semibold',
-              fontSize: '5xl',
+              fontSize: '2xl',
               letterSpacing: 'tight',
               lineHeight: 1,
+
+              xl: {
+                fontSize: '3xl',
+              },
             })}
           >
             {props.title}

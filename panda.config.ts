@@ -33,10 +33,11 @@ export default defineConfig({
         description: 'foo',
         transform: (props) => {
           return {
-            paddingX: 8,
+            paddingX: 6,
             marginX: 'auto',
             maxWidth: 1200,
             width: '100%',
+
             ...props,
           }
         },
