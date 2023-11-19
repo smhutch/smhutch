@@ -10,7 +10,9 @@ export const settings: SketchSettings = {
 
 const sketch005: SketchFn = ({ ctx, size, random }) => {
   ctx.fillStyle = 'white'
-  const lines = random.range(50, 150)
+  ctx.lineWidth = 1
+
+  const lines = random.range(50, 100)
   const steps = 100
   const marginX = size * 0.1
   const marginY = size * 0.2

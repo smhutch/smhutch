@@ -1,4 +1,4 @@
-import { BOLD_COLORS, COLORS, NEUTRAL_COLORS, PALETTES } from 'data/palette'
+// import { BOLD_COLORS, COLORS, NEUTRAL_COLORS, PALETTES } from 'data/palette'
 import { css } from 'system/css'
 import { Box, Container, Flex, Stack } from 'system/jsx'
 

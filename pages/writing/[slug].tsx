@@ -1,9 +1,4 @@
-import {
-  ArrowRightIcon,
-  CircleBackslashIcon,
-  DiscIcon,
-  DotIcon,
-} from '@radix-ui/react-icons'
+import { DiscIcon } from '@radix-ui/react-icons'
 import { Post, allPosts } from 'contentlayer/generated'
 import { DOT } from 'data/typography'
 import { format, parseISO } from 'date-fns'

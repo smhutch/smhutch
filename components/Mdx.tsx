@@ -67,7 +67,7 @@ const Li: React.FC = (props) => {
   )
 }
 
-const Anchor: React.FC<{ href?: string }> = (props) => {
+const Anchor: React.FC<{ href: string }> = (props) => {
   const isExternal = props.href && !props.href.startsWith('/')
   const className = link({ variant: 'underline' })
 

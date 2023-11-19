@@ -12,6 +12,7 @@ import { DOT } from 'data/typography'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import pp from 'p5'
 import { useEffect, useRef, useState } from 'react'
 import { css } from 'system/css'
 import { Box, Container, Divider, Flex } from 'system/jsx'
@@ -20,7 +21,7 @@ import { flex, stack } from 'system/patterns'
 import { Meta } from 'components/Meta'
 import type { SketchAsset, SketchFn, SketchSettings } from 'types/sketches'
 
-const CANVAS_SIZE = 1200
+const CANVAS_SIZE = 600
 
 const isPuppeteer = process.env.IS_PUPPETEER
 
@@ -90,6 +91,13 @@ export const Sketch: React.FC<Props> = (props) => {
 
     const size = CANVAS_SIZE
 
+    const SCALE = window.devicePixelRatio
+
+    canvas.width = CANVAS_SIZE * SCALE
+    canvas.height = CANVAS_SIZE * SCALE
+
+    ctx.scale(SCALE, SCALE)
+
     const clear = () => {
       setAsset(null)
       ctx.clearRect(0, 0, size, size)
@@ -138,8 +146,6 @@ export const Sketch: React.FC<Props> = (props) => {
         navigateToSketch(next)
       }
 
-      console.log(e.metaKey, e.code)
-
       if (e.metaKey && e.code === 'KeyS') {
         e.preventDefault() // prevent browser save
         const data = canvasRef.current.toDataURL('image/png')
@@ -179,7 +185,7 @@ export const Sketch: React.FC<Props> = (props) => {
               margin: '0 auto',
               gap: '8',
               position: 'relative',
-              maxWidth: 600,
+              maxWidth: CANVAS_SIZE,
             })}
           >
             <canvas
@@ -190,8 +196,6 @@ export const Sketch: React.FC<Props> = (props) => {
                 borderRadius: 'xl',
                 maxWidth: '100%',
               })}
-              height={CANVAS_SIZE}
-              width={CANVAS_SIZE}
             />
             <div
               className={css({

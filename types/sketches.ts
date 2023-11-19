@@ -31,3 +31,10 @@ export type SketchInitialProps = SketchSettings & {
   next?: string | null
   prev?: string | null
 }
+
+export type Axes = {
+  x: number
+  y: number
+}
+
+export type XY = [x: number, y: number]

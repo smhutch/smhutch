@@ -1,18 +1,11 @@
 import { Post, allPosts } from 'contentlayer/generated'
-import { format, formatDistance, parseISO } from 'date-fns'
-import {
-  GetStaticPaths,
-  GetStaticProps,
-  InferGetServerSidePropsType,
-} from 'next'
-import { useMDXComponent } from 'next-contentlayer/hooks'
+import { format, parseISO } from 'date-fns'
+import { GetStaticProps, InferGetServerSidePropsType } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import React from 'react'
 import { css } from 'system/css'
-import { Container, Divider } from 'system/jsx'
-
-import { MDX_COMPONENTS } from 'components/Mdx'
+import { Container } from 'system/jsx'
 
 type PageProps = { posts: Post[] }
 
