@@ -1,1 +1,0 @@
-export { GlobalCSS } from './GlobalCSS'

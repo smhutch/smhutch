@@ -1,2 +1,3 @@
-export const absolutePath = (path: string): string =>
-  `${process.env.SITE_URL}/${path}`
+export const absolutePath = (path: string): string => {
+  return `${process.env.SITE_URL}/${path}`
+}

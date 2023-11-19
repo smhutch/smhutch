@@ -21,9 +21,9 @@
     "prettier/@typescript-eslint",
     // Override conflicting react/* rules
     "prettier/react",
-    // Enforce prettier styling within Eslint.
+    // Enforce prettier styling within eslint.
     "plugin:prettier/recommended"
-    // Prettier MUST come last here.
+    // Prettier must come last here.
   ],
   "globals": {
     // Added globally by Next
@@ -53,7 +53,7 @@
         "pathGroupsExcludedImportTypes": [],
         "pathGroups": [
           {
-            "pattern": "+(components|layouts|lib|types|posts|)/**",
+            "pattern": "+(components|layouts|lib|types|)/**",
             "group": "internal"
           }
         ],
@@ -86,7 +86,7 @@
     // Next.js adds React to JSX scope.
     "react/react-in-jsx-scope": "off",
     // No unused variables
-    "no-unused-vars": [
+    "@typescript-eslint/no-unused-vars": [
       "error",
       {
         // Unless they are prefixed with "_" for documentation purposes
@@ -96,10 +96,16 @@
   },
   "overrides": [
     {
-      "files": ["pages/**/*.{tsx,ts}"],
+      "files": ["pages/**/*.{tsx,ts}", "next.config.mjs", "contentlayer.config.ts"],
       "rules": {
         // Allow default exports inside pages. Required by Next.js
         "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": ["*.mjs"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": "off"
       }
     },
     {

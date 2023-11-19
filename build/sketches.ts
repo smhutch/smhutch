@@ -7,6 +7,7 @@ import { SketchSettings } from 'types/sketches'
 const sketchDir = path.join(process.cwd(), '/sketches')
 const sketchFiles = fs
   .readdirSync(sketchDir)
+  .filter((filename) => !filename.endsWith('index.ts'))
   .map((filename) => filename.replace('.ts', ''))
 
 export const sketchIds = (): string[] => {
@@ -40,7 +41,6 @@ export const sketchSettings = (fileName: string): SketchSettings => {
     const sketch: Sketch = require(`../sketches/${fileName}`)
     return sketch.settings
   } catch (error) {
-    // Build-time error.
-    console.error(error)
+    throw new Error(`Could not find sketch settings for ${fileName}`)
   }
 }

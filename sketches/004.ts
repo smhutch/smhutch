@@ -1,4 +1,5 @@
 import { lerp } from 'canvas-sketch-util/math'
+import chroma from 'chroma-js'
 
 import type { SketchFn, SketchSettings } from 'types/sketches'
 
@@ -10,43 +11,60 @@ export const settings: SketchSettings = {
 
 const sketch004: SketchFn = ({ ctx, size, random }) => {
   ctx.fillStyle = 'white'
-  ctx.lineWidth = 2
-  ctx.globalAlpha = 0.4
-
-  ctx.translate(size / 2, size / 2)
-  ctx.rotate(random.range(0, Math.PI * 2))
-  ctx.translate(-size / 2, -size / 2)
+  ctx.strokeStyle = 'black'
+  ctx.lineWidth = 1
 
   const center = size / 2
-  const limit = size / 4
-  const offset = {
-    x: random.range(-limit, limit),
-    y: random.range(-limit, limit),
-  }
-  const count = random.range(60, 120)
 
-  Array.from({ length: count }).forEach((_, index, array) => {
-    const p = index / (array.length - 1)
+  const count = random.rangeFloor(60, 180)
+
+  const stackMovementX = random.range(0.1, 0.4)
+  const stackMovementY = random.range(0.1, 0.4)
+  const maxRotation = random.range(1, 3)
+  const maxOffset = random.range(0.02, 0.02)
+  const hue = random.pick([140, 160, 180])
+  const maxLightness = random.range(0.4, 0.7)
+
+  for (let item = 0; item < count; item++) {
+    const p = item / (count - 1)
     const noise = random.noise1D(p)
-
-    const angle = lerp(Math.PI, 0, p) * noise
-
-    const radius = lerp(size / 3, 5, p)
-    const x = center + noise * offset.x
-    const y = center + noise * offset.y
-    const startAngle = Math.PI + angle
-    const endAngle = Math.PI * 2 + angle
+    const color = chroma.hsl(
+      hue,
+      lerp(0.1, maxLightness, p),
+      lerp(0.1, 0.65, p)
+    )
 
     ctx.save()
     ctx.beginPath()
-    ctx.arc(x, y, radius, startAngle, endAngle)
-    ctx.closePath()
-    ctx.stroke()
-    ctx.fill()
-    ctx.restore()
-  })
 
-  ctx.restore()
+    const startX = 0 - center
+    const startY = 0 - center
+    const endX = size
+    const endY = size
+
+    ctx.translate(
+      lerp(center, center + size * stackMovementX * noise, p),
+      lerp(center, center + center * stackMovementY * noise, p)
+    )
+    ctx.rotate(Math.PI * lerp(0, maxRotation * noise, p))
+
+    // Get incrementally smaller
+    const scale = lerp(1, 0, p)
+    ctx.scale(scale, scale)
+
+    // Darker lower layer
+    ctx.fillStyle = color.darken(0.8).alpha(0.8).hex()
+    ctx.fillRect(startX, startY, endX, endY)
+
+    // Rotate a little bit
+    ctx.rotate(Math.PI * lerp(0, maxOffset, noise * p))
+
+    // Lighter upper layer
+    ctx.fillStyle = color.hex()
+    ctx.fillRect(startX, startY, endX, endY)
+
+    ctx.restore()
+  }
 }
 
 export const sketch = sketch004

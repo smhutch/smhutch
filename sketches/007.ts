@@ -5,11 +5,11 @@ import { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '007',
   title: 'Routes',
-  initialSeed: '41029',
+  initialSeed: '428556',
 }
 
 const sketch007: SketchFn = ({ ctx, size, random }) => {
-  const count = 20
+  const count = random.rangeFloor(20, 100)
   const margin = size * 0.1
   const marginSize = margin * 2
   const totalBoxSize = size - marginSize
@@ -19,10 +19,10 @@ const sketch007: SketchFn = ({ ctx, size, random }) => {
     { value: 'dot', weight: 50 },
     { value: 'left', weight: 50 },
     { value: 'skew', weight: 100 },
-  ]
+  ] as const
 
   ctx.globalAlpha = 1
-  ctx.lineWidth = 2
+  ctx.lineWidth = 1
   ctx.lineCap = 'round'
   ctx.fillStyle = 'black'
 
@@ -38,7 +38,8 @@ const sketch007: SketchFn = ({ ctx, size, random }) => {
 
       ctx.beginPath()
       ctx.moveTo(0, 0)
-      switch (random.weightedSet(shapes)) {
+      const shape = random.weightedSet(shapes)
+      switch (shape) {
         case 'top':
           ctx.lineTo(boxSize, 0)
           ctx.stroke()

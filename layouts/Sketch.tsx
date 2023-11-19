@@ -1,40 +1,43 @@
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CodeIcon,
+  MixIcon,
+  PersonIcon,
+  ShuffleIcon,
+} from '@radix-ui/react-icons'
 import { Random } from 'canvas-sketch-util/random'
-import cx from 'clsx'
+import { link } from 'css/link'
+import { DOT } from 'data/typography'
+import { getRoute } from 'next-type-safe-routes'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import pp from 'p5'
 import { useEffect, useRef, useState } from 'react'
+import { css } from 'system/css'
+import { Box, Container, Divider, Flex } from 'system/jsx'
+import { flex, stack } from 'system/patterns'
 
-import { Button } from 'components/Button'
-import { Credit } from 'components/Credit'
 import { Meta } from 'components/Meta'
-import { Pagination } from 'components/Pagination'
-import { Stack } from 'components/Stack'
-import { Text } from 'components/Text'
-import type { SketchAsset, SketchFn } from 'types/sketches'
+import type { SketchAsset, SketchFn, SketchSettings } from 'types/sketches'
 
-const size = 1000
+const CANVAS_SIZE = 600
 
 const isPuppeteer = process.env.IS_PUPPETEER
 
-interface Props {
-  id: string
+type Props = SketchSettings & {
   initialSeed: string
-  next?: string
-  prev?: string
+  next?: string | null
+  prev?: string | null
   random: Random
-  title: string
 }
 
-export const Sketch: React.FC<Props> = ({
-  id,
-  initialSeed,
-  next,
-  prev,
-  random,
-  title,
-}) => {
+export const Sketch: React.FC<Props> = (props) => {
+  const { id, random, initialSeed, next, prev, title } = props
+
   const router = useRouter()
-  const canvasRef = useRef<HTMLCanvasElement>()
-  const [asset, setAsset] = useState<SketchAsset>()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [asset, setAsset] = useState<SketchAsset | null>(null)
   const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
 
   useEffect(() => {
@@ -56,13 +59,13 @@ export const Sketch: React.FC<Props> = ({
       // Re-seed the random singleton
       random.setSeed(seed)
 
-      // Update URL state, to enable sharing.
-      router.push('/sketches/[sketch]', {
-        pathname: `/sketches/${id}`,
-        query: {
-          seed,
-        },
+      const nextRoute = getRoute({
+        route: '/sketches/[sketch]',
+        params: { sketch: id },
+        query: { seed },
       })
+
+      router.replace(nextRoute)
     }
 
     // Get search params from URL.
@@ -81,8 +84,19 @@ export const Sketch: React.FC<Props> = ({
     const sketch = sketchCache[id]
     if (!sketch) return
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext('2d')
+    if (!ctx) return
     ctx.save()
+
+    const size = CANVAS_SIZE
+
+    const SCALE = window.devicePixelRatio
+
+    canvas.width = CANVAS_SIZE * SCALE
+    canvas.height = CANVAS_SIZE * SCALE
+
+    ctx.scale(SCALE, SCALE)
 
     const clear = () => {
       setAsset(null)
@@ -96,7 +110,7 @@ export const Sketch: React.FC<Props> = ({
       ctx.fill()
       sketch({
         expose: ({ asset }) => {
-          setAsset(asset)
+          setAsset(asset || null)
         },
         ctx,
         size,
@@ -106,40 +120,40 @@ export const Sketch: React.FC<Props> = ({
       ctx.restore()
     }
 
+    const navigateToSketch = (id: string) => {
+      router.push(
+        getRoute({ route: '/sketches/[sketch]', params: { sketch: id } })
+      )
+    }
+
     draw()
 
     const handleKeys = (e: KeyboardEvent) => {
-      // Space
-      if (e.keyCode === 32) {
-        // Prevent scrolling.
-        e.preventDefault()
+      if (!canvasRef.current) return
+
+      if (e.code === 'Space') {
+        e.preventDefault() // prevents scrolling
         reseed()
       }
 
-      // Left
-      if (prev && e.keyCode === 37) {
+      if (prev && e.code === 'ArrowLeft') {
         clear()
-        router.push('/sketches/[sketch]', `/sketches/${prev}`)
+        navigateToSketch(prev)
       }
 
-      // Right
-      if (next && e.keyCode === 39) {
+      if (next && e.code === 'ArrowRight') {
         clear()
-        router.push('/sketches/[sketch]', `/sketches/${next}`)
+        navigateToSketch(next)
       }
 
-      // s character
-      if (e.keyCode == 83) {
-        if (e.getModifierState('Meta')) {
-          // Prevent browser from saving.
-          e.preventDefault()
-          const data = canvasRef.current.toDataURL('image/png')
-          const anchor = document.createElement('a')
-          const seed = random.getSeed()
-          anchor.setAttribute('download', `${id}-${seed}.png`)
-          anchor.setAttribute('href', data)
-          anchor.click()
-        }
+      if (e.metaKey && e.code === 'KeyS') {
+        e.preventDefault() // prevent browser save
+        const data = canvasRef.current.toDataURL('image/png')
+        const anchor = document.createElement('a')
+        const seed = random.getSeed()
+        anchor.setAttribute('download', `${id}-${seed}.png`)
+        anchor.setAttribute('href', data)
+        anchor.click()
       }
     }
 
@@ -157,145 +171,151 @@ export const Sketch: React.FC<Props> = ({
         title={`${id} — ${title}`}
       />
       <main
-        className={cx('py4', {
-          isPuppeteer,
+        className={css({
+          py: '24',
+          backgroundColor: 'gray.50',
+          flexGrow: 1,
         })}
       >
-        <div className="sketch container">
-          <div className="info">
-            <Stack>
-              {isPuppeteer && (
-                <Text className="mb3" variant="mono">
-                  Generative sketches — {id}
-                </Text>
-              )}
-              <Text el="h1">{title}</Text>
-              {!isPuppeteer && (
-                <Pagination
-                  id={id}
-                  next={`/sketch/${next}`}
-                  prev={`/sketch/${prev}`}
-                />
-              )}
-            </Stack>
-          </div>
-          <div className="canvas">
-            <canvas ref={canvasRef} height={size} width={size} />
-            {!isPuppeteer && (
-              <div className="py3">{asset && <Credit {...asset.credit} />}</div>
-            )}
-          </div>
-          <div className="actions">
-            {random.getSeed() && !isPuppeteer && (
-              <Button
-                className="mr4"
-                onClick={() =>
-                  router.push('/sketches/[sketch]', {
-                    pathname: `/sketches/${id}`,
-                    query: {
-                      seed: random.getRandomSeed(),
-                    },
-                  })
-                }
-                variant="link"
+        <Container>
+          <div
+            className={stack({
+              justify: 'center',
+              align: 'center',
+              margin: '0 auto',
+              gap: '8',
+              position: 'relative',
+              maxWidth: CANVAS_SIZE,
+            })}
+          >
+            <canvas
+              ref={canvasRef}
+              className={css({
+                aspectRatio: '1/1',
+                boxShadow: 'xl',
+                borderRadius: 'xl',
+                maxWidth: '100%',
+              })}
+            />
+            <div
+              className={css({
+                width: '100%',
+              })}
+            >
+              <div
+                className={flex({
+                  fontSize: 'small',
+                  color: 'gray.600',
+                  width: '100%',
+                })}
               >
-                Randomize
-              </Button>
-            )}
-            {!isPuppeteer && (
-              <a
-                href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
-                rel="noopener noreferrer"
-                target="_blank"
-                title="previous"
+                <span>#{props.id}</span>
+              </div>
+              <div
+                className={flex({
+                  justify: 'space-between',
+                  align: 'flex-end',
+                })}
               >
-                View code
-              </a>
-            )}
+                <h1
+                  className={css({ fontSize: '5xl', fontWeight: 'semibold' })}
+                >
+                  {title}
+                </h1>
+              </div>
+              <hr
+                className={css({
+                  background: 'gray.200',
+                  height: '1px',
+                  border: 'none',
+                  my: 6,
+                })}
+              />
+              <div className={stack({ gap: 2 })}>
+                <DetailsRow icon={<CodeIcon />}>
+                  <Link
+                    className={link({ variant: 'underline' })}
+                    href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    View code
+                  </Link>
+                </DetailsRow>
+                <DetailsRow icon={<MixIcon />}>
+                  <Flex align="center" gap={1}>
+                    <span>Seed</span>
+                    <span
+                      className={css({
+                        fontVariant: 'tabular-nums',
+                        fontFamily: 'mono',
+                        fontSize: 'xs',
+                      })}
+                    >
+                      {random.getSeed()}
+                    </span>
+                    <span className={css({ color: 'gray.400' })}>{DOT}</span>
+                    <button
+                      className={link({ variant: 'underline' })}
+                      onClick={() => {
+                        router.replace(
+                          getRoute({
+                            route: '/sketches/[sketch]',
+                            params: { sketch: id },
+                            query: { seed: random.getRandomSeed() },
+                          })
+                        )
+                      }}
+                    >
+                      Re-seed
+                    </button>
+                  </Flex>
+                </DetailsRow>
+                {asset && (
+                  <>
+                    <DetailsRow icon={<PersonIcon />}>
+                      <span>
+                        Photo by{' '}
+                        <Link
+                          className={link({
+                            variant: 'underline',
+                          })}
+                          href={`https://unsplash.com/photos/${asset.credit.id}`}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {asset.credit.owner}
+                        </Link>
+                      </span>
+                    </DetailsRow>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-          {isPuppeteer && <img alt="SMHutch" src="/logo-dark.svg" />}
-        </div>
-        <div className="bg" />
+        </Container>
       </main>
-      <style jsx>
-        {`
-          .sketch {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-gap: var(--space-4);
-            max-width: 1000px;
-          }
-
-          .isPuppeteer {
-            width: 100%;
-            height: 100vh;
-          }
-
-          .isPuppeteer .sketch {
-            position: relative;
-            height: calc(100vh - var(--space-4) - var(--space-4));
-            grid-template-columns: 1fr 500px;
-            grid-template-rows: 100%;
-          }
-
-          .isPuppeteer .sketch.container {
-            max-width: 1100px;
-          }
-
-          .isPuppeteer .canvas {
-            display: flex;
-            align-items: center;
-          }
-
-          .isPuppeteer img {
-            width: 50px;
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-          }
-
-          .isPuppeteer canvas {
-            width: 566px;
-          }
-
-          canvas {
-            background-color: white;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-          }
-
-          @media screen and (min-width: 800px) {
-            .sketch {
-              grid-template-columns: 1fr 500px;
-              grid-template-rows: 1fr auto;
-            }
-
-            .canvas {
-              grid-row: 1 / -1;
-              grid-column: 2 / 3;
-            }
-
-            .bg {
-              height: 30vh;
-              min-height: 200px;
-              width: 100%;
-              left: 0;
-              background: linear-gradient(#f5f5f5, white);
-              margin-top: calc(0px - var(--space-6));
-            }
-
-            .info {
-              margin-top: var(--space-5);
-            }
-
-            .actions {
-              margin-bottom: var(--space-6);
-              padding-bottom: var(--space-3);
-            }
-          }
-        `}
-      </style>
     </>
+  )
+}
+
+const DetailsRow: React.FC<{ icon: React.ReactNode }> = (props) => {
+  return (
+    <div
+      className={css({
+        fontSize: 'small',
+        color: 'gray.600',
+
+        '& svg': {
+          width: '13px',
+          height: '13px',
+        },
+      })}
+    >
+      <Flex align="center" gap={3}>
+        {props.icon}
+        <span>{props.children}</span>
+      </Flex>
+    </div>
   )
 }

@@ -1,1 +1,0 @@
-export { Credit } from './Credit'

@@ -4,28 +4,24 @@ import { getInvertedNormalDistribution } from 'lib/canvas'
 import { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
-  id: '009',
-  title: 'Spark',
+  id: '010',
+  title: 'Spark2',
   initialSeed: '653121',
 }
 
-const DEBUG = false
-
 const sketch009: SketchFn = ({ ctx, size, random }) => {
-  const grid = random.rangeFloor(5, 12)
+  const grid = 20
   const margin = size * 0.1
   const outerSpace = size - margin * 2
   const outerBoxSize = outerSpace / grid
-  const boxMargin = outerBoxSize * 0.1
-  const boxSize = outerBoxSize - boxMargin * 2
-
-  const maxlines = random.rangeFloor(20, 40)
+  const boxSize = outerBoxSize
 
   ctx.fillStyle = 'black'
   ctx.strokeStyle = 'black'
 
   for (let col = 0; col < grid; col++) {
     const px = col / (grid - 1)
+    const ppx = getInvertedNormalDistribution(px)
     const x = lerp(margin, size - margin - boxSize, px)
 
     ctx.save()
@@ -35,17 +31,16 @@ const sketch009: SketchFn = ({ ctx, size, random }) => {
     for (let row = 0; row < grid; row++) {
       const py = row / (grid - 1)
       const ppy = getInvertedNormalDistribution(py)
+      const noise = random.noise2D(ppx, ppy)
       const y = lerp(margin, size - margin - boxSize, py)
-      const lines = Math.ceil(lerp(8, maxlines, ppy))
-      const lineWidth = boxSize / lines
+      const lines = Math.ceil(lerp(1, 4, Math.abs(noise)))
 
       ctx.save()
       ctx.translate(x, y)
       ctx.lineWidth = 1
-      if (DEBUG) {
-        ctx.fillStyle = '#f5f5f5'
-        ctx.fillRect(0, 0, boxSize, boxSize)
-      }
+      ctx.lineCap = 'butt'
+      ctx.lineJoin = 'bevel'
+      ctx.fillStyle = 'red'
 
       const upperLimit = 0
       const lowerLimit = boxSize
@@ -53,36 +48,12 @@ const sketch009: SketchFn = ({ ctx, size, random }) => {
       const spaceAboveBaseline = baseline
       const spaceBelowBaseline = lowerLimit - baseline
       const rowHasSpaceAbove = baseline !== 0
-      const noise = random.noise2D(px, py)
 
       ctx.beginPath()
-
-      for (let line = 0; line < lines; line++) {
-        const pl = line / (lines - 1 || 1)
-        const ppl = getInvertedNormalDistribution(pl)
-
-        const renderAbove = rowHasSpaceAbove ? random.chance(py) : false
-
-        const maxYOffset = renderAbove ? spaceAboveBaseline : spaceBelowBaseline
-        const yOffset = maxYOffset
-
-        const startX = lerp(0, boxSize - lineWidth, pl)
-        const startY = baseline
-
-        const endX = startX + lineWidth
-        const endY = lerp(
-          baseline,
-          renderAbove
-            ? baseline - yOffset * Math.max(0.1, noise)
-            : baseline + yOffset * Math.max(0.1, noise),
-          ppl
-        )
-
-        ctx.lineTo(startX, startY)
-        ctx.lineTo(endX, endY)
-      }
-
+      ctx.arc(0, 0, boxSize * 0.5, Math.PI * noise, Math.PI)
       ctx.stroke()
+      ctx.closePath()
+
       ctx.restore()
     }
     ctx.restore()
