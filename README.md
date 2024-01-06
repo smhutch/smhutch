@@ -6,30 +6,31 @@
 
 ## Technologies
 
-- [Next.js](https://nextjs.org/) — SSG.
-- [MDX](https://mdxjs.com/) — MD composition.
+- [Bun](https://bun.sh/)
+- [Next.js](https://nextjs.org/)
+- [MDX](https://mdxjs.com/)
 
 ## Scripts
 
 ```sh
 # Start dev server.
-yarn dev
+bun run dev
 
 # Build site for production.
-yarn build
+bun run build
 
 # Serve production build.
-yarn start
+bun run start
 
 # Analyze bundlesize.
-yarn analyze
+bun run analyze
 
 # Lint JS.
-yarn lint
+bun run lint
 
 # Generate sketch previews
-yarn meta:start
-yarn meta:generate
+bun run meta:start
+bun run meta:generate
 ```
 
 ## Production

@@ -6,7 +6,7 @@ import type { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '001',
   title: 'Noise grid',
-  initialSeed: '321268',
+  initialSeed: 321268,
 }
 
 const sketch001: SketchFn = ({ ctx, size, random }) => {

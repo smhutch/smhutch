@@ -5,7 +5,7 @@ import type { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '002',
   title: 'Bezier Arcs',
-  initialSeed: '934012',
+  initialSeed: 934012,
 }
 
 const sketch002: SketchFn = ({ ctx, size, random }) => {
@@ -13,9 +13,7 @@ const sketch002: SketchFn = ({ ctx, size, random }) => {
   ctx.strokeStyle = 'black'
   ctx.lineWidth = 1
 
-  // Geometry
   const margin = size * 0.1
-
   const sectionCount = random.rangeFloor(3, 8)
 
   const ySpace = size - margin * 2
@@ -46,13 +44,10 @@ const sketch002: SketchFn = ({ ctx, size, random }) => {
 
       ctx.moveTo(xStart, y)
       ctx.bezierCurveTo(
-        // Control point 1
         lerp(xRange * 0.1, xRange * 0.8, lineP),
         y - ySpaceSection * 1.4 * noise,
-        // Control point 2
         lerp(xRange * 0.1, xRange * 0.8, sectionP),
         y + ySpaceSection * 1.4 * noise,
-        // End point
         xEnd,
         y
       )

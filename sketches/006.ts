@@ -5,7 +5,7 @@ import { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '006',
   title: 'Merge',
-  initialSeed: '41029',
+  initialSeed: 41029,
 }
 
 const sketch006: SketchFn = ({ ctx, size, random }) => {

@@ -5,7 +5,7 @@ import { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '007',
   title: 'Routes',
-  initialSeed: '428556',
+  initialSeed: 428556,
 }
 
 const sketch007: SketchFn = ({ ctx, size, random }) => {

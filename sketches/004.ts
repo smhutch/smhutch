@@ -6,7 +6,7 @@ import type { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '004',
   title: 'Convergence',
-  initialSeed: '873674',
+  initialSeed: 873674,
 }
 
 const sketch004: SketchFn = ({ ctx, size, random }) => {

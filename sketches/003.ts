@@ -5,7 +5,7 @@ import type { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '003',
   title: 'Photo grid',
-  initialSeed: '887280',
+  initialSeed: 49562,
   images: [
     {
       src: '/open/surf.jpg',

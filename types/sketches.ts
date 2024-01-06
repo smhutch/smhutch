@@ -23,7 +23,7 @@ export type SketchFn = (options: {
 export type SketchSettings = {
   id: string
   title: string
-  initialSeed: string
+  initialSeed: number
   images?: SketchAsset[]
 }
 

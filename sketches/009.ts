@@ -6,7 +6,7 @@ import { SketchFn, SketchSettings } from 'types/sketches'
 export const settings: SketchSettings = {
   id: '009',
   title: 'Spark',
-  initialSeed: '653121',
+  initialSeed: 653121,
 }
 
 const DEBUG = false

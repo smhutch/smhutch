@@ -26,7 +26,7 @@ const CANVAS_SIZE = 600
 const isPuppeteer = process.env.IS_PUPPETEER
 
 type Props = SketchSettings & {
-  initialSeed: string
+  initialSeed: number
   next?: string | null
   prev?: string | null
   random: Random
@@ -73,7 +73,7 @@ export const Sketch: React.FC<Props> = (props) => {
     // is empty on first render, which creates a race condition.
     const url = new URL(document.location.href)
     const params = new URLSearchParams(url.search)
-    const urlSeed = params.get('seed')
+    const urlSeed = Number(params.get('seed'))
     if (urlSeed) {
       random.setSeed(urlSeed)
       reseed(urlSeed)
