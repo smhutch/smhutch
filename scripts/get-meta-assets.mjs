@@ -1,7 +1,11 @@
+#!/usr/bin/env zx
+
+import 'zx/globals'
+
 import fs from 'fs'
 import path from 'path'
 
-import puppeteer from 'puppeteer'
+import { chromium } from 'playwright'
 
 const sketchDir = path.join(process.cwd(), '/sketches')
 
@@ -27,12 +31,20 @@ const getSketchImages = async () => {
   }
 
   const getImages = async (ids) => {
+    const browser = await chromium.launch({ headless: false })
+
+    // Create a new incognito browser context
+    const context = await browser.newContext()
+    // Create a new page inside context.
+    const page = await context.newPage()
+    await page.goto('https://example.com')
+
     // use headless: false to debug.
-    const browser = await puppeteer.launch({ headless: true })
-    const page = await browser.newPage()
+    // const browser = await pw.launch({ headless: true })
+    // const page = await browser.newPage()
 
     // Sized for OG meta images.
-    await page.setViewport({
+    await page.setViewportSize({
       width: 1200,
       height: 630,
     })
@@ -51,12 +63,14 @@ const getSketchImages = async () => {
       await page.screenshot({ path: `${outDir}/meta.png` })
 
       const canvas = await page.$('canvas')
+      console.log(canvas)
       await canvas.screenshot({ path: `${outDir}/preview.png` })
 
       console.log(`${id} — Assets created.`)
     }
 
-    await browser.close()
+    debugger
+    // await browser.close()
   }
 
   await getImages(idsToGenerate)

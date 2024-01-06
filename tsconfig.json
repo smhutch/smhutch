@@ -36,5 +36,5 @@
     "**/*.ts",
     "**/*.tsx",
     ".contentlayer/generated"
-  ]
+, "scripts/get-meta-assets.mjs"  ]
 }
