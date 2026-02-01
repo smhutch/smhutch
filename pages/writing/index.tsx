@@ -1,5 +1,5 @@
-import { type Post, allPosts } from 'contentlayer/generated'
 import { format, parseISO } from 'date-fns'
+import { type PostMeta, getAllPosts } from 'lib/content'
 import type { GetStaticProps, InferGetServerSidePropsType } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import type React from 'react'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
 
-type PageProps = { posts: Post[] }
+type PageProps = { posts: PostMeta[] }
 
 const postLinkStyles = css({
   display: 'block',
@@ -42,7 +42,7 @@ const Writing: React.FC<PageProps> = (
             const postDate = parseISO(post.date)
 
             return (
-              <li key={post._id}>
+              <li key={post.slug}>
                 <Link
                   className={postLinkStyles}
                   href={getRoute({
@@ -76,7 +76,7 @@ const Writing: React.FC<PageProps> = (
 }
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const posts = allPosts.sort(
+  const posts = getAllPosts().sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   )
 

@@ -11,21 +11,13 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
-    "paths": {
-      "contentlayer/generated": ["./.contentlayer/generated"]
-    },
+    "paths": {},
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es5",
     "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "exclude": ["node_modules", "typings"],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".contentlayer/generated",
-    "scripts/get-meta-assets.mjs"
-  ]
+  "exclude": ["node_modules", "typings", "scripts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
