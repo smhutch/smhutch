@@ -1,7 +1,7 @@
 import { sketchIndex } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
 import { motion } from 'framer-motion'
-import { GetStaticProps } from 'next'
+import type { GetStaticProps } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -9,7 +9,7 @@ import { css, cx } from 'system/css'
 import { Container } from 'system/jsx'
 import { flex, stack } from 'system/patterns'
 
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 const CANVAS_SIZE = 1000
 

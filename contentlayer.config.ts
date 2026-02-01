@@ -4,7 +4,7 @@ import remarkSmartypants from 'remark-smartypants'
 
 export const Post = defineDocumentType(() => ({
   name: 'Post',
-  filePathPattern: `posts/**/*.mdx`,
+  filePathPattern: 'posts/**/*.mdx',
   contentType: 'mdx',
   fields: {
     date: { type: 'date', required: true },

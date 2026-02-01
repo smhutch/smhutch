@@ -1,9 +1,9 @@
-import { Post, allPosts } from 'contentlayer/generated'
+import { type Post, allPosts } from 'contentlayer/generated'
 import { format, parseISO } from 'date-fns'
-import { GetStaticProps, InferGetServerSidePropsType } from 'next'
+import type { GetStaticProps, InferGetServerSidePropsType } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
-import React from 'react'
+import type React from 'react'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
 

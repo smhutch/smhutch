@@ -1,14 +1,14 @@
 import { DiscIcon } from '@radix-ui/react-icons'
-import { Post, allPosts } from 'contentlayer/generated'
+import { type Post, allPosts } from 'contentlayer/generated'
 import { DOT } from 'data/typography'
 import { format, parseISO } from 'date-fns'
-import {
+import type {
   GetStaticPaths,
   GetStaticProps,
   InferGetServerSidePropsType,
 } from 'next'
 import { useMDXComponent } from 'next-contentlayer/hooks'
-import React from 'react'
+import type React from 'react'
 import { css } from 'system/css'
 import { Container, Divider, Flex } from 'system/jsx'
 
@@ -85,8 +85,8 @@ export const getStaticPaths: GetStaticPaths<PageParams> = async (_ctx) => {
 }
 
 export const getStaticProps: GetStaticProps<PageProps> = async ({ params }) => {
-  if (!params) throw new Error(`No params`)
-  if (!params.slug) throw new Error(`No slug param`)
+  if (!params) throw new Error('No params')
+  if (!params.slug) throw new Error('No slug param')
 
   const post = allPosts.find((post) => post.slug === params.slug)
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`)

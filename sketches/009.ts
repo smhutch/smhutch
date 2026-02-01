@@ -1,7 +1,7 @@
 import { lerp } from 'canvas-sketch-util/math'
 
 import { getInvertedNormalDistribution } from 'lib/canvas'
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '009',
