@@ -59,8 +59,8 @@ const getSketchImages = async () => {
       // Screenshot entire page, for meta image
       await page.screenshot({ path: `${outDir}/meta.png` })
 
-      const canvas = await page.$('canvas')
-      console.log(canvas)
+      const _canvas = await page.$('canvas')
+      // console.log(canvas)
       // await canvas.screenshot({ path: `${outDir}/preview.png` })
 
       // console.log(`${id} — Assets created.`)
