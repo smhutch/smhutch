@@ -12,16 +12,17 @@ const sketchDir = path.join(process.cwd(), '/sketches')
 const sketchFiles = fs
   .readdirSync(sketchDir)
   .map((filename) => filename.replace('.ts', ''))
+  .filter((filename) => filename !== 'index')
 
 const getSketchImages = async () => {
   const ids = sketchFiles
   const publicSketchAssets = path.join(process.cwd(), 'public/sketches')
 
   const idsToGenerate = ids.filter((id) => {
-    const needsPreview = !fs.existsSync(
-      `${publicSketchAssets}/${id}/preview.png`
-    )
-    return needsPreview
+    // const needsMetaImage = !fs.existsSync(
+    //   `${publicSketchAssets}/${id}/preview.png`
+    // )
+    // return needsMetaImage
   })
 
   // Only proceed if assets have not already been generated.
@@ -31,17 +32,11 @@ const getSketchImages = async () => {
   }
 
   const getImages = async (ids) => {
+    // use headless: false to debug.
     const browser = await chromium.launch({ headless: false })
 
-    // Create a new incognito browser context
-    const context = await browser.newContext()
-    // Create a new page inside context.
-    const page = await context.newPage()
-    await page.goto('https://example.com')
-
-    // use headless: false to debug.
-    // const browser = await pw.launch({ headless: true })
-    // const page = await browser.newPage()
+    const browserContext = await browser.newContext()
+    const page = await browserContext.newPage()
 
     // Sized for OG meta images.
     await page.setViewportSize({
@@ -56,20 +51,21 @@ const getSketchImages = async () => {
         fs.mkdirSync(outDir)
       }
 
+      console.log(id, ids)
+
       // Go to meta page
-      await page.goto(`http://localhost:5000/sketches/${id}?pupeteer=true`)
+      await page.goto(`http://localhost:8000/sketches/${id}`)
 
       // Screenshot entire page, for meta image
       await page.screenshot({ path: `${outDir}/meta.png` })
 
       const canvas = await page.$('canvas')
+      debugger
       console.log(canvas)
-      await canvas.screenshot({ path: `${outDir}/preview.png` })
+      // await canvas.screenshot({ path: `${outDir}/preview.png` })
 
-      console.log(`${id} — Assets created.`)
+      // console.log(`${id} — Assets created.`)
     }
-
-    debugger
     // await browser.close()
   }
 
