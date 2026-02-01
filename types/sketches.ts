@@ -1,4 +1,4 @@
-import { Random } from 'canvas-sketch-util/random'
+import type { Random } from 'canvas-sketch-util/random'
 
 export type SketchAsset = {
   src: string

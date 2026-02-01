@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
-import { SketchSettings } from 'types/sketches'
+import type { SketchSettings } from 'types/sketches'
 
 const sketchDir = path.join(process.cwd(), '/sketches')
 const sketchFiles = fs
@@ -17,17 +17,15 @@ export const sketchIds = (): string[] => {
 type SketchIndex = Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
 export const sketchIndex = (): SketchIndex[] => {
   const index = sketchFiles
-    .map(
-      (fileName): SketchIndex => {
-        const { initialSeed, title } = sketchSettings(fileName)
+    .map((fileName): SketchIndex => {
+      const { initialSeed, title } = sketchSettings(fileName)
 
-        return {
-          id: fileName.replace('.js', ''),
-          initialSeed,
-          title,
-        }
+      return {
+        id: fileName.replace('.js', ''),
+        initialSeed,
+        title,
       }
-    )
+    })
     .reverse()
 
   return index
@@ -40,7 +38,7 @@ export const sketchSettings = (fileName: string): SketchSettings => {
   try {
     const sketch: Sketch = require(`../sketches/${fileName}`)
     return sketch.settings
-  } catch (error) {
+  } catch (_error) {
     throw new Error(`Could not find sketch settings for ${fileName}`)
   }
 }

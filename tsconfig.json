@@ -7,11 +7,7 @@
     "incremental": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
@@ -22,19 +18,14 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es5",
-    "typeRoots": [
-      "./typings",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./typings", "./node_modules/@types"]
   },
-  "exclude": [
-    "node_modules",
-    "typings"
-  ],
+  "exclude": ["node_modules", "typings"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".contentlayer/generated"
-, "scripts/get-meta-assets.mjs"  ]
+    ".contentlayer/generated",
+    "scripts/get-meta-assets.mjs"
+  ]
 }

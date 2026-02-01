@@ -1,6 +1,6 @@
 import { lerp } from 'canvas-sketch-util/math'
 
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '007',

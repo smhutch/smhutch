@@ -2,8 +2,8 @@
 
 import 'zx/globals'
 
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 import { chromium } from 'playwright'
 
@@ -16,9 +16,9 @@ const sketchFiles = fs
 
 const getSketchImages = async () => {
   const ids = sketchFiles
-  const publicSketchAssets = path.join(process.cwd(), 'public/sketches')
+  const _publicSketchAssets = path.join(process.cwd(), 'public/sketches')
 
-  const idsToGenerate = ids.filter((id) => {
+  const idsToGenerate = ids.filter((_id) => {
     // const needsMetaImage = !fs.existsSync(
     //   `${publicSketchAssets}/${id}/preview.png`
     // )
@@ -59,9 +59,8 @@ const getSketchImages = async () => {
       // Screenshot entire page, for meta image
       await page.screenshot({ path: `${outDir}/meta.png` })
 
-      const canvas = await page.$('canvas')
-      debugger
-      console.log(canvas)
+      const _canvas = await page.$('canvas')
+      // console.log(canvas)
       // await canvas.screenshot({ path: `${outDir}/preview.png` })
 
       // console.log(`${id} — Assets created.`)

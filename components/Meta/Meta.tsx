@@ -22,7 +22,7 @@ export const Meta: React.FC<Props> = ({
     <Head>
       <title>{title}</title>
       <meta content={title} property="og:title" />
-      <meta content={title} name="twitter:title"></meta>
+      <meta content={title} name="twitter:title" />
       {description && (
         <>
           <meta content={description} name="description" />
