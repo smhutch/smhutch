@@ -6,7 +6,6 @@
   "dependencies": {
     "@floating-ui/react": "^0.25.4",
     "@markdoc/markdoc": "^0.5.4",
-    "@markdoc/next.js": "^0.5.0",
     "@mdx-js/loader": "^1.6.19",
     "@mdx-js/mdx": "^2.3.0",
     "@next/bundle-analyzer": "^10.0.0",

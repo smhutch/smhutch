@@ -1,4 +1,3 @@
-import withMarkdoc from '@markdoc/next.js'
 import bundleAnalyzerPlugin from '@next/bundle-analyzer'
 import typeSafeRoutes from 'next-type-safe-routes/plugin.js'
 
@@ -10,10 +9,7 @@ const getConfig = (_phase, { defaultConfig }) => {
   /**
    * @type {import('next').NextConfig}
    */
-  const config = withMarkdoc()({
-    ...defaultConfig,
-    pageExtensions: ['md', 'tsx'],
-  })
+  const config = defaultConfig
 
   if (TYPE === 'ROUTES') {
     return typeSafeRoutes({
