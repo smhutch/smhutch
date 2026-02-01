@@ -39,16 +39,18 @@ export function getAllPosts(): PostMeta[] {
   for (const filename of mdFiles) {
     const filePath = path.join(CONTENT_DIR, filename)
     const raw = fs.readFileSync(filePath, 'utf-8')
-    const { data, content } = matter(raw)
+    const { data: frontmatter, content } = matter(raw)
+    const config = postFrontmatterSchema.parse(frontmatter)
+    const { title, subtitle, date } = config
 
     const slug = getSlug(filename)
-    const readingTimeResult = readingTime(content, { wordsPerMinute: 275 })
+    const readingTimeResult = getReadingTime(content)
 
     posts.push({
       slug,
-      title: data.title as string,
-      subtitle: data.subtitle as string,
-      date: data.date as string,
+      title,
+      subtitle,
+      date,
       readingTime: readingTimeResult.text,
     })
   }
@@ -65,12 +67,12 @@ export function getPostBySlug(slug: string): Post | null {
   }
 
   const raw = fs.readFileSync(filePath, 'utf-8')
-  const { data: frontmatter, content } = matter(raw)
 
+  const { data: frontmatter, content } = matter(raw)
   const config = postFrontmatterSchema.parse(frontmatter)
   const { title, subtitle, date } = config
 
-  const readingTimeResult = readingTime(content, { wordsPerMinute: 275 })
+  const readingTimeResult = getReadingTime(content)
 
   const ast = Markdoc.parse(content)
   const renderable = Markdoc.transform(ast, markdocConfig)
@@ -89,4 +91,8 @@ export function getPostBySlug(slug: string): Post | null {
     readingTime: readingTimeResult.text,
     content: contentTree,
   }
+}
+
+const getReadingTime = (content: string) => {
+  return readingTime(content, { wordsPerMinute: 275 })
 }
