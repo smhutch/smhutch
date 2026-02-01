@@ -1,6 +1,6 @@
 import { sketchIds, sketchSettings } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 
 import { Sketch } from 'layouts/Sketch'
 import { getSketchPagination } from 'lib/pagination'
