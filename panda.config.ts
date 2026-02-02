@@ -21,9 +21,10 @@ export default defineConfig({
     },
   },
 
-  // Useful for theme customization
   theme: {
-    extend: {},
+    extend: {
+      tokens: {},
+    },
   },
 
   // Fix backdrop-filter: preset emits -webkit last, which overrides standard. Put standard last so it wins.
@@ -43,7 +44,6 @@ export default defineConfig({
   patterns: {
     extend: {
       container: definePattern({
-        description: 'foo',
         transform: (props) => {
           return {
             paddingX: 6,
