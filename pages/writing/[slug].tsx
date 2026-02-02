@@ -1,18 +1,16 @@
 import { DiscIcon } from '@radix-ui/react-icons'
-import { type Post, allPosts } from 'contentlayer/generated'
+import { renderMarkdoc } from 'components/markdoc'
 import { DOT } from 'data/typography'
 import { format, parseISO } from 'date-fns'
+import { type Post, getAllPosts, getPostBySlug } from 'lib/content'
 import type {
   GetStaticPaths,
   GetStaticProps,
   InferGetServerSidePropsType,
 } from 'next'
-import { useMDXComponent } from 'next-contentlayer/hooks'
 import type React from 'react'
 import { css } from 'system/css'
 import { Container, Divider, Flex } from 'system/jsx'
-
-import { MDX_COMPONENTS } from 'components/Mdx'
 
 type PageParams = { slug: string }
 type PageProps = { post: Post }
@@ -21,8 +19,8 @@ const Article: React.FC<PageProps> = (
   props: InferGetServerSidePropsType<typeof getStaticProps>
 ) => {
   const { post } = props
-  const Mdx = useMDXComponent(post.body.code)
   const postDate = parseISO(post.date)
+  const content = renderMarkdoc(post.content)
 
   return (
     <div>
@@ -65,7 +63,7 @@ const Article: React.FC<PageProps> = (
           </p>
         </Flex>
         <Divider color="gray.200" mb={8} mt={4} />
-        <Mdx components={MDX_COMPONENTS} />
+        {content}
       </Container>
     </div>
   )
@@ -73,22 +71,19 @@ const Article: React.FC<PageProps> = (
 
 export const getStaticPaths: GetStaticPaths<PageParams> = async (_ctx) => {
   return {
-    paths: allPosts.map((post) => {
-      const slug = post._raw.sourceFileName.replace('.mdx', '')
-
-      return {
-        params: { slug },
-      }
-    }),
+    paths: getAllPosts().map((post) => ({
+      params: { slug: post.slug },
+    })),
     fallback: false,
   }
 }
 
 export const getStaticProps: GetStaticProps<PageProps> = async ({ params }) => {
   if (!params) throw new Error('No params')
-  if (!params.slug) throw new Error('No slug param')
+  const slug = params.slug
+  if (!slug || Array.isArray(slug)) throw new Error('No slug param')
 
-  const post = allPosts.find((post) => post.slug === params.slug)
+  const post = getPostBySlug(slug)
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`)
 
   return {

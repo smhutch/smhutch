@@ -50,7 +50,6 @@
         "pages/**/*.tsx",
         "pages/**/*.ts",
         "next.config.mjs",
-        "contentlayer.config.ts",
         "panda.config.ts",
         "app/**/*.tsx",
         "app/**/*.ts",

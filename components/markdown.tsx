@@ -91,12 +91,14 @@ const Anchor: React.FC<{ href: string }> = (props) => {
   )
 }
 
-export const MDX_COMPONENTS = {
+/** Map for Markdoc.renderers.react (tag names: h1, h2, h3, p, a, ul, ol, li) */
+export const MARKDOC_COMPONENTS = {
   a: Anchor,
   h1: Heading1,
   h2: Heading2,
   h3: Heading3,
   p: Paragraph,
   ul: Ul,
+  ol: Ul,
   li: Li,
 }

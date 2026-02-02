@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@floating-ui/react": "^0.25.4",
+    "@markdoc/markdoc": "^0.5.4",
     "@mdx-js/loader": "^1.6.19",
     "@mdx-js/mdx": "^2.3.0",
     "@next/bundle-analyzer": "^10.0.0",
@@ -14,15 +15,15 @@
     "@react-three/fiber": "^7.0.19",
     "@types/eases": "^1.0.1",
     "@vercel/analytics": "^1.0.1",
+    "arktype": "^2.1.29",
     "canvas-sketch-util": "^1.10.0",
     "chroma-js": "^2.4.2",
-    "contentlayer": "^0.3.4",
     "date-fns": "^2.30.0",
     "eases": "^1.0.8",
     "framer-motion": "^10.16.0",
+    "gray-matter": "^4.0.3",
     "leva": "^0.9.35",
     "next": "^13.4.12",
-    "next-contentlayer": "^0.3.4",
     "next-type-safe-routes": "^0.3.1-alpha.1",
     "nice-color-palettes": "^3.0.0",
     "p5": "^1.7.0",
@@ -38,7 +39,8 @@
     "remark-smartypants": "^2.0.0",
     "seed-random": "^2.2.0",
     "simplex-noise": "^3.0.0",
-    "three": "^0.134.0"
+    "three": "^0.134.0",
+    "zod": "^4.3.6"
   },
   "scripts": {
     "analyze": "BUILD_TYPE=ANALYZE yarn build",
