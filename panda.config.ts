@@ -26,6 +26,20 @@ export default defineConfig({
     extend: {},
   },
 
+  // Fix backdrop-filter: preset emits -webkit last, which overrides standard. Put standard last so it wins.
+  utilities: {
+    extend: {
+      backdropFilter: {
+        transform(value: string) {
+          return {
+            WebkitBackdropFilter: value,
+            backdropFilter: value,
+          }
+        },
+      },
+    },
+  },
+
   patterns: {
     extend: {
       container: definePattern({
