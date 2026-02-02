@@ -1,4 +1,4 @@
-import type { Variant } from 'framer-motion'
+import type { Variant } from 'motion/react'
 
 const createMotionConfig = <VariantMap extends Record<string, Variant>>(
   variants: Record<string, VariantMap>,

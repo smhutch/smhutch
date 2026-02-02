@@ -1,6 +1,6 @@
 import { sketchIndex } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { GetStaticProps } from 'next'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'

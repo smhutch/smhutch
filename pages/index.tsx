@@ -1,7 +1,7 @@
 import { lerp } from 'canvas-sketch-util/math'
 import { link } from 'css/link'
 import { WEB_LINKS, WORK_LINKS } from 'data/resources'
-import { motion, useSpring } from 'framer-motion'
+import { motion, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
