@@ -15,8 +15,6 @@ import type { SketchAsset, SketchFn, SketchSettings } from 'types/sketches'
 
 const CANVAS_SIZE = 600
 
-const _isPuppeteer = process.env.IS_PUPPETEER
-
 type Props = SketchSettings & {
   initialSeed: number
   next?: string | null

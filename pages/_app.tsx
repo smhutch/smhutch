@@ -9,8 +9,6 @@ import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { GlobalMeta } from 'components/Meta'
 
-const isPuppeteer = process.env.IS_PUPPETEER
-
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
@@ -24,13 +22,11 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           overflowY: 'auto',
         })}
       >
-        {!isPuppeteer && <Header />}
+        <Header />
         <Component {...pageProps} />
-        {!isPuppeteer && (
-          <div className={css({ marginTop: 'auto' })}>
-            <Footer />
-          </div>
-        )}
+        <div className={css({ marginTop: 'auto' })}>
+          <Footer />
+        </div>
       </div>
     </>
   )
