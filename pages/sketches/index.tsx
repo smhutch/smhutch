@@ -225,7 +225,7 @@ const SketchGridItem = (
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sketches = sketchIndex()
+  const sketches = await sketchIndex()
 
   return {
     props: {

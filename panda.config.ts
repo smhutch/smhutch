@@ -1,6 +1,5 @@
 import { defineConfig, definePattern } from '@pandacss/dev'
 
-// eslint-disable-next-line import/no-default-export
 export default defineConfig({
   // Whether to use css reset
   preflight: true,

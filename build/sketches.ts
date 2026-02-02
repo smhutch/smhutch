@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -15,28 +14,29 @@ export const sketchIds = (): string[] => {
 }
 
 type SketchIndex = Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
-export const sketchIndex = (): SketchIndex[] => {
-  const index = sketchFiles
-    .map((fileName): SketchIndex => {
-      const { initialSeed, title } = sketchSettings(fileName)
 
+export const sketchIndex = async (): Promise<SketchIndex[]> => {
+  const sketches = await Promise.all(
+    sketchFiles.map(async (fileName) => {
+      const { initialSeed, title, id } = await sketchSettings(fileName)
       return {
-        id: fileName.replace('.js', ''),
+        id: id ?? fileName.replace('.js', ''),
         initialSeed,
         title,
       }
     })
-    .reverse()
-
-  return index
+  )
+  return sketches.reverse()
 }
 
 type Sketch = {
   settings: SketchSettings
 }
-export const sketchSettings = (fileName: string): SketchSettings => {
+
+export const sketchSettings = async (fileName: string): Promise<SketchSettings> => {
   try {
-    const sketch: Sketch = require(`../sketches/${fileName}`)
+    // Use dynamic import for async behavior instead of require
+    const sketch: Sketch = await import(`../sketches/${fileName}`)
     return sketch.settings
   } catch (_error) {
     throw new Error(`Could not find sketch settings for ${fileName}`)

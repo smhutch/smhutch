@@ -23,7 +23,7 @@ export const getStaticProps: GetStaticProps<
   if (!params) throw new Error('No params')
 
   const sketchId = params.sketch
-  const settings = sketchSettings(sketchId)
+  const settings = await sketchSettings(sketchId)
   const paginationProps = getSketchPagination(sketchId)
 
   return {
