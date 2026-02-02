@@ -1,4 +1,3 @@
-import { DiscIcon } from '@radix-ui/react-icons'
 import { renderMarkdoc } from 'components/markdoc'
 import { DOT } from 'data/typography'
 import { format, parseISO } from 'date-fns'
@@ -55,7 +54,6 @@ const Article: React.FC<PageProps> = (
           fontSize="xs"
           gap={2}
         >
-          <DiscIcon />
           <p className={css({ color: 'gray.600' })}>{post.readingTime}</p>
           <span className={css({ color: 'gray.400' })}>{DOT}</span>
           <p className={css({ color: 'gray.600' })}>

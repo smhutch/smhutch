@@ -33,4 +33,3 @@ A few years ago I cared a lot less about type-safety than I do now. In this
 refresh I added some missing type-coverage, and added a few libraries to help:
 
 - [TypeScript](https://www.typescriptlang.org/) for type-safety.
-- [next-type-safe-routes](#) for type-safety.
