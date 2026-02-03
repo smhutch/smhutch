@@ -13,7 +13,9 @@ const sketchIds = fs
   .filter((id) => id !== 'index')
 
 async function captureOne(
-  context: Awaited<ReturnType<Awaited<ReturnType<typeof chromium.launch>>['newContext']>>,
+  context: Awaited<
+    ReturnType<Awaited<ReturnType<typeof chromium.launch>>['newContext']>
+  >,
   id: string,
   baseUrl: string,
   outDir: string
@@ -30,7 +32,7 @@ async function captureOne(
     const canvas = page.locator('canvas').first()
     const count = await page.locator('canvas').count()
 
-    console.log({count})
+    console.log({ count })
 
     if (count > 0) {
       await canvas.screenshot({ path: path.join(outDir, id, 'preview.png') })

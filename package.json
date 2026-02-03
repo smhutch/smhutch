@@ -45,6 +45,7 @@
     "meta:generate": "bun scripts/get-meta-assets.ts",
     "prepare": "panda codegen",
     "start": "next start",
+    "types": "tsc --noEmit",
     "unused": "knip"
   },
   "devDependencies": {

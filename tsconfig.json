@@ -7,34 +7,25 @@
     "incremental": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
-    "paths": {},
+    "paths": {
+      "@/*": ["./*"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es5",
-    "typeRoots": [
-      "./typings",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./typings", "./node_modules/@types"],
     "plugins": [
       {
         "name": "next"
       }
     ]
   },
-  "exclude": [
-    "node_modules",
-    "typings",
-    "scripts"
-  ],
+  "exclude": ["node_modules", "typings", "scripts"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

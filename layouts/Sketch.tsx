@@ -1,7 +1,8 @@
 import { CodeIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
 import type { Random } from 'canvas-sketch-util/random'
+import { Meta } from 'components/Meta'
+import { DOT } from 'constants/typography'
 import { link } from 'css/link'
-import { DOT } from 'data/typography'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,8 +10,6 @@ import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { css } from 'system/css'
 import { Container, Flex } from 'system/jsx'
 import { flex, stack } from 'system/patterns'
-
-import { Meta } from 'components/Meta'
 import type { SketchAsset, SketchFn, SketchSettings } from 'types/sketches'
 
 const CANVAS_SIZE = 600
