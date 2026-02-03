@@ -5,7 +5,7 @@ import { DOT } from 'data/typography'
 import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useRef, useState } from 'react'
+import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { css } from 'system/css'
 import { Container, Flex } from 'system/jsx'
 import { flex, stack } from 'system/patterns'
@@ -20,6 +20,7 @@ type Props = SketchSettings & {
   next?: string | null
   prev?: string | null
   random: Random
+  mode: 'app' | 'meta'
 }
 
 export const Sketch: React.FC<Props> = (props) => {
@@ -288,7 +289,7 @@ export const Sketch: React.FC<Props> = (props) => {
   )
 }
 
-const DetailsRow: React.FC<{ icon: React.ReactNode }> = (props) => {
+const DetailsRow = (props: PropsWithChildren<{ icon: React.ReactNode }>) => {
   return (
     <div
       className={css({
