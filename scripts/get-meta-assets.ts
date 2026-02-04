@@ -4,8 +4,9 @@ import path from 'node:path'
 import { chromium } from 'playwright'
 
 const sketchDir = path.join(process.cwd(), 'sketches')
-const FORCE_GENERATE = false
+const CONCURRENCY = 10
 const META_VIEWPORT = { width: 1200, height: 630 }
+const FORCE_GENERATE = true
 
 const sketchIds = fs
   .readdirSync(sketchDir)
@@ -62,10 +63,17 @@ async function getSketchImages() {
   const browser = await chromium.launch({ headless: true })
   const context = await browser.newContext()
 
-  for (const id of idsToGenerate) {
-    const outDir = path.join(outBaseDir, id)
-    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
-    await captureOne({ context, id, baseUrl, outDir: outBaseDir })
+  for (let i = 0; i < idsToGenerate.length; i += CONCURRENCY) {
+    const batch = idsToGenerate.slice(i, i + CONCURRENCY)
+    for (const id of batch) {
+      const outDir = path.join(outBaseDir, id)
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true })
+    }
+    await Promise.all(
+      batch.map((id) =>
+        captureOne({ context, id, baseUrl, outDir: outBaseDir })
+      )
+    )
   }
 
   await browser.close()

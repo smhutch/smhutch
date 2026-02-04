@@ -23,12 +23,15 @@ type Props = SketchSettings & {
 }
 
 export const Sketch: React.FC<Props> = (props) => {
-  const { id, random, initialSeed, next, prev, title } = props
+  const { id, mode, random, initialSeed, next, prev, title } = props
 
   const router = useRouter()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [asset, setAsset] = useState<SketchAsset | null>(null)
   const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
+
+  const isMeta = mode === 'meta'
+  const isApp = mode === 'app'
 
   useEffect(() => {
     const getSketch = async () => {
@@ -50,7 +53,7 @@ export const Sketch: React.FC<Props> = (props) => {
       random.setSeed(seed)
 
       const nextRoute = getRoute({
-        route: '/sketches/[sketch]',
+        route: isApp ? '/sketches/[sketch]' : '/sketches/meta/[sketch]',
         params: { sketch: id },
         query: { seed },
       })
@@ -213,14 +216,15 @@ export const Sketch: React.FC<Props> = (props) => {
                   {title}
                 </h1>
               </div>
-              <hr
+              {isApp && <hr
                 className={css({
                   background: 'gray.200',
                   height: '1px',
                   border: 'none',
                   my: 6,
                 })}
-              />
+              />}
+              {isApp && (
               <div className={stack({ gap: 2 })}>
                 <DetailsRow icon={<CodeIcon />}>
                   <Link
@@ -279,7 +283,7 @@ export const Sketch: React.FC<Props> = (props) => {
                     </span>
                   </DetailsRow>
                 )}
-              </div>
+              </div>)}
             </div>
           </div>
         </Container>
