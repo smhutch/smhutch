@@ -1,5 +1,5 @@
 import { lerp } from 'canvas-sketch-util/math'
-import { WEB_LINKS, WORK_LINKS } from 'contstants/resources'
+import { WEB_LINKS, WORK_LINKS } from 'constants/resources'
 import { link } from 'css/link'
 import { motion, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
