@@ -1,4 +1,3 @@
-import { lerp } from 'canvas-sketch-util/math'
 import { link } from 'css/link'
 import { WEB_LINKS, WORK_LINKS } from 'data/resources'
 import { motion, useSpring } from 'motion/react'
@@ -10,6 +9,7 @@ import { css } from 'system/css'
 import { Container } from 'system/jsx'
 import { container, flex, stack } from 'system/patterns'
 import { noop } from 'utils/helpers'
+import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
 import { Meta } from 'components/Meta'

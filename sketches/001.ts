@@ -1,5 +1,5 @@
-import { lerp } from 'canvas-sketch-util/math'
 import chroma from 'chroma-js'
+import { lerp } from 'utils/math'
 
 import type { SketchFn, SketchSettings } from 'types/sketches'
 

@@ -1,5 +1,5 @@
 import { sketchIds, sketchSettings } from 'build/sketches'
-import { createRandom } from 'canvas-sketch-util/random'
+import { createRandom } from 'lib/random'
 import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 
 import { Sketch } from 'layouts/Sketch'
