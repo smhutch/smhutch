@@ -2,7 +2,6 @@ import { CodeIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
 import type { Random } from 'canvas-sketch-util/random'
 import { link } from 'css/link'
 import { DOT } from 'data/typography'
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
@@ -49,11 +48,7 @@ export const Sketch: React.FC<Props> = (props) => {
       // Re-seed the random singleton
       random.setSeed(seed)
 
-      const nextRoute = getRoute({
-        route: '/sketches/[sketch]',
-        params: { sketch: id },
-        query: { seed },
-      })
+      const nextRoute = `/sketches/${id}?seed=${seed}`
 
       router.replace(nextRoute)
     }
@@ -111,9 +106,7 @@ export const Sketch: React.FC<Props> = (props) => {
     }
 
     const navigateToSketch = (id: string) => {
-      router.push(
-        getRoute({ route: '/sketches/[sketch]', params: { sketch: id } })
-      )
+      router.push(`/sketches/${id}`)
     }
 
     draw()
@@ -250,11 +243,7 @@ export const Sketch: React.FC<Props> = (props) => {
                       type="button"
                       onClick={() => {
                         router.replace(
-                          getRoute({
-                            route: '/sketches/[sketch]',
-                            params: { sketch: id },
-                            query: { seed: random.getRandomSeed() },
-                          })
+                          `/sketches/${id}?seed=${random.getRandomSeed()}`
                         )
                       }}
                     >

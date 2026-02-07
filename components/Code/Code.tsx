@@ -1,3 +1,4 @@
+import type React from 'react'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import js from 'react-syntax-highlighter/dist/cjs/languages/hljs/javascript'
 import ts from 'react-syntax-highlighter/dist/cjs/languages/hljs/typescript'
@@ -11,7 +12,7 @@ interface Props {
   className?: string
 }
 
-export const Code = ({ code, className = 'js' }: Props): JSX.Element => {
+export const Code = ({ code, className = 'js' }: Props): React.JSX.Element => {
   return (
     <>
       <SyntaxHighlighter

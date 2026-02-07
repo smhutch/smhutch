@@ -34,7 +34,7 @@
     "zod": "^4.3.6"
   },
   "scripts": {
-    "analyze": "BUILD_TYPE=ANALYZE yarn build",
+    "analyze": "BUILD_TYPE=ANALYZE bun run build",
     "build": "next build",
     "dev": "next dev",
     "generate:routes": "BUILD_TYPE=ROUTES next build",
@@ -51,6 +51,7 @@
     "@biomejs/biome": "^1.9.4",
     "@types/chroma-js": "^2.4.1",
     "@types/react": "^19.2.10",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "knip": "^3.12.0",
     "lefthook": "^2.1.0",
     "playwright": "^1.40.1",
