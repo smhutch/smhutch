@@ -42,10 +42,7 @@ const Writing: React.FC<PageProps> = (
 
             return (
               <li key={post.slug}>
-                <Link
-                  className={postLinkStyles}
-                  href={`/writing/${post.slug}`}
-                >
+                <Link className={postLinkStyles} href={`/writing/${post.slug}`}>
                   <h2
                     className={css({
                       fontSize: 'lg',
