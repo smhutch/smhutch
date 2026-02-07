@@ -1,4 +1,3 @@
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { css, cva } from 'system/css'
@@ -6,8 +5,8 @@ import { Container } from 'system/jsx'
 import { flex } from 'system/patterns'
 
 const LINKS = [
-  { href: getRoute('/writing'), label: 'Writing' },
-  { href: getRoute('/sketches'), label: 'Generative' },
+  { href: '/writing', label: 'Writing' },
+  { href: '/sketches', label: 'Generative' },
 ]
 
 export const Header: React.FC = () => {
