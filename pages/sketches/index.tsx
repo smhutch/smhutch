@@ -108,7 +108,7 @@ const SketchGridItem = (
     draw()
   }, [props.id, ready])
 
-  const href = `/sketches/${props.id}?seed=${props.initialSeed}`
+  const href = `/sketches/${props.id}?seed=${props.initialSeed}` as const
 
   return (
     <motion.li

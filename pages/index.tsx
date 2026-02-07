@@ -13,6 +13,7 @@ import { noop } from 'utils/helpers'
 import { STAGGER_FADE } from 'utils/motion'
 
 import { Meta } from 'components/Meta'
+import type { StringRoute } from 'types/next'
 
 const GAP = 12
 
@@ -264,7 +265,7 @@ const FooterLinkList = (props: {
       <motion.ul
         className={stack({
           gap: 2,
-          alignItems: 'flex-start',
+          align: 'flex-start',
         })}
       >
         {props.children}
@@ -273,7 +274,10 @@ const FooterLinkList = (props: {
   )
 }
 
-const ExternalFooterLinkListItem = (props: { label: string; href: string }) => {
+const ExternalFooterLinkListItem = (props: {
+  label: string
+  href: StringRoute
+}) => {
   return (
     <motion.li variants={STAGGER_FADE.variants.item}>
       <Link

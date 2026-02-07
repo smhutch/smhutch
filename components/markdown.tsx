@@ -2,6 +2,7 @@ import { link } from 'css/link'
 import Link from 'next/link'
 import type { PropsWithChildren } from 'react'
 import { css } from 'system/css'
+import type { StringRoute } from 'types/next'
 
 const Heading1 = (props: PropsWithChildren) => {
   return (
@@ -68,7 +69,7 @@ const Li = (props: PropsWithChildren) => {
   )
 }
 
-const Anchor = (props: PropsWithChildren<{ href: string }>) => {
+const Anchor = (props: PropsWithChildren<{ href: StringRoute }>) => {
   const isExternal = props.href && !props.href.startsWith('/')
   const className = link({ variant: 'underline' })
 
