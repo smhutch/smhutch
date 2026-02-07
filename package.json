@@ -43,7 +43,7 @@
     "format": "biome format --write .",
     "meta:start": "BUILD_TYPE=META next dev -p 8000",
     "meta:generate": "bun scripts/get-meta-assets.ts",
-    "prepare": "panda codegen",
+    "prepare": "panda codegen && lefthook install",
     "start": "next start",
     "unused": "knip"
   },
@@ -53,6 +53,7 @@
     "@types/react": "^19.2.10",
     "@types/react-syntax-highlighter": "^15.5.13",
     "knip": "5",
+    "lefthook": "^2.1.0",
     "playwright": "^1.40.1",
     "typescript": "^5.1.6"
   }
