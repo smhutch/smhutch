@@ -1,7 +1,7 @@
 import { CodeIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
-import type { Random } from 'canvas-sketch-util/random'
 import { link } from 'css/link'
 import { DOT } from 'data/typography'
+import type { Random } from 'lib/random'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
