@@ -4,7 +4,9 @@ import { Box, Container, Flex, Stack } from 'system/jsx'
 
 import { Button } from 'components/Button'
 
-const Story: React.FC<React.PropsWithChildren<{ heading: string; subheading?: string }>> = (props) => {
+const Story: React.FC<
+  React.PropsWithChildren<{ heading: string; subheading?: string }>
+> = (props) => {
   return (
     <Stack align="flex-start" gap={0} mb="24">
       <h2 className={css({ fontSize: '3xl', fontWeight: 'semibold', mb: 1 })}>
