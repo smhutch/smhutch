@@ -23,7 +23,7 @@
       }
     ]
   },
-  "exclude": ["node_modules", "typings", "scripts"],
+  "exclude": ["node_modules", "typings", "scripts", "**/*.test.ts"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
