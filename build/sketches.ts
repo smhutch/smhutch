@@ -33,7 +33,9 @@ type Sketch = {
   settings: SketchSettings
 }
 
-export const sketchSettings = async (fileName: string): Promise<SketchSettings> => {
+export const sketchSettings = async (
+  fileName: string
+): Promise<SketchSettings> => {
   try {
     // Use dynamic import for async behavior instead of require
     const sketch: Sketch = await import(`../sketches/${fileName}`)
