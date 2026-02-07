@@ -4,10 +4,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
       - name: Install
-        run: yarn
+        run: bun install
       - name: Lint
-        run: yarn lint
+        run: bun run lint
       - name: Types
-        run: yarn tsc
+        run: bun run tsc

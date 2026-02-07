@@ -34,7 +34,7 @@
     "zod": "^4.3.6"
   },
   "scripts": {
-    "analyze": "BUILD_TYPE=ANALYZE yarn build",
+    "analyze": "BUILD_TYPE=ANALYZE bun run build",
     "build": "next build",
     "dev": "next dev",
     "generate:routes": "BUILD_TYPE=ROUTES next build",
