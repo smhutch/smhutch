@@ -29,8 +29,7 @@ bun run analyze
 bun run lint
 
 # Generate sketch previews
-bun run meta:start
-bun run meta:generate
+bun run generate:meta
 ```
 
 ## Production

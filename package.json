@@ -26,17 +26,15 @@
     "zod": "^4.3.6"
   },
   "scripts": {
-    "analyze": "BUILD_TYPE=ANALYZE bun run build",
     "build": "next build",
     "dev": "next dev",
-    "generate:routes": "BUILD_TYPE=ROUTES next build",
-    "lint": "biome check .",
-    "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "meta:start": "BUILD_TYPE=META next dev -p 8000",
-    "meta:generate": "bun scripts/get-meta-assets.ts",
+    "generate:meta-": "bun scripts/get-meta-assets.ts",
+    "lint:fix": "biome check --write .",
+    "lint": "biome check .",
     "prepare": "panda codegen && lefthook install",
     "start": "next start",
+    "types": "tsc --noEmit",
     "unused": "knip"
   },
   "devDependencies": {
