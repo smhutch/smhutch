@@ -1,12 +1,12 @@
-import { lerp } from 'canvas-sketch-util/math'
-import Random from 'canvas-sketch-util/random'
+import { lerp } from 'lib/math'
+import { createRandom } from 'lib/random'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // Viewbox
 const size = 100
 
 export default (_: NextApiRequest, res: NextApiResponse): void => {
-  const random = Random.createRandom()
+  const random = createRandom()
   const grid = random.range(40, 60)
   const baseBoxSize = size / grid
 

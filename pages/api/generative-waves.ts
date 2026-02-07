@@ -1,9 +1,9 @@
-import { lerp } from 'canvas-sketch-util/math'
-import Random from 'canvas-sketch-util/random'
+import { lerp } from 'lib/math'
+import { createRandom } from 'lib/random'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
-  const random = Random.createRandom()
+  const random = createRandom()
   const w = req.query.w ? Number(req.query.w) : 1000
   const h = req.query.h ? Number(req.query.h) : 1000
   const padX = req.query.padX ? Number(req.query.padX) : -0.1

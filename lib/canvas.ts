@@ -1,4 +1,4 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'lib/math'
 
 /**
  * Converts a decimal between 0..1 to a distribution of 0...1...0

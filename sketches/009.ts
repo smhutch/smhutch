@@ -1,4 +1,4 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'lib/math'
 
 import { getInvertedNormalDistribution } from 'lib/canvas'
 import type { SketchFn, SketchSettings } from 'types/sketches'
