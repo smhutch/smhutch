@@ -17,7 +17,7 @@ const postLinkStyles = css({
   borderRadius: 'lg',
   transition: 'background 0.4s ease',
 
-  '&:hover': { background: 'gray.100' },
+  '&:hover': { background: 'interactive.hover' },
 })
 
 const Writing: React.FC<PageProps> = (
@@ -52,10 +52,12 @@ const Writing: React.FC<PageProps> = (
                   >
                     {post.title}
                   </h2>
-                  <p className={css({ color: 'gray.600', mb: 1 })}>
+                  <p className={css({ color: 'text.secondary', mb: 1 })}>
                     {post.subtitle}
                   </p>
-                  <div className={css({ color: 'gray.600', fontSize: 'xs' })}>
+                  <div
+                    className={css({ color: 'text.secondary', fontSize: 'xs' })}
+                  >
                     {format(postDate, 'do MMM, Y')}
                   </div>
                 </Link>

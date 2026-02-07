@@ -23,7 +23,7 @@ const Story = (
 
 const ButtonStories: React.FC = () => {
   return (
-    <Box bgColor="gray.100" flexGrow={1}>
+    <Box bgColor="surface.sunken" flexGrow={1}>
       <Container mt={8}>
         <Story heading="Button">
           <Flex gap={4}>

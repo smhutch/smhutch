@@ -110,11 +110,11 @@ const Index: NextPage = () => {
             zIndex: 1,
             height: '100%',
             mt: 'auto',
-            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+            backgroundColor: 'surface.overlay.light',
             backdropFilter: 'blur(4px)',
             py: 10,
             borderTop: '1px solid',
-            borderColor: 'gray.200',
+            borderColor: 'border.default',
             transition: '0.4s ease backgroundColor',
 
             '& p': { fontWeight: 'light' },
@@ -166,7 +166,7 @@ const Index: NextPage = () => {
                   width: 'fit-content',
                   fontSize: 'xl',
                   mt: 4,
-                  color: 'gray.800',
+                  color: 'text.default',
                 })}
                 initial={STAGGER_FADE.initial}
                 variants={STAGGER_FADE.variants.item}
@@ -228,8 +228,8 @@ const AboutSection = (props: PropsWithChildren) => {
       className={css({
         py: 8,
         borderTop: '1px solid',
-        borderColor: 'gray.200',
-        background: 'white',
+        borderColor: 'border.default',
+        background: 'surface.page',
       })}
       initial={STAGGER_FADE.initial}
       variants={STAGGER_FADE.variants.container}
@@ -243,7 +243,7 @@ const AboutSectionHeading = (props: PropsWithChildren) => {
   return (
     <motion.p
       className={css({
-        color: 'gray.400',
+        color: 'text.faint',
         fontSize: 'small',
         fontWeight: 'light',
         mb: 6,

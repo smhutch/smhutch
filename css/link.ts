@@ -5,13 +5,13 @@ export const link = cva({
     display: 'inline-block',
     position: 'relative',
     transition: '0.3s ease all',
-    color: 'gray.900',
+    color: 'text.primary',
   },
   variants: {
     variant: {
       underline: {
         '&:hover': {
-          color: 'pink.600',
+          color: 'accent.primary',
           transform: 'translateY(-1px)',
         },
 
@@ -23,13 +23,13 @@ export const link = cva({
           left: 0,
           right: 0,
           position: 'absolute',
-          background: 'gray.300',
+          background: 'border.decorative',
           transition: '0.2s ease transform',
           transform: 'scaleX(0.98) translateY(1px)',
         },
 
         '&:hover:after': {
-          background: 'pink.200',
+          background: 'accent.hover',
           transform: 'scaleX(0.94) translateY(2px)',
         },
       },
@@ -48,7 +48,7 @@ export const link = cva({
         },
 
         '&:hover:after': {
-          background: 'pink.100',
+          background: 'accent.primary.subtle',
           //   transform: 'scaleX(0.94) translateY(2px)',
         },
       },

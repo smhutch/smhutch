@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
     <footer
       className={css({
         borderTop: '1px solid',
-        borderColor: 'gray.200',
+        borderColor: 'border.default',
         position: 'relative',
         overflow: 'hidden',
       })}
@@ -17,7 +17,7 @@ export const Footer: React.FC = () => {
         <p
           className={css({
             fontSize: 'xs',
-            color: 'gray.500',
+            color: 'text.tertiary',
             fontWeight: 'light',
           })}
         >

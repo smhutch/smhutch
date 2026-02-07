@@ -9,12 +9,12 @@ export const button = cva({
   variants: {
     variant: {
       primary: {
-        backgroundColor: 'pink.600',
+        backgroundColor: 'accent.primary',
         color: 'gray.50',
       },
       secondary: {
-        backgroundColor: 'pink.100',
-        color: 'pink.600',
+        backgroundColor: 'accent.primary.subtle',
+        color: 'accent.primary',
       },
     },
   },

@@ -156,7 +156,7 @@ export const Sketch: React.FC<Props> = (props) => {
       <main
         className={css({
           py: '24',
-          backgroundColor: 'gray.50',
+          backgroundColor: 'surface.raised',
           flexGrow: 1,
         })}
       >
@@ -188,7 +188,7 @@ export const Sketch: React.FC<Props> = (props) => {
               <div
                 className={flex({
                   fontSize: 'small',
-                  color: 'gray.600',
+                  color: 'text.secondary',
                   width: '100%',
                 })}
               >
@@ -208,7 +208,7 @@ export const Sketch: React.FC<Props> = (props) => {
               </div>
               <hr
                 className={css({
-                  background: 'gray.200',
+                  background: 'border.default',
                   height: '1px',
                   border: 'none',
                   my: 6,
@@ -237,7 +237,7 @@ export const Sketch: React.FC<Props> = (props) => {
                     >
                       {random.getSeed()}
                     </span>
-                    <span className={css({ color: 'gray.400' })}>{DOT}</span>
+                    <span className={css({ color: 'text.faint' })}>{DOT}</span>
                     <button
                       className={link({ variant: 'underline' })}
                       type="button"
@@ -282,7 +282,7 @@ const DetailsRow = (props: PropsWithChildren<{ icon: React.ReactNode }>) => {
     <div
       className={css({
         fontSize: 'small',
-        color: 'gray.600',
+        color: 'text.secondary',
 
         '& svg': {
           width: '13px',
