@@ -1,4 +1,4 @@
-import seedRandom from 'seed-random'
+import { type RandomGenerator, xoroshiro128plus } from 'pure-rand'
 import SimplexNoise from 'simplex-noise'
 
 type Seed = number
@@ -41,17 +41,21 @@ export interface Random {
   ) => T['value']
 }
 
-export function createRandom(): Random {
-  let _seed: Seed = Math.floor(Math.random() * 1_000_000)
-  let _rng: () => number = seedRandom(String(_seed))
-  let _simplex: SimplexNoise = new SimplexNoise(_rng)
+function toFloat(rng: RandomGenerator): number {
+  return (rng.unsafeNext() >>> 0) / 0x100000000
+}
 
-  const value = (): number => _rng()
+export function createRandom(initialSeed?: Seed): Random {
+  let _seed: Seed = initialSeed ?? Math.floor(Math.random() * 1_000_000)
+  let _rng: RandomGenerator = xoroshiro128plus(_seed)
+  let _simplex: SimplexNoise = new SimplexNoise(() => toFloat(_rng))
+
+  const value = (): number => toFloat(_rng)
 
   const setSeed = (seed: Seed): void => {
     _seed = seed
-    _rng = seedRandom(String(seed))
-    _simplex = new SimplexNoise(_rng)
+    _rng = xoroshiro128plus(seed)
+    _simplex = new SimplexNoise(() => toFloat(_rng))
   }
 
   const getSeed = (): Seed => _seed

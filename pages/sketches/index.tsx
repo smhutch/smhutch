@@ -59,7 +59,7 @@ const DETAILS_CLASSNAME = 'details'
 const SketchGridItem = (
   props: Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
 ) => {
-  const randomRef = useRef(createRandom())
+  const randomRef = useRef(createRandom(props.initialSeed))
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const sketchRef = useRef<SketchFn | undefined>(undefined)
   const [ready, setReady] = useState(false)
@@ -68,8 +68,6 @@ const SketchGridItem = (
   useEffect(() => {
     const getSketch = async () => {
       if (!randomRef.current) return
-
-      randomRef.current.setSeed(props.initialSeed)
 
       const mod = await import(`../../sketches/${props.id}`)
       sketchRef.current = mod.sketch

@@ -1,5 +1,5 @@
 import chroma from 'chroma-js'
-import { lerp } from 'lib/math'
+import { lerp } from 'utils/math'
 
 import type { SketchFn, SketchSettings } from 'types/sketches'
 

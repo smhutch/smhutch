@@ -1,6 +1,6 @@
-import { lerp } from 'lib/math'
 import { createRandom } from 'lib/random'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { lerp } from 'utils/math'
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
   const random = createRandom()
