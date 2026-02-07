@@ -4,7 +4,7 @@ import { WEB_LINKS, WORK_LINKS } from 'data/resources'
 import { motion, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useMouse, useRafLoop } from 'react-use'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
@@ -220,7 +220,7 @@ const Index: NextPage = () => {
   )
 }
 
-const AboutSection: React.FC<React.PropsWithChildren> = (props) => {
+const AboutSection = (props: PropsWithChildren) => {
   return (
     <motion.section
       animate={STAGGER_FADE.animate}
@@ -238,7 +238,7 @@ const AboutSection: React.FC<React.PropsWithChildren> = (props) => {
   )
 }
 
-const AboutSectionHeading: React.FC<React.PropsWithChildren> = (props) => {
+const AboutSectionHeading = (props: PropsWithChildren) => {
   return (
     <motion.p
       className={css({
