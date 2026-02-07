@@ -1,10 +1,13 @@
 // import { BOLD_COLORS, COLORS, NEUTRAL_COLORS, PALETTES } from 'data/palette'
+import type { PropsWithChildren } from 'react'
 import { css } from 'system/css'
 import { Box, Container, Flex, Stack } from 'system/jsx'
 
 import { Button } from 'components/Button'
 
-const Story: React.FC<{ heading: string; subheading?: string }> = (props) => {
+const Story = (
+  props: PropsWithChildren<{ heading: string; subheading?: string }>
+) => {
   return (
     <Stack align="flex-start" gap={0} mb="24">
       <h2 className={css({ fontSize: '3xl', fontWeight: 'semibold', mb: 1 })}>

@@ -4,7 +4,7 @@ import { WEB_LINKS, WORK_LINKS } from 'data/resources'
 import { motion, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
+import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useMouse, useRafLoop } from 'react-use'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
@@ -20,7 +20,7 @@ const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
 
-  const mouse = useMouse(canvasRef)
+  const mouse = useMouse(canvasRef as React.RefObject<Element>)
 
   const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
@@ -220,7 +220,7 @@ const Index: NextPage = () => {
   )
 }
 
-const AboutSection: React.FC = (props) => {
+const AboutSection = (props: PropsWithChildren) => {
   return (
     <motion.section
       animate={STAGGER_FADE.animate}
@@ -238,7 +238,7 @@ const AboutSection: React.FC = (props) => {
   )
 }
 
-const AboutSectionHeading: React.FC = (props) => {
+const AboutSectionHeading = (props: PropsWithChildren) => {
   return (
     <motion.p
       className={css({
