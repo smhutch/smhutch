@@ -3,11 +3,12 @@ import { useRouter } from 'next/router'
 import { css, cva } from 'system/css'
 import { Container } from 'system/jsx'
 import { flex } from 'system/patterns'
+import type { StringRoute } from 'types/next'
 
 const LINKS = [
   { href: '/writing', label: 'Writing' },
   { href: '/sketches', label: 'Generative' },
-]
+] as const satisfies Array<{ href: StringRoute; label: string }>
 
 export const Header: React.FC = () => {
   const router = useRouter()
