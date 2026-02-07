@@ -277,7 +277,7 @@ export const Sketch: React.FC<Props> = (props) => {
   );
 };
 
-const DetailsRow: React.FC<{ icon: React.ReactNode }> = (props) => {
+const DetailsRow: React.FC<React.PropsWithChildren<{ icon: React.ReactNode }>> = (props) => {
   return (
     <div
       className={css({

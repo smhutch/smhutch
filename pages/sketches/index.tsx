@@ -61,7 +61,7 @@ const SketchGridItem = (
 ) => {
   const randomRef = useRef(createRandom())
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const sketchRef = useRef<SketchFn>()
+  const sketchRef = useRef<SketchFn | undefined>(undefined)
   const [ready, setReady] = useState(false)
   const visible = ready
 

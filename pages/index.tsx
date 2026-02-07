@@ -20,7 +20,7 @@ const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
 
-  const mouse = useMouse(canvasRef)
+  const mouse = useMouse(canvasRef as React.RefObject<Element>)
 
   const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
@@ -220,7 +220,7 @@ const Index: NextPage = () => {
   )
 }
 
-const AboutSection: React.FC = (props) => {
+const AboutSection: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <motion.section
       animate={STAGGER_FADE.animate}
@@ -238,7 +238,7 @@ const AboutSection: React.FC = (props) => {
   )
 }
 
-const AboutSectionHeading: React.FC = (props) => {
+const AboutSectionHeading: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <motion.p
       className={css({

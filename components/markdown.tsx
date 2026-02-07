@@ -2,7 +2,7 @@ import { link } from 'css/link'
 import Link from 'next/link'
 import { css } from 'system/css'
 
-const Heading1: React.FC = (props) => {
+const Heading1: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <h1 className={css({ fontSize: '4xl', fontWeight: 'semibold', mb: 4 })}>
       {props.children}
@@ -10,7 +10,7 @@ const Heading1: React.FC = (props) => {
   )
 }
 
-const Heading2: React.FC = (props) => {
+const Heading2: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <h2
       className={css({
@@ -27,7 +27,7 @@ const Heading2: React.FC = (props) => {
   )
 }
 
-const Heading3: React.FC = (props) => {
+const Heading3: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <h3 className={css({ fontSize: 'xl', fontWeight: 'semibold', mb: 4 })}>
       {props.children}
@@ -35,15 +35,15 @@ const Heading3: React.FC = (props) => {
   )
 }
 
-const Paragraph: React.FC = (props) => {
+const Paragraph: React.FC<React.PropsWithChildren> = (props) => {
   return <p className={css({ color: 'gray.800', mb: 4 })}>{props.children}</p>
 }
 
-const Ul: React.FC = (props) => {
+const Ul: React.FC<React.PropsWithChildren> = (props) => {
   return <ul className={css({ mb: 4 })}>{props.children}</ul>
 }
 
-const Li: React.FC = (props) => {
+const Li: React.FC<React.PropsWithChildren> = (props) => {
   return (
     <li
       className={css({
@@ -67,7 +67,7 @@ const Li: React.FC = (props) => {
   )
 }
 
-const Anchor: React.FC<{ href: string }> = (props) => {
+const Anchor: React.FC<React.PropsWithChildren<{ href: string }>> = (props) => {
   const isExternal = props.href && !props.href.startsWith('/')
   const className = link({ variant: 'underline' })
 
