@@ -2,7 +2,6 @@ import { sketchIndex } from 'build/sketches'
 import { createRandom } from 'canvas-sketch-util/random'
 import { motion } from 'motion/react'
 import type { GetStaticProps } from 'next'
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'system/css'
@@ -109,15 +108,7 @@ const SketchGridItem = (
     draw()
   }, [props.id, ready])
 
-  const href = getRoute({
-    route: '/sketches/[sketch]',
-    params: {
-      sketch: props.id,
-    },
-    query: {
-      seed: props.initialSeed,
-    },
-  })
+  const href = `/sketches/${props.id}?seed=${props.initialSeed}`
 
   return (
     <motion.li

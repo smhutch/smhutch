@@ -1,7 +1,6 @@
 import { format, parseISO } from 'date-fns'
 import { type PostMeta, getAllPosts } from 'lib/content'
 import type { GetStaticProps, InferGetServerSidePropsType } from 'next'
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import type React from 'react'
 import { css } from 'system/css'
@@ -45,10 +44,7 @@ const Writing: React.FC<PageProps> = (
               <li key={post.slug}>
                 <Link
                   className={postLinkStyles}
-                  href={getRoute({
-                    route: '/writing/[slug]',
-                    params: { slug: post.slug },
-                  })}
+                  href={`/writing/${post.slug}`}
                 >
                   <h2
                     className={css({
