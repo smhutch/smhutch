@@ -1,4 +1,11 @@
 {
-  "$schema": "https://unpkg.com/knip@3/schema.json",
-  "ignore": []
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "pages/**/*.{ts,tsx}",
+    "sketches/**/*.ts",
+    "build/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "project": ["**/*.{ts,tsx}"],
+  "ignore": ["system/**", "typings/**"]
 }
