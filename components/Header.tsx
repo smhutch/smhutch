@@ -32,7 +32,6 @@ export const Header: React.FC = () => {
         background: 'white/80',
 
         transition: 'common',
-        transitionDuration: 'durations.common',
 
         _dark: {
           background: 'neutral.950/90',
@@ -122,7 +121,8 @@ const headerLinkItem = cva({
       right: 2,
       height: '1px',
       borderRadius: '2px',
-      transition: 'transition 0.4s ease, opacity 0.2s ease',
+      transition: 'common',
+      transitionDuration: 'common',
       background: '{colors.black}',
       transform: 'scaleX(0.1)',
       opacity: 0,
