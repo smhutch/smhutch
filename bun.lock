@@ -26,6 +26,7 @@
         "remeda": "^2.33.5",
         "simplex-noise": "^3.0.0",
         "three": "^0.134.0",
+        "ts-pattern": "^5.9.0",
         "zod": "^4.3.6",
       },
       "devDependencies": {

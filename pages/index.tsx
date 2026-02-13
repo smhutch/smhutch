@@ -7,17 +7,16 @@ import { useMouse, useRafLoop, useTimeoutFn } from 'react-use'
 import { css, cx } from 'system/css'
 import { Container } from 'system/jsx'
 import { container, flex, stack } from 'system/patterns'
-import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
 import { hasAnimatedInIndex } from '@/atoms/animations'
+import { homepageCanvas } from '@/canvas/homepage'
 import { Meta } from 'components/Meta'
 import { useIsDarkMode } from 'hooks/theme'
 import { useSetAtom } from 'jotai'
 import { doNothing } from 'remeda'
 import type { ExternalLinkConfig } from 'types/content'
 
-const GAP = 12
 const SHOW_WEB_3 = false
 const FOOTER_LINK_STAGGER_DELAY = 0.06
 
@@ -27,8 +26,8 @@ const Index: NextPage = () => {
 
   const mouse = useMouse(canvasRef as React.RefObject<Element>)
 
-  const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
+  const isOver = useSpring(0)
   const isDarkMode = useIsDarkMode()
 
   const setAnimated = useSetAtom(hasAnimatedInIndex)
@@ -38,64 +37,15 @@ const Index: NextPage = () => {
     if (!ctxRef.current) return
     const canvas = canvasRef.current
     const ctx = ctxRef.current
-
-    const { height, width } = canvas.getBoundingClientRect()
-
-    const SCALE = window.devicePixelRatio
-
-    canvas.width = width * SCALE
-    canvas.height = height * SCALE
-
-    ctx.scale(SCALE, SCALE)
-
-    ctx.globalAlpha = 1
-    ctx.fillStyle = 'transparent'
-    ctx.fillRect(0, 0, width, height)
-    ctx.fillStyle = isDarkMode ? 'black' : 'white'
-    ctx.strokeStyle = isDarkMode ? 'white' : 'black'
-    ctx.lineCap = 'round'
-
-    const colCount = Math.floor(width / GAP)
-
-    const mouseRangeWidth = width * 0.15
-    const mouseRangeMin = mouse.elX - mouseRangeWidth
-    const mouseRangeMax = mouse.elX + mouseRangeWidth
-
-    for (let col = 0; col < colCount; col++) {
-      // Percentage through columns
-      const p = col / (colCount - 1)
-      const centerDiff = Math.abs((p - 0.5) * 2)
-      const centerP = lerp(1, 0, centerDiff)
-      const x = lerp(-1, width + 1, p)
-
-      const xWeight =
-        x > mouseRangeMin && x < mouseRangeMax
-          ? lerp(1, 0, Math.abs(x - mouse.elX) / mouseRangeWidth)
-          : 0
-
-      const xMovementWeight = lerp(-0.15, 0.15, xMovement.get())
-      const xMovementAmount = width * xMovementWeight
-
-      const mouseAlpha = lerp(0.1, 0.8, xWeight)
-
-      ctx.globalAlpha = mouseAlpha * alpha.get()
-      ctx.lineWidth = lerp(0.4, 1, xWeight)
-
-      ctx.save()
-      ctx.beginPath()
-      ctx.moveTo(x, 0)
-
-      ctx.bezierCurveTo(
-        lerp(x, x + xMovementAmount, centerP),
-        height * 0.33,
-        lerp(x, x - xMovementAmount, centerP),
-        height * 0.66,
-        x,
-        height
-      )
-      ctx.stroke()
-      ctx.restore()
-    }
+    homepageCanvas({
+      canvas,
+      ctx,
+      config: { type: 'lines' },
+      mouse,
+      isDarkMode,
+      isOver,
+      alpha,
+    })
   })
 
   useEffect(() => {
@@ -153,8 +103,8 @@ const Index: NextPage = () => {
           })}
           onFocus={doNothing}
           onBlur={doNothing}
-          onMouseOut={() => xMovement.set(0)}
-          onMouseOver={() => xMovement.set(1)}
+          onMouseOut={() => isOver.set(0)}
+          onMouseOver={() => isOver.set(1)}
         >
           <div
             className={container({
