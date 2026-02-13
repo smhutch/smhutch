@@ -17,7 +17,7 @@ const Sketches: React.FC<{ sketches: SketchSettings[] }> = ({ sketches }) => {
     <main>
       <div
         className={css({
-          background: 'gray.100',
+          background: 'surface.sunken',
           height: '100%',
         })}
       >
@@ -168,9 +168,9 @@ const SketchGridItem = (
               left: 2,
               right: 2,
               backdropFilter: 'blur(10px) brightness(1.4)',
-              backgroundColor: 'rgba(248, 248, 248, 0.9)',
+              backgroundColor: 'neutral.100/80',
               border: '1px solid',
-              borderColor: 'gray.100',
+              borderColor: 'border',
               borderRadius: 'xl',
               minHeight: '100px',
               transition: 'all 0.3s ease-in-out',
@@ -201,7 +201,7 @@ const SketchGridItem = (
           <span
             className={css({
               fontSize: 'sm',
-              color: 'gray.600',
+              color: 'text.secondary',
               lineHeight: 1,
             })}
           >

@@ -15,15 +15,95 @@ export default defineConfig({
   // Files to exclude
   exclude: [],
 
-  globalCss: {
-    '#__next': {
-      overflowX: 'hidden',
+  conditions: {
+    extend: {
+      dark: '.dark &',
     },
   },
 
   theme: {
     extend: {
-      tokens: {},
+      tokens: {
+        colors: {
+          black: {
+            value: '#000000',
+          },
+          white: {
+            value: '#FFFFFF',
+          },
+          // black: mapColorTokensToPandaConfig(GRAY_DARK),
+          // white: mapColorTokensToPandaConfig(GRAY_LIGHT),
+        },
+        durations: {
+          common: {
+            value: '0.2s',
+          },
+        },
+      },
+      semanticTokens: {
+        colors: {
+          surface: {
+            page: {
+              value: { base: '{colors.white}', _dark: '{colors.black}' },
+            },
+            sunken: {
+              value: {
+                base: '{colors.gray.100}',
+                _dark: '{colors.neutral.950}',
+              },
+            },
+          },
+          text: {
+            DEFAULT: {
+              value: { base: '{colors.gray.800}', _dark: '{colors.gray.200}' },
+            },
+            primary: {
+              value: { base: '{colors.gray.950}', _dark: '{colors.gray.50}' },
+            },
+            secondary: {
+              value: {
+                base: '{colors.gray.600}',
+                _dark: '{colors.neutral.300}',
+              },
+            },
+            tertiary: {
+              value: { base: '{colors.gray.500}', _dark: '{colors.gray.400}' },
+            },
+          },
+          border: {
+            DEFAULT: {
+              value: {
+                base: '{colors.gray.200}',
+                _dark: '{colors.neutral.800}',
+              },
+            },
+            subtle: {
+              value: { base: '{colors.gray.100}', _dark: '{colors.gray.800}' },
+            },
+          },
+          accent: {
+            primary: {
+              value: { base: '{colors.pink.600}', _dark: '{colors.pink.400}' },
+            },
+            hover: {
+              value: { base: '{colors.pink.200}', _dark: '{colors.pink.800}' },
+            },
+          },
+          header: {},
+        },
+      },
+    },
+  },
+
+  globalCss: {
+    '#__next': {
+      overflowX: 'hidden',
+    },
+    body: {
+      backgroundColor: 'surface.page',
+      color: 'text',
+      transition: 'common',
+      transitionDuration: '{durations.common}',
     },
   },
 

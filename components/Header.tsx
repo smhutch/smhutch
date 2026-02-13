@@ -1,9 +1,12 @@
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { useIsDarkMode, useToggleTheme } from 'hooks/theme'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { css, cva } from 'system/css'
 import { Container } from 'system/jsx'
 import { flex } from 'system/patterns'
 import type { StringRoute } from 'types/next'
+import { useIsHydrated } from 'utils/hooks'
 
 const LINKS = [
   // { href: '/writing', label: 'Writing' },
@@ -12,18 +15,27 @@ const LINKS = [
 
 export const Header: React.FC = () => {
   const router = useRouter()
+  const toggleTheme = useToggleTheme()
+  const isDark = useIsDarkMode()
+  const isHydrated = useIsHydrated()
 
   return (
     <div
       className={css({
         w: '100%',
-        background: 'rgba(255, 255, 255, 0.8)',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid',
-        borderBottomColor: 'gray.200',
+        borderBottomColor: 'border',
         position: 'sticky',
         top: 0,
         zIndex: 2,
+        background: 'white/80',
+
+        transition: 'common',
+
+        _dark: {
+          background: 'neutral.950/90',
+        },
       })}
     >
       <Container>
@@ -37,10 +49,10 @@ export const Header: React.FC = () => {
             <img
               alt="SMHutch"
               className={css({ w: 5, h: 5 })}
-              src="/logo-dark.svg"
+              src={isHydrated && isDark ? '/logo-light.svg' : '/logo-dark.svg'}
             />
           </Link>
-          <div>
+          <div className={flex({ align: 'center', gap: 0 })}>
             <ul className={flex({ gap: 0 })}>
               {LINKS.map((item) => {
                 return (
@@ -57,6 +69,33 @@ export const Header: React.FC = () => {
                 )
               })}
             </ul>
+            {isHydrated && (
+              <button
+                aria-label="Toggle theme"
+                className={css({
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  w: 8,
+                  h: 8,
+                  ml: 1,
+                  borderRadius: 'md',
+                  color: 'text.secondary',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s, background 0.3s',
+                  '&:hover': {
+                    color: 'text.primary',
+                    background: 'border',
+                  },
+                })}
+                type="button"
+                onClick={() => {
+                  toggleTheme()
+                }}
+              >
+                {isDark ? <SunIcon /> : <MoonIcon />}
+              </button>
+            )}
           </div>
         </div>
       </Container>
@@ -71,7 +110,7 @@ const headerLinkItem = cva({
     py: 4,
     px: 3,
     position: 'relative',
-    color: 'gray.600',
+    color: 'text.secondary',
     transition: 'color 0.4s ease',
 
     '&:after': {
@@ -81,23 +120,31 @@ const headerLinkItem = cva({
       left: 2,
       right: 2,
       height: '1px',
-      transition: 'transform 0.4s ease',
-      background: 'black',
-      transform: 'scaleX(0)',
+      borderRadius: '2px',
+      transition: 'common',
+      transitionDuration: 'common',
+      background: '{colors.black}',
+      transform: 'scaleX(0.1)',
+      opacity: 0,
+
+      _dark: {
+        background: '{colors.white}',
+      },
     },
 
     '&:hover': {
-      color: 'gray.800',
+      color: 'text',
     },
 
     '&:hover:after': {
       transform: 'scaleX(1)',
+      opacity: 1,
     },
   },
   variants: {
     active: {
       true: {
-        color: 'gray.950',
+        color: 'text.primary',
         '&:after': {
           transform: 'scaleX(1)',
         },
