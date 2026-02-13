@@ -1,6 +1,7 @@
 import '../css/global.css'
 
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import { css } from 'system/css'
 import { flex } from 'system/patterns'
@@ -11,7 +12,7 @@ import { GlobalMeta } from 'components/Meta'
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <GlobalMeta />
       <VercelAnalytics />
       <div
@@ -28,7 +29,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           <Footer />
         </div>
       </div>
-    </>
+    </ThemeProvider>
   )
 }
 

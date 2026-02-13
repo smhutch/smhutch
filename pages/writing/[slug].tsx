@@ -37,7 +37,7 @@ const Article: React.FC<PageProps> = (
           className={css({
             fontSize: 'xl',
             mb: 24,
-            color: 'gray.600',
+            color: 'text.secondary',
             fontWeight: 'light',
           })}
         >
@@ -54,13 +54,18 @@ const Article: React.FC<PageProps> = (
           fontSize="xs"
           gap={2}
         >
-          <p className={css({ color: 'gray.600' })}>{post.readingTime}</p>
-          <span className={css({ color: 'gray.400' })}>{DOT}</span>
-          <p className={css({ color: 'gray.600' })}>
+          <p className={css({ color: 'text.secondary' })}>{post.readingTime}</p>
+          <span className={css({ color: 'text.tertiary' })}>{DOT}</span>
+          <p className={css({ color: 'text.secondary' })}>
             {format(postDate, 'do MMM, Y')}
           </p>
         </Flex>
-        <Divider color="gray.200" mb={8} mt={4} />
+        <Divider
+          color="border"
+          mb={8}
+          mt={4}
+          transition="border-color 0.4s ease"
+        />
         {content}
       </Container>
     </div>
