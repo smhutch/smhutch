@@ -16,7 +16,7 @@ import type { ExternalLinkConfig } from 'types/content'
 
 const GAP = 12
 const SHOW_WEB_3 = false
-const FOOTER_LINK_STAGGER_DELAY = 0.08
+const FOOTER_LINK_STAGGER_DELAY = 0.06
 
 const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
