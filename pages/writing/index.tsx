@@ -17,7 +17,7 @@ const postLinkStyles = css({
   borderRadius: 'lg',
   transition: 'background 0.4s ease',
 
-  '&:hover': { background: 'interactive.hover' },
+  '&:hover': { background: 'red' },
 })
 
 const Writing: React.FC<PageProps> = (

@@ -8,7 +8,7 @@ export const Footer: React.FC = () => {
     <footer
       className={css({
         borderTop: '1px solid',
-        borderColor: 'border.default',
+        borderColor: 'border',
         position: 'relative',
         overflow: 'hidden',
       })}

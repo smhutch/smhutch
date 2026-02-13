@@ -55,12 +55,17 @@ const Article: React.FC<PageProps> = (
           gap={2}
         >
           <p className={css({ color: 'text.secondary' })}>{post.readingTime}</p>
-          <span className={css({ color: 'text.faint' })}>{DOT}</span>
+          <span className={css({ color: 'text.tertiary' })}>{DOT}</span>
           <p className={css({ color: 'text.secondary' })}>
             {format(postDate, 'do MMM, Y')}
           </p>
         </Flex>
-        <Divider color="border.default" mb={8} mt={4} />
+        <Divider
+          color="border"
+          mb={8}
+          mt={4}
+          transition="border-color 0.4s ease"
+        />
         {content}
       </Container>
     </div>

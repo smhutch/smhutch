@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
-import { useTheme } from 'next-themes'
+import { useIsDarkMode, useToggleTheme } from 'hooks/theme'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { css, cva } from 'system/css'
@@ -15,20 +15,25 @@ const LINKS = [
 
 export const Header: React.FC = () => {
   const router = useRouter()
-  const { resolvedTheme, setTheme } = useTheme()
+  const toggleTheme = useToggleTheme()
+  const isDark = useIsDarkMode()
   const isHydrated = useIsHydrated()
 
   return (
     <div
       className={css({
         w: '100%',
-        background: 'surface.overlay',
         backdropFilter: 'blur(10px)',
         borderBottom: '1px solid',
-        borderBottomColor: 'border.default',
+        borderBottomColor: 'border',
         position: 'sticky',
         top: 0,
         zIndex: 2,
+
+        background: 'white/80',
+        _dark: {
+          background: 'neutral.950/90',
+        },
       })}
     >
       <Container>
@@ -42,11 +47,7 @@ export const Header: React.FC = () => {
             <img
               alt="SMHutch"
               className={css({ w: 5, h: 5 })}
-              src={
-                isHydrated && resolvedTheme === 'dark'
-                  ? '/logo-light.svg'
-                  : '/logo-dark.svg'
-              }
+              src={isHydrated && isDark ? '/logo-light.svg' : '/logo-dark.svg'}
             />
           </Link>
           <div className={flex({ align: 'center', gap: 0 })}>
@@ -82,15 +83,15 @@ export const Header: React.FC = () => {
                   transition: 'color 0.3s, background 0.3s',
                   '&:hover': {
                     color: 'text.primary',
-                    background: 'interactive.hover',
+                    background: 'border',
                   },
                 })}
                 type="button"
-                onClick={() =>
-                  setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
-                }
+                onClick={() => {
+                  toggleTheme()
+                }}
               >
-                {resolvedTheme === 'dark' ? <SunIcon /> : <MoonIcon />}
+                {isDark ? <SunIcon /> : <MoonIcon />}
               </button>
             )}
           </div>
@@ -117,17 +118,24 @@ const headerLinkItem = cva({
       left: 2,
       right: 2,
       height: '1px',
-      transition: 'transform 0.4s ease',
-      background: 'accent.line',
-      transform: 'scaleX(0)',
+      borderRadius: '2px',
+      transition: 'transform 0.4s ease, opacity 0.2s ease',
+      background: '{colors.black}',
+      transform: 'scaleX(0.1)',
+      opacity: 0,
+
+      _dark: {
+        background: '{colors.white}',
+      },
     },
 
     '&:hover': {
-      color: 'text.default',
+      color: 'text',
     },
 
     '&:hover:after': {
       transform: 'scaleX(1)',
+      opacity: 1,
     },
   },
   variants: {

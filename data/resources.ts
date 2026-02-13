@@ -32,6 +32,6 @@ export const WEB_LINKS = [
   },
   {
     href: 'https://twitter.com/SMHutcheson',
-    label: 'Twitter',
+    label: 'X',
   },
 ] as const

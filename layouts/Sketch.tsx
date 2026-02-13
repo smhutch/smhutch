@@ -156,7 +156,7 @@ export const Sketch: React.FC<Props> = (props) => {
       <main
         className={css({
           py: '24',
-          backgroundColor: 'surface.raised',
+          backgroundColor: 'surface.sunken',
           flexGrow: 1,
         })}
       >
@@ -208,7 +208,7 @@ export const Sketch: React.FC<Props> = (props) => {
               </div>
               <hr
                 className={css({
-                  background: 'border.default',
+                  background: 'border',
                   height: '1px',
                   border: 'none',
                   my: 6,

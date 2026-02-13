@@ -8,11 +8,12 @@ import { useMouse, useRafLoop } from 'react-use'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
 import { container, flex, stack } from 'system/patterns'
-import { noop } from 'utils/helpers'
 import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
 import { Meta } from 'components/Meta'
+import { useIsDarkMode } from 'hooks/theme'
+import { doNothing } from 'remeda'
 import type { StringRoute } from 'types/next'
 
 const GAP = 12
@@ -25,6 +26,7 @@ const Index: NextPage = () => {
 
   const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
+  const isDarkMode = useIsDarkMode()
 
   useRafLoop(() => {
     if (!canvasRef.current) return
@@ -41,10 +43,10 @@ const Index: NextPage = () => {
 
     ctx.scale(SCALE, SCALE)
 
-    ctx.globalAlpha = 0.2
-    ctx.fillStyle = 'white'
+    ctx.globalAlpha = 1
+    ctx.fillStyle = isDarkMode ? 'black' : 'white'
     ctx.fillRect(0, 0, width, height)
-    ctx.strokeStyle = 'black'
+    ctx.strokeStyle = isDarkMode ? 'white' : 'black'
     ctx.lineCap = 'round'
 
     const colCount = Math.floor(width / GAP)
@@ -110,12 +112,16 @@ const Index: NextPage = () => {
             zIndex: 1,
             height: '100%',
             mt: 'auto',
-            backgroundColor: 'surface.overlay.light',
-            backdropFilter: 'blur(4px)',
+            backgroundColor: '{colors.white}/60',
+            backdropFilter: 'blur(2px)',
             py: 10,
             borderTop: '1px solid',
-            borderColor: 'border.default',
+            borderColor: 'border',
             transition: '0.4s ease backgroundColor',
+
+            _dark: {
+              backgroundColor: '{colors.black}/60',
+            },
 
             '& p': { fontWeight: 'light' },
 
@@ -126,8 +132,8 @@ const Index: NextPage = () => {
               display: 'inline-block',
             },
           })}
-          onBlur={noop}
-          onFocus={noop}
+          onFocus={doNothing}
+          onBlur={doNothing}
           onMouseOut={() => xMovement.set(0)}
           onMouseOver={() => xMovement.set(1)}
         >
@@ -166,7 +172,7 @@ const Index: NextPage = () => {
                   width: 'fit-content',
                   fontSize: 'xl',
                   mt: 4,
-                  color: 'text.default',
+                  color: 'text',
                 })}
                 initial={STAGGER_FADE.initial}
                 variants={STAGGER_FADE.variants.item}
@@ -228,7 +234,7 @@ const AboutSection = (props: PropsWithChildren) => {
       className={css({
         py: 8,
         borderTop: '1px solid',
-        borderColor: 'border.default',
+        borderColor: 'border',
         background: 'surface.page',
       })}
       initial={STAGGER_FADE.initial}
@@ -243,7 +249,7 @@ const AboutSectionHeading = (props: PropsWithChildren) => {
   return (
     <motion.p
       className={css({
-        color: 'text.faint',
+        color: 'text.tertiary',
         fontSize: 'small',
         fontWeight: 'light',
         mb: 6,

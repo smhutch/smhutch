@@ -21,100 +21,83 @@ export default defineConfig({
     },
   },
 
+  theme: {
+    extend: {
+      tokens: {
+        colors: {
+          black: {
+            value: '#000000',
+          },
+          white: {
+            value: '#FFFFFF',
+          },
+          // black: mapColorTokensToPandaConfig(GRAY_DARK),
+          // white: mapColorTokensToPandaConfig(GRAY_LIGHT),
+        },
+      },
+      semanticTokens: {
+        colors: {
+          surface: {
+            page: {
+              value: { base: '{colors.white}', _dark: '{colors.black}' },
+            },
+            sunken: {
+              value: {
+                base: '{colors.gray.100}',
+                _dark: '{colors.neutral.950}',
+              },
+            },
+          },
+          text: {
+            DEFAULT: {
+              value: { base: '{colors.gray.800}', _dark: '{colors.gray.200}' },
+            },
+            primary: {
+              value: { base: '{colors.gray.950}', _dark: '{colors.gray.50}' },
+            },
+            secondary: {
+              value: {
+                base: '{colors.gray.600}',
+                _dark: '{colors.neutral.300}',
+              },
+            },
+            tertiary: {
+              value: { base: '{colors.gray.500}', _dark: '{colors.gray.400}' },
+            },
+          },
+          border: {
+            DEFAULT: {
+              value: {
+                base: '{colors.gray.200}',
+                _dark: '{colors.neutral.800}',
+              },
+            },
+            subtle: {
+              value: { base: '{colors.gray.100}', _dark: '{colors.gray.800}' },
+            },
+          },
+          accent: {
+            primary: {
+              value: { base: '{colors.pink.600}', _dark: '{colors.pink.400}' },
+            },
+            hover: {
+              value: { base: '{colors.pink.200}', _dark: '{colors.pink.800}' },
+            },
+          },
+          header: {},
+        },
+      },
+    },
+  },
+
   globalCss: {
     '#__next': {
       overflowX: 'hidden',
     },
     body: {
       backgroundColor: 'surface.page',
-      color: 'text.default',
+      color: 'text',
       transition: 'background-color 0.3s, color 0.3s, border-color 0.3s',
-    },
-  },
-
-  theme: {
-    extend: {
-      tokens: {},
-      semanticTokens: {
-        colors: {
-          surface: {
-            page: {
-              value: { base: '{colors.white}', _dark: '{colors.gray.950}' },
-            },
-            raised: {
-              value: { base: '{colors.gray.50}', _dark: '{colors.gray.900}' },
-            },
-            sunken: {
-              value: { base: '{colors.gray.100}', _dark: '{colors.gray.900}' },
-            },
-            overlay: {
-              value: {
-                base: 'rgba(255,255,255,0.8)',
-                _dark: 'rgba(0,0,0,0.8)',
-              },
-            },
-            'overlay.light': {
-              value: {
-                base: 'rgba(255,255,255,0.4)',
-                _dark: 'rgba(0,0,0,0.4)',
-              },
-            },
-            card: {
-              value: {
-                base: 'rgba(248,248,248,0.9)',
-                _dark: 'rgba(30,30,30,0.9)',
-              },
-            },
-          },
-          text: {
-            primary: {
-              value: { base: '{colors.gray.950}', _dark: '{colors.gray.50}' },
-            },
-            default: {
-              value: { base: '{colors.gray.800}', _dark: '{colors.gray.200}' },
-            },
-            secondary: {
-              value: { base: '{colors.gray.600}', _dark: '{colors.gray.400}' },
-            },
-            tertiary: {
-              value: { base: '{colors.gray.500}', _dark: '{colors.gray.500}' },
-            },
-            faint: {
-              value: { base: '{colors.gray.400}', _dark: '{colors.gray.600}' },
-            },
-          },
-          border: {
-            default: {
-              value: { base: '{colors.gray.200}', _dark: '{colors.gray.800}' },
-            },
-            subtle: {
-              value: { base: '{colors.gray.100}', _dark: '{colors.gray.800}' },
-            },
-            decorative: {
-              value: { base: '{colors.gray.300}', _dark: '{colors.gray.700}' },
-            },
-          },
-          accent: {
-            line: {
-              value: { base: '{colors.black}', _dark: '{colors.white}' },
-            },
-            primary: {
-              value: { base: '{colors.pink.600}', _dark: '{colors.pink.400}' },
-            },
-            'primary.subtle': {
-              value: { base: '{colors.pink.100}', _dark: '{colors.pink.900}' },
-            },
-            hover: {
-              value: { base: '{colors.pink.200}', _dark: '{colors.pink.800}' },
-            },
-          },
-          interactive: {
-            hover: {
-              value: { base: '{colors.gray.100}', _dark: '{colors.gray.800}' },
-            },
-          },
-        },
-      },
     },
   },
 

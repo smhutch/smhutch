@@ -38,9 +38,7 @@ const Heading3 = (props: PropsWithChildren) => {
 }
 
 const Paragraph = (props: PropsWithChildren) => {
-  return (
-    <p className={css({ color: 'text.default', mb: 4 })}>{props.children}</p>
-  )
+  return <p className={css({ color: 'text', mb: 4 })}>{props.children}</p>
 }
 
 const Ul = (props: PropsWithChildren) => {
@@ -61,7 +59,7 @@ const Li = (props: PropsWithChildren) => {
           top: '50%',
           height: '1px',
           width: '6px',
-          background: 'text.faint',
+          background: 'text.tertiary',
           borderRadius: '1px',
         },
       })}
