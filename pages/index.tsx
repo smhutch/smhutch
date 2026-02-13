@@ -16,6 +16,7 @@ import { Meta } from 'components/Meta'
 import type { StringRoute } from 'types/next'
 
 const GAP = 12
+const SHOW_WEB_3 = false
 
 const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -159,20 +160,22 @@ const Index: NextPage = () => {
                 <motion.strong>design systems</motion.strong>, and enjoys{' '}
                 <motion.strong>creative coding</motion.strong>.
               </motion.p>
-              <motion.p
-                animate={STAGGER_FADE.animate}
-                className={css({
-                  lineHeight: 'snug',
-                  width: 'fit-content',
-                  fontSize: 'xl',
-                  mt: 4,
-                  color: 'gray.800',
-                })}
-                initial={STAGGER_FADE.initial}
-                variants={STAGGER_FADE.variants.item}
-              >
-                Working in web3.
-              </motion.p>
+              {SHOW_WEB_3 && (
+                <motion.p
+                  animate={STAGGER_FADE.animate}
+                  className={css({
+                    lineHeight: 'snug',
+                    width: 'fit-content',
+                    fontSize: 'xl',
+                    mt: 4,
+                    color: 'gray.800',
+                  })}
+                  initial={STAGGER_FADE.initial}
+                  variants={STAGGER_FADE.variants.item}
+                >
+                  Working in web3.
+                </motion.p>
+              )}
             </div>
           </div>
         </div>
@@ -264,7 +267,7 @@ const FooterLinkList = (props: {
       <AboutSectionHeading>{props.heading}</AboutSectionHeading>
       <motion.ul
         className={stack({
-          gap: 2,
+          gap: 3,
           align: 'flex-start',
         })}
       >
