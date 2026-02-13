@@ -2,7 +2,10 @@ const getConfig = (_phase, { defaultConfig }) => {
   /**
    * @type {import('next').NextConfig}
    */
-  const config = defaultConfig
+  const config = {
+    ...defaultConfig,
+    typedRoutes: true,
+  }
 
   return config
 }

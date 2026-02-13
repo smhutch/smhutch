@@ -15,19 +15,19 @@ const sketchIds = fs
 
 async function captureOne(options: {
   context: Awaited<
-  ReturnType<Awaited<ReturnType<typeof chromium.launch>>['newContext']>
->,
-id: string,
-baseUrl: string,
-outDir: string
-}
-  
-) {
+    ReturnType<Awaited<ReturnType<typeof chromium.launch>>['newContext']>
+  >
+  id: string
+  baseUrl: string
+  outDir: string
+}) {
   const { context, id, baseUrl, outDir } = options
   const page = await context.newPage()
   try {
     await page.setViewportSize(META_VIEWPORT)
-    await page.goto(`${baseUrl}/sketches/meta/${id}`, { waitUntil: 'networkidle' })
+    await page.goto(`${baseUrl}/sketches/meta/${id}`, {
+      waitUntil: 'networkidle',
+    })
     await page.waitForSelector('canvas', { timeout: 10000 })
     await page.waitForTimeout(500)
 

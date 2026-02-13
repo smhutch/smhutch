@@ -1,8 +1,7 @@
 import { sketchIndex } from 'build/sketches'
-import { createRandom } from 'canvas-sketch-util/random'
+import { createRandom } from 'lib/random'
 import { motion } from 'motion/react'
 import type { GetStaticProps } from 'next'
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { css, cx } from 'system/css'
@@ -60,17 +59,15 @@ const DETAILS_CLASSNAME = 'details'
 const SketchGridItem = (
   props: Pick<SketchSettings, 'id' | 'initialSeed' | 'title'>
 ) => {
-  const randomRef = useRef(createRandom())
+  const randomRef = useRef(createRandom(props.initialSeed))
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const sketchRef = useRef<SketchFn>()
+  const sketchRef = useRef<SketchFn | undefined>(undefined)
   const [ready, setReady] = useState(false)
   const visible = ready
 
   useEffect(() => {
     const getSketch = async () => {
       if (!randomRef.current) return
-
-      randomRef.current.setSeed(props.initialSeed)
 
       const mod = await import(`../../sketches/${props.id}`)
       sketchRef.current = mod.sketch
@@ -109,15 +106,7 @@ const SketchGridItem = (
     draw()
   }, [props.id, ready])
 
-  const href = getRoute({
-    route: '/sketches/[sketch]',
-    params: {
-      sketch: props.id,
-    },
-    query: {
-      seed: props.initialSeed,
-    },
-  })
+  const href = `/sketches/${props.id}?seed=${props.initialSeed}` as const
 
   return (
     <motion.li

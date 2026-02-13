@@ -3,7 +3,6 @@ import type { Random } from 'canvas-sketch-util/random'
 import { Meta } from 'components/Meta'
 import { DOT } from 'constants/typography'
 import { link } from 'css/link'
-import { getRoute } from 'next-type-safe-routes'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
@@ -30,7 +29,7 @@ export const Sketch: React.FC<Props> = (props) => {
   const [asset, setAsset] = useState<SketchAsset | null>(null)
   const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
 
-  const isMeta = mode === 'meta'
+  const _isMeta = mode === 'meta'
   const isApp = mode === 'app'
 
   useEffect(() => {
@@ -52,11 +51,9 @@ export const Sketch: React.FC<Props> = (props) => {
       // Re-seed the random singleton
       random.setSeed(seed)
 
-      const nextRoute = getRoute({
-        route: isApp ? '/sketches/[sketch]' : '/sketches/meta/[sketch]',
-        params: { sketch: id },
-        query: { seed },
-      })
+      const nextRoute = isApp
+        ? `/sketches/${id}?seed=${seed}`
+        : `/sketches/meta/${id}?seed=${seed}`
 
       router.replace(nextRoute)
     }
@@ -114,9 +111,7 @@ export const Sketch: React.FC<Props> = (props) => {
     }
 
     const navigateToSketch = (id: string) => {
-      router.push(
-        getRoute({ route: '/sketches/[sketch]', params: { sketch: id } })
-      )
+      router.push(`/sketches/${id}`)
     }
 
     draw()
@@ -216,74 +211,73 @@ export const Sketch: React.FC<Props> = (props) => {
                   {title}
                 </h1>
               </div>
-              {isApp && <hr
-                className={css({
-                  background: 'gray.200',
-                  height: '1px',
-                  border: 'none',
-                  my: 6,
-                })}
-              />}
               {isApp && (
-              <div className={stack({ gap: 2 })}>
-                <DetailsRow icon={<CodeIcon />}>
-                  <Link
-                    className={link({ variant: 'underline' })}
-                    href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    View code
-                  </Link>
-                </DetailsRow>
-                <DetailsRow icon={<MixIcon />}>
-                  <Flex align="center" gap={1}>
-                    <span>Seed</span>
-                    <span
-                      className={css({
-                        fontVariant: 'tabular-nums',
-                        fontFamily: 'mono',
-                        fontSize: 'xs',
-                      })}
-                    >
-                      {random.getSeed()}
-                    </span>
-                    <span className={css({ color: 'gray.400' })}>{DOT}</span>
-                    <button
+                <hr
+                  className={css({
+                    background: 'gray.200',
+                    height: '1px',
+                    border: 'none',
+                    my: 6,
+                  })}
+                />
+              )}
+              {isApp && (
+                <div className={stack({ gap: 2 })}>
+                  <DetailsRow icon={<CodeIcon />}>
+                    <Link
                       className={link({ variant: 'underline' })}
-                      type="button"
-                      onClick={() => {
-                        router.replace(
-                          getRoute({
-                            route: '/sketches/[sketch]',
-                            params: { sketch: id },
-                            query: { seed: random.getRandomSeed() },
-                          })
-                        )
-                      }}
+                      href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
-                      Re-seed
-                    </button>
-                  </Flex>
-                </DetailsRow>
-                {asset && (
-                  <DetailsRow icon={<PersonIcon />}>
-                    <span>
-                      Photo by{' '}
-                      <Link
-                        className={link({
-                          variant: 'underline',
-                        })}
-                        href={`https://unsplash.com/photos/${asset.credit.id}`}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        {asset.credit.owner}
-                      </Link>
-                    </span>
+                      View code
+                    </Link>
                   </DetailsRow>
-                )}
-              </div>)}
+                  <DetailsRow icon={<MixIcon />}>
+                    <Flex align="center" gap={1}>
+                      <span>Seed</span>
+                      <span
+                        className={css({
+                          fontVariant: 'tabular-nums',
+                          fontFamily: 'mono',
+                          fontSize: 'xs',
+                        })}
+                      >
+                        {random.getSeed()}
+                      </span>
+                      <span className={css({ color: 'gray.400' })}>{DOT}</span>
+                      <button
+                        className={link({ variant: 'underline' })}
+                        type="button"
+                        onClick={() => {
+                          router.replace(
+                            `/sketches/${id}?seed=${random.getRandomSeed()}`
+                          )
+                        }}
+                      >
+                        Re-seed
+                      </button>
+                    </Flex>
+                  </DetailsRow>
+                  {asset && (
+                    <DetailsRow icon={<PersonIcon />}>
+                      <span>
+                        Photo by{' '}
+                        <Link
+                          className={link({
+                            variant: 'underline',
+                          })}
+                          href={`https://unsplash.com/photos/${asset.credit.id}`}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {asset.credit.owner}
+                        </Link>
+                      </span>
+                    </DetailsRow>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </Container>
