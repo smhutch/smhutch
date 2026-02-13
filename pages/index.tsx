@@ -1,8 +1,7 @@
 import { link } from 'css/link'
 import { WEB_LINKS, WORK_LINKS } from 'data/resources'
-import { motion, useSpring } from 'motion/react'
+import { motion, stagger, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
-import Link from 'next/link'
 import { type PropsWithChildren, useEffect, useRef } from 'react'
 import { useMouse, useRafLoop } from 'react-use'
 import { css } from 'system/css'
@@ -13,10 +12,11 @@ import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
 import { Meta } from 'components/Meta'
-import type { StringRoute } from 'types/next'
+import type { ExternalLinkConfig } from 'types/content'
 
 const GAP = 12
 const SHOW_WEB_3 = false
+const FOOTER_LINK_STAGGER_DELAY = 0.08
 
 const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -95,6 +95,10 @@ const Index: NextPage = () => {
     alpha.set(1)
   }, [])
 
+  const footerSection1Delay = 0.6
+  const footerSection2Delay =
+    footerSection1Delay + (WORK_LINKS.length + 2) * FOOTER_LINK_STAGGER_DELAY
+
   return (
     <>
       <Meta description="Engineer." title="SMHutch" />
@@ -103,7 +107,7 @@ const Index: NextPage = () => {
           flexGrow: 1,
           position: 'relative',
           direction: 'column',
-          minHeight: '70vh',
+          minHeight: '40vh',
         })}
       >
         <div
@@ -115,8 +119,9 @@ const Index: NextPage = () => {
             backdropFilter: 'blur(4px)',
             py: 10,
             borderTop: '1px solid',
-            borderColor: 'gray.200',
+            borderColor: 'gray.100',
             transition: '0.4s ease backgroundColor',
+            overflow: 'hidden',
 
             '& p': { fontWeight: 'light' },
 
@@ -145,21 +150,7 @@ const Index: NextPage = () => {
                 margin: '0 auto',
               })}
             >
-              <motion.p
-                animate={STAGGER_FADE.animate}
-                className={css({
-                  maxWidth: '40ch',
-                  lineHeight: 'snug',
-                  fontSize: '3xl',
-                })}
-                initial={STAGGER_FADE.initial}
-                variants={STAGGER_FADE.variants.container}
-              >
-                Engineer who ships polished{' '}
-                <motion.strong>user interfaces</motion.strong>, crafts{' '}
-                <motion.strong>design systems</motion.strong>, and enjoys{' '}
-                <motion.strong>creative coding</motion.strong>.
-              </motion.p>
+              <Tagline />
               {SHOW_WEB_3 && (
                 <motion.p
                   animate={STAGGER_FADE.animate}
@@ -179,7 +170,14 @@ const Index: NextPage = () => {
             </div>
           </div>
         </div>
-        <canvas
+        <motion.canvas
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          transition={{ type: 'spring', duration: 2.8 }}
           ref={(canvas) => {
             if (!canvas) return
             canvasRef.current = canvas
@@ -198,7 +196,7 @@ const Index: NextPage = () => {
           })}
         />
       </div>
-      <FooterLinkList heading="Work">
+      <FooterLinkList heading="Work" startDelay={footerSection1Delay}>
         {WORK_LINKS.map((item) => {
           return (
             <ExternalFooterLinkListItem
@@ -209,7 +207,7 @@ const Index: NextPage = () => {
           )
         })}
       </FooterLinkList>
-      <FooterLinkList heading="Web">
+      <FooterLinkList heading="Web" startDelay={footerSection2Delay}>
         {WEB_LINKS.map((item) => {
           return (
             <ExternalFooterLinkListItem
@@ -224,18 +222,28 @@ const Index: NextPage = () => {
   )
 }
 
-const AboutSection = (props: PropsWithChildren) => {
+const AboutSection = (props: PropsWithChildren<{ startDelay: number }>) => {
+  const { startDelay = 0 } = props
+
   return (
     <motion.section
       animate={STAGGER_FADE.animate}
-      className={css({
-        py: 8,
-        borderTop: '1px solid',
-        borderColor: 'gray.200',
-        background: 'white',
-      })}
       initial={STAGGER_FADE.initial}
       variants={STAGGER_FADE.variants.container}
+      transition={{
+        delayChildren: stagger(0.08, {
+          from: 'first',
+          startDelay: startDelay,
+          ease: 'easeIn',
+        }),
+      }}
+      className={css({
+        pt: 8,
+        pb: 16,
+        borderTop: '1px solid',
+        borderColor: 'gray.100',
+        background: 'white',
+      })}
     >
       <Container>{props.children}</Container>
     </motion.section>
@@ -250,6 +258,9 @@ const AboutSectionHeading = (props: PropsWithChildren) => {
         fontSize: 'small',
         fontWeight: 'light',
         mb: 6,
+        transformOrigin: 'center left',
+        flexGrow: 0,
+        display: 'inline-block',
       })}
       variants={STAGGER_FADE.variants.item}
     >
@@ -258,12 +269,16 @@ const AboutSectionHeading = (props: PropsWithChildren) => {
   )
 }
 
-const FooterLinkList = (props: {
-  children: React.ReactNode
-  heading: string
-}) => {
+const FooterLinkList = (
+  props: PropsWithChildren<{
+    heading: string
+    startDelay?: number
+  }>
+) => {
+  const { startDelay = 0 } = props
+
   return (
-    <AboutSection>
+    <AboutSection startDelay={startDelay}>
       <AboutSectionHeading>{props.heading}</AboutSectionHeading>
       <motion.ul
         className={stack({
@@ -277,21 +292,51 @@ const FooterLinkList = (props: {
   )
 }
 
-const ExternalFooterLinkListItem = (props: {
-  label: string
-  href: StringRoute
-}) => {
+const ExternalFooterLinkListItem = (props: ExternalLinkConfig) => {
   return (
-    <motion.li variants={STAGGER_FADE.variants.item}>
-      <Link
+    <motion.li
+      variants={STAGGER_FADE.variants.item}
+      className={css({
+        transformOrigin: 'center left',
+      })}
+    >
+      <a
         className={link({ variant: 'underline' })}
         href={props.href}
         rel="noopener noreferrer"
         target="_blank"
       >
         {props.label}
-      </Link>
+      </a>
     </motion.li>
+  )
+}
+
+const Tagline = () => {
+  return (
+    <motion.p
+      className={css({
+        maxWidth: '40ch',
+        lineHeight: 'snug',
+        fontSize: '3xl',
+        transformOrigin: 'center left',
+      })}
+      initial={{
+        opacity: 0,
+        filter: 'blur(8px)',
+        transform: 'translateY(80px)',
+      }}
+      animate={{
+        opacity: 1,
+        filter: 'blur(0px)',
+        transform: 'translateY(0px) scale(1)',
+      }}
+      transition={{ type: 'spring', duration: 1.4 }}
+    >
+      Engineer who ships polished <motion.strong>user interfaces</motion.strong>
+      , crafts <motion.strong>design systems</motion.strong>, and enjoys{' '}
+      <motion.strong>creative coding</motion.strong>.
+    </motion.p>
   )
 }
 

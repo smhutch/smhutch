@@ -6,7 +6,7 @@ import { flex } from 'system/patterns'
 import type { StringRoute } from 'types/next'
 
 const LINKS = [
-  { href: '/writing', label: 'Writing' },
+  // { href: '/writing', label: 'Writing' },
   { href: '/sketches', label: 'Generative' },
 ] as const satisfies Array<{ href: StringRoute; label: string }>
 

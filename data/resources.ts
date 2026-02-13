@@ -1,3 +1,5 @@
+import type { ExternalLinkConfig } from 'types/content'
+
 export const WORK_LINKS = [
   {
     href: 'https://foundation-labs.xyz',
@@ -15,11 +17,11 @@ export const WORK_LINKS = [
     href: 'https://www.stickermule.com',
     label: 'Sticker Mule',
   },
-] as const
+] as const satisfies ExternalLinkConfig[]
 
 export const WEB_LINKS = [
   {
-    href: 'https://read.cv/smhutch',
+    href: '/scott-hutcheson-cv.pdf',
     label: 'Résumé',
   },
   {
@@ -30,4 +32,4 @@ export const WEB_LINKS = [
     href: 'https://twitter.com/SMHutcheson',
     label: 'X (Twitter)',
   },
-] as const
+] as const satisfies ExternalLinkConfig[]
