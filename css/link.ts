@@ -4,7 +4,8 @@ export const link = cva({
   base: {
     display: 'inline-block',
     position: 'relative',
-    transition: '0.3s ease color, 0.2s ease transform',
+    transition: 'common',
+    transitionDuration: 'common',
     color: 'text.primary',
   },
   defaultVariants: {
@@ -27,7 +28,8 @@ export const link = cva({
           position: 'absolute',
           background: 'border',
           borderRadius: 'full',
-          transition: '0.2s ease transform, 0.2s ease background',
+          // transition: '0.4s ease transform, 0.2s ease background',
+          transitionDuration: 'common',
           transform: 'scaleX(0.98) translateY(1px)',
           zIndex: -1,
         },

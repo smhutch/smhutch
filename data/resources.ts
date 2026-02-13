@@ -1,11 +1,9 @@
+import type { ExternalLinkConfig } from 'types/content'
+
 export const WORK_LINKS = [
   {
-    href: 'https://foundation.app',
-    label: 'Foundation',
-  },
-  {
-    href: 'https://lore.xyz/',
-    label: 'Lore.xyz',
+    href: 'https://foundation-labs.xyz',
+    label: 'Foundation Labs, Inc.',
   },
   {
     href: 'https://codesandbox.io/',
@@ -19,11 +17,11 @@ export const WORK_LINKS = [
     href: 'https://www.stickermule.com',
     label: 'Sticker Mule',
   },
-] as const
+] as const satisfies ExternalLinkConfig[]
 
 export const WEB_LINKS = [
   {
-    href: 'https://read.cv/smhutch',
+    href: '/scott-hutcheson-cv.pdf',
     label: 'Résumé',
   },
   {
@@ -32,6 +30,6 @@ export const WEB_LINKS = [
   },
   {
     href: 'https://twitter.com/SMHutcheson',
-    label: 'X',
+    label: 'X (Twitter)',
   },
-] as const
+] as const satisfies ExternalLinkConfig[]

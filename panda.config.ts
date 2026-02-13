@@ -34,6 +34,11 @@ export default defineConfig({
           // black: mapColorTokensToPandaConfig(GRAY_DARK),
           // white: mapColorTokensToPandaConfig(GRAY_LIGHT),
         },
+        durations: {
+          common: {
+            value: '0.2s',
+          },
+        },
       },
       semanticTokens: {
         colors: {
@@ -97,7 +102,8 @@ export default defineConfig({
     body: {
       backgroundColor: 'surface.page',
       color: 'text',
-      transition: 'background-color 0.3s, color 0.3s, border-color 0.3s',
+      transition: 'common',
+      transitionDuration: '{durations.common}',
     },
   },
 

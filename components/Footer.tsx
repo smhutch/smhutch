@@ -11,6 +11,8 @@ export const Footer: React.FC = () => {
         borderColor: 'border',
         position: 'relative',
         overflow: 'hidden',
+        transition: 'common',
+        transitionDuration: 'common',
       })}
     >
       <Container py={6}>

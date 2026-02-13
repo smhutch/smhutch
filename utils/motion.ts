@@ -18,17 +18,19 @@ export const STAGGER_FADE = createMotionConfig(
   {
     container: {
       hidden: { opacity: 0 },
-      show: {
-        opacity: 1,
-        transition: {
-          duration: 0.4,
-          staggerChildren: 0.1,
-        },
-      },
+      show: { opacity: 1 },
     },
     item: {
-      hidden: { opacity: 0 },
-      show: { opacity: 1 },
+      hidden: {
+        opacity: 0,
+        filter: 'blur(2px)',
+        transform: 'translateY(12px) scale(0.90)',
+      },
+      show: {
+        opacity: 1,
+        filter: 'blur(0px)',
+        transform: 'translateY(0px) scale(1)',
+      },
     },
   },
   {

@@ -9,7 +9,7 @@ import type { StringRoute } from 'types/next'
 import { useIsHydrated } from 'utils/hooks'
 
 const LINKS = [
-  { href: '/writing', label: 'Writing' },
+  // { href: '/writing', label: 'Writing' },
   { href: '/sketches', label: 'Generative' },
 ] as const satisfies Array<{ href: StringRoute; label: string }>
 
@@ -29,8 +29,11 @@ export const Header: React.FC = () => {
         position: 'sticky',
         top: 0,
         zIndex: 2,
-
         background: 'white/80',
+
+        transition: 'common',
+        transitionDuration: 'durations.common',
+
         _dark: {
           background: 'neutral.950/90',
         },
@@ -119,7 +122,7 @@ const headerLinkItem = cva({
       right: 2,
       height: '1px',
       borderRadius: '2px',
-      transition: 'transform 0.4s ease, opacity 0.2s ease',
+      transition: 'transition 0.4s ease, opacity 0.2s ease',
       background: '{colors.black}',
       transform: 'scaleX(0.1)',
       opacity: 0,
