@@ -8,8 +8,8 @@ import type { SketchInitialProps } from 'types/sketches'
 
 const random = createRandom()
 
-const UI: NextPage<SketchInitialProps> = (props) => {
-  return <Sketch random={random} {...props} />
+const SketchRoute: NextPage<SketchInitialProps> = (props) => {
+  return <Sketch mode="app" random={random} {...props} />
 }
 
 type Params = {
@@ -47,4 +47,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default UI
+export default SketchRoute

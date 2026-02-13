@@ -10,7 +10,12 @@ import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { GlobalMeta } from 'components/Meta'
 
-const App: React.FC<AppProps> = ({ Component, pageProps }) => {
+const App: React.FC<AppProps> = ({ Component, pageProps, router }) => {
+  const isMetaRoute = router.asPath.startsWith('/sketches/meta')
+
+  const hasHeader = !isMetaRoute
+  const hasFooter = !isMetaRoute
+
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <GlobalMeta />
@@ -23,11 +28,13 @@ const App: React.FC<AppProps> = ({ Component, pageProps }) => {
           overflowY: 'auto',
         })}
       >
-        <Header />
+        {hasHeader && <Header />}
         <Component {...pageProps} />
-        <div className={css({ marginTop: 'auto' })}>
-          <Footer />
-        </div>
+        {hasFooter && (
+          <div className={css({ marginTop: 'auto' })}>
+            <Footer />
+          </div>
+        )}
       </div>
     </ThemeProvider>
   )

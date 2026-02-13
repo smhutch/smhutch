@@ -11,7 +11,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
-    "paths": {},
+    "paths": {
+      "@/*": ["./*"]
+    },
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,

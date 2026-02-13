@@ -6,7 +6,7 @@ import matter from 'gray-matter'
 import readingTime from 'reading-time'
 import { postFrontmatterSchema } from 'schemas/frontmatter'
 
-const CONTENT_DIR = path.join(process.cwd(), 'data/posts')
+const CONTENT_DIR = path.join(process.cwd(), 'content/posts')
 const FILE_EXT = '.md'
 
 export type PostMeta = {

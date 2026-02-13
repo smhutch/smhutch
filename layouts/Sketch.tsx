@@ -1,6 +1,7 @@
 import { CodeIcon, MixIcon, PersonIcon } from '@radix-ui/react-icons'
+import { Meta } from 'components/Meta'
+import { DOT } from 'constants/typography'
 import { link } from 'css/link'
-import { DOT } from 'data/typography'
 import type { Random } from 'lib/random'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,8 +9,6 @@ import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { css } from 'system/css'
 import { Container, Flex } from 'system/jsx'
 import { flex, stack } from 'system/patterns'
-
-import { Meta } from 'components/Meta'
 import type { SketchAsset, SketchFn, SketchSettings } from 'types/sketches'
 
 const CANVAS_SIZE = 600
@@ -19,15 +18,19 @@ type Props = SketchSettings & {
   next?: string | null
   prev?: string | null
   random: Random
+  mode: 'app' | 'meta'
 }
 
 export const Sketch: React.FC<Props> = (props) => {
-  const { id, random, initialSeed, next, prev, title } = props
+  const { id, mode, random, initialSeed, next, prev, title } = props
 
   const router = useRouter()
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [asset, setAsset] = useState<SketchAsset | null>(null)
   const [sketchCache, setSketchCache] = useState<Record<string, SketchFn>>({})
+
+  const _isMeta = mode === 'meta'
+  const isApp = mode === 'app'
 
   useEffect(() => {
     const getSketch = async () => {
@@ -48,7 +51,9 @@ export const Sketch: React.FC<Props> = (props) => {
       // Re-seed the random singleton
       random.setSeed(seed)
 
-      const nextRoute = `/sketches/${id}?seed=${seed}`
+      const nextRoute = isApp
+        ? `/sketches/${id}?seed=${seed}`
+        : `/sketches/meta/${id}?seed=${seed}`
 
       router.replace(nextRoute)
     }
@@ -156,7 +161,7 @@ export const Sketch: React.FC<Props> = (props) => {
       <main
         className={css({
           py: '24',
-          backgroundColor: 'surface.sunken',
+          backgroundColor: 'gray.50',
           flexGrow: 1,
         })}
       >
@@ -188,7 +193,7 @@ export const Sketch: React.FC<Props> = (props) => {
               <div
                 className={flex({
                   fontSize: 'small',
-                  color: 'text.secondary',
+                  color: 'gray.600',
                   width: '100%',
                 })}
               >
@@ -206,69 +211,73 @@ export const Sketch: React.FC<Props> = (props) => {
                   {title}
                 </h1>
               </div>
-              <hr
-                className={css({
-                  background: 'border',
-                  height: '1px',
-                  border: 'none',
-                  my: 6,
-                })}
-              />
-              <div className={stack({ gap: 2 })}>
-                <DetailsRow icon={<CodeIcon />}>
-                  <Link
-                    className={link({ variant: 'underline' })}
-                    href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    View code
-                  </Link>
-                </DetailsRow>
-                <DetailsRow icon={<MixIcon />}>
-                  <Flex align="center" gap={1}>
-                    <span>Seed</span>
-                    <span
-                      className={css({
-                        fontVariant: 'tabular-nums',
-                        fontFamily: 'mono',
-                        fontSize: 'xs',
-                      })}
-                    >
-                      {random.getSeed()}
-                    </span>
-                    <span className={css({ color: 'text.faint' })}>{DOT}</span>
-                    <button
+              {isApp && (
+                <hr
+                  className={css({
+                    background: 'gray.200',
+                    height: '1px',
+                    border: 'none',
+                    my: 6,
+                  })}
+                />
+              )}
+              {isApp && (
+                <div className={stack({ gap: 2 })}>
+                  <DetailsRow icon={<CodeIcon />}>
+                    <Link
                       className={link({ variant: 'underline' })}
-                      type="button"
-                      onClick={() => {
-                        router.replace(
-                          `/sketches/${id}?seed=${random.getRandomSeed()}`
-                        )
-                      }}
+                      href={`https://github.com/smhutch/smhutch/tree/main/sketches/${id}.ts`}
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
-                      Re-seed
-                    </button>
-                  </Flex>
-                </DetailsRow>
-                {asset && (
-                  <DetailsRow icon={<PersonIcon />}>
-                    <span>
-                      Photo by{' '}
-                      <Link
-                        className={link({
-                          variant: 'underline',
-                        })}
-                        href={`https://unsplash.com/photos/${asset.credit.id}`}
-                        rel="noopener noreferrer"
-                        target="_blank"
-                      >
-                        {asset.credit.owner}
-                      </Link>
-                    </span>
+                      View code
+                    </Link>
                   </DetailsRow>
-                )}
-              </div>
+                  <DetailsRow icon={<MixIcon />}>
+                    <Flex align="center" gap={1}>
+                      <span>Seed</span>
+                      <span
+                        className={css({
+                          fontVariant: 'tabular-nums',
+                          fontFamily: 'mono',
+                          fontSize: 'xs',
+                        })}
+                      >
+                        {random.getSeed()}
+                      </span>
+                      <span className={css({ color: 'gray.400' })}>{DOT}</span>
+                      <button
+                        className={link({ variant: 'underline' })}
+                        type="button"
+                        onClick={() => {
+                          router.replace(
+                            `/sketches/${id}?seed=${random.getRandomSeed()}`
+                          )
+                        }}
+                      >
+                        Re-seed
+                      </button>
+                    </Flex>
+                  </DetailsRow>
+                  {asset && (
+                    <DetailsRow icon={<PersonIcon />}>
+                      <span>
+                        Photo by{' '}
+                        <Link
+                          className={link({
+                            variant: 'underline',
+                          })}
+                          href={`https://unsplash.com/photos/${asset.credit.id}`}
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          {asset.credit.owner}
+                        </Link>
+                      </span>
+                    </DetailsRow>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </Container>
@@ -282,7 +291,7 @@ const DetailsRow = (props: PropsWithChildren<{ icon: React.ReactNode }>) => {
     <div
       className={css({
         fontSize: 'small',
-        color: 'text.secondary',
+        color: 'gray.600',
 
         '& svg': {
           width: '13px',

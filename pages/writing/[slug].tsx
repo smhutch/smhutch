@@ -1,5 +1,5 @@
 import { renderMarkdoc } from 'components/markdoc'
-import { DOT } from 'data/typography'
+import { DOT } from 'constants/typography'
 import { format, parseISO } from 'date-fns'
 import { type Post, getAllPosts, getPostBySlug } from 'lib/content'
 import type {

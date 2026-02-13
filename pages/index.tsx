@@ -1,5 +1,5 @@
+import { WEB_LINKS, WORK_LINKS } from 'constants/resources'
 import { link } from 'css/link'
-import { WEB_LINKS, WORK_LINKS } from 'data/resources'
 import { motion, stagger, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import { type PropsWithChildren, useEffect, useRef } from 'react'
