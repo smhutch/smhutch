@@ -24,7 +24,7 @@ export const STAGGER_FADE = createMotionConfig(
       hidden: {
         opacity: 0,
         filter: 'blur(2px)',
-        transform: 'translateY(12px) scale(0.90)',
+        transform: 'translateY(24px) scale(0.90)',
       },
       show: {
         opacity: 1,

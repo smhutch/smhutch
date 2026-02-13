@@ -73,7 +73,7 @@ export default defineConfig({
           border: {
             DEFAULT: {
               value: {
-                base: '{colors.gray.200}',
+                base: '{colors.neutral.100}',
                 _dark: '{colors.neutral.800}',
               },
             },
@@ -128,7 +128,7 @@ export default defineConfig({
           return {
             paddingX: 6,
             marginX: 'auto',
-            maxWidth: 1200,
+            maxWidth: 1100,
             width: '100%',
 
             ...props,

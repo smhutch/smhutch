@@ -3,15 +3,17 @@ import { link } from 'css/link'
 import { motion, stagger, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import { type PropsWithChildren, useEffect, useRef } from 'react'
-import { useMouse, useRafLoop } from 'react-use'
-import { css } from 'system/css'
+import { useMouse, useRafLoop, useTimeoutFn } from 'react-use'
+import { css, cx } from 'system/css'
 import { Container } from 'system/jsx'
 import { container, flex, stack } from 'system/patterns'
 import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
+import { hasAnimatedInIndex } from '@/atoms/animations'
 import { Meta } from 'components/Meta'
 import { useIsDarkMode } from 'hooks/theme'
+import { useSetAtom } from 'jotai'
 import { doNothing } from 'remeda'
 import type { ExternalLinkConfig } from 'types/content'
 
@@ -28,6 +30,8 @@ const Index: NextPage = () => {
   const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
   const isDarkMode = useIsDarkMode()
+
+  const setAnimated = useSetAtom(hasAnimatedInIndex)
 
   useRafLoop(() => {
     if (!canvasRef.current) return
@@ -98,9 +102,16 @@ const Index: NextPage = () => {
     alpha.set(1)
   }, [])
 
-  const footerSection1Delay = 0.6
-  const footerSection2Delay =
-    footerSection1Delay + (WORK_LINKS.length + 2) * FOOTER_LINK_STAGGER_DELAY
+  const footerSection1DelayInSeconds = 0.4
+  const footerSection2DelayInSeconds =
+    footerSection1DelayInSeconds + WORK_LINKS.length * FOOTER_LINK_STAGGER_DELAY
+  const totalFooterStaggerDelayInSeconds =
+    footerSection2DelayInSeconds + WEB_LINKS.length * FOOTER_LINK_STAGGER_DELAY
+  const totalFooterStaggerDelayInMs = totalFooterStaggerDelayInSeconds * 1000
+
+  useTimeoutFn(() => {
+    setAnimated(true)
+  }, totalFooterStaggerDelayInMs)
 
   return (
     <>
@@ -204,28 +215,56 @@ const Index: NextPage = () => {
           })}
         />
       </div>
-      <FooterLinkList heading="Work" startDelay={footerSection1Delay}>
-        {WORK_LINKS.map((item) => {
-          return (
-            <ExternalFooterLinkListItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-            />
-          )
+      <div
+        className={css({
+          borderTop: '1px solid',
+          borderColor: 'border',
+          transition: 'all',
+          transitionDuration: 'common',
         })}
-      </FooterLinkList>
-      <FooterLinkList heading="Web" startDelay={footerSection2Delay}>
-        {WEB_LINKS.map((item) => {
-          return (
-            <ExternalFooterLinkListItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-            />
-          )
-        })}
-      </FooterLinkList>
+      >
+        <Container>
+          <div
+            className={cx(
+              css({
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                margin: '0 auto',
+                gap: '20',
+              })
+            )}
+          >
+            <FooterLinkList
+              heading="Career"
+              startDelay={footerSection1DelayInSeconds}
+            >
+              {WORK_LINKS.map((item) => {
+                return (
+                  <ExternalFooterLinkListItem
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                  />
+                )
+              })}
+            </FooterLinkList>
+            <FooterLinkList
+              heading="Web"
+              startDelay={footerSection2DelayInSeconds}
+            >
+              {WEB_LINKS.map((item) => {
+                return (
+                  <ExternalFooterLinkListItem
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                  />
+                )
+              })}
+            </FooterLinkList>
+          </div>
+        </Container>
+      </div>
     </>
   )
 }
@@ -239,7 +278,7 @@ const AboutSection = (props: PropsWithChildren<{ startDelay: number }>) => {
       initial={STAGGER_FADE.initial}
       variants={STAGGER_FADE.variants.container}
       transition={{
-        delayChildren: stagger(0.08, {
+        delayChildren: stagger(0.06, {
           from: 'first',
           startDelay: startDelay,
           ease: 'easeIn',
@@ -248,13 +287,12 @@ const AboutSection = (props: PropsWithChildren<{ startDelay: number }>) => {
       className={css({
         pt: 8,
         pb: 16,
-        borderTop: '1px solid',
         borderColor: 'border',
         transition: 'common',
         transitionDuration: 'common',
       })}
     >
-      <Container>{props.children}</Container>
+      {props.children}
     </motion.section>
   )
 }
