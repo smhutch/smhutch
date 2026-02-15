@@ -80,7 +80,7 @@ const Index: NextPage = () => {
             height: '100%',
             mt: 'auto',
             backgroundColor: '{colors.white}/60',
-            backdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
             py: 10,
             borderTop: '1px solid',
             borderColor: 'border',
@@ -331,8 +331,8 @@ const Tagline = () => {
       transition={{ type: 'spring', duration: 1.4 }}
     >
       Engineer who ships polished <motion.strong>user interfaces</motion.strong>
-      , crafts <motion.strong>design systems</motion.strong>, and enjoys{' '}
-      <motion.strong>creative coding</motion.strong>.
+      , crafts <motion.strong>design systems</motion.strong>, and values{' '}
+      <motion.strong>type-safety</motion.strong>.
     </motion.p>
   )
 }

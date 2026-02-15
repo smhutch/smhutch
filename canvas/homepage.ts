@@ -1,4 +1,4 @@
-import { lerp } from '@/utils/math'
+import { getP, lerp } from '@/utils/math'
 import type { MotionValue } from 'motion'
 import type { State as MouseState } from 'react-use/lib/useMouse'
 import { match } from 'ts-pattern'
@@ -107,51 +107,86 @@ export const homepageLines = (options: BaseHandlerOptions) => {
 export const homepageLines2 = (options: BaseHandlerOptions) => {
   const { alpha, ctx, isDarkMode, width, height, mouse } = options
 
-  const LINE_SPACING = 20
-  const SEGMENT_LENGTH = 20
-  const BASE_GAP = 0
-  const GAP_VARIATION = 12 // How much gap changes based on mouse X
-  const CURSOR_INFLUENCE_RADIUS = width / 4
+  const LINE_WIDTH = 1
+  const SIDE_INSET = 12
+  const DIR_INSET = SIDE_INSET * 2
+  const DEBUG = false
+
+  // const yLength = boxHeight * 0.2
 
   ctx.fillStyle = isDarkMode ? 'black' : 'white'
   ctx.strokeStyle = isDarkMode ? 'white' : 'black'
-  ctx.lineCap = 'round'
-  ctx.lineWidth = 0.5
+  // ctx.lineCap = 'round'
+  ctx.lineWidth = LINE_WIDTH
 
-  const colCount = Math.floor(width / LINE_SPACING)
+  // Uniform density - maintains consistent spacing and naturally reflects aspect ratio
+  const density = 0.03 // items per pixel
+  const colCount = width * density
+  const rowCount = height * density
+
+  const boxHeight = height - DIR_INSET
+
+  if (DEBUG) {
+    ctx.rect(SIDE_INSET, SIDE_INSET, width - DIR_INSET, height - DIR_INSET)
+    ctx.globalAlpha = 0.1
+    ctx.stroke()
+  }
 
   for (let col = 0; col <= colCount; col++) {
-    const x = col * LINE_SPACING
+    const px = getP({ current: col, max: colCount })
+    const x = lerp(SIDE_INSET, width - SIDE_INSET, px)
 
-    // Calculate gap based on X proximity to mouse
-    const distToMouseX = Math.abs(x - mouse.elX)
-    const xProximity = Math.max(0, 1 - distToMouseX / (width * 0.2))
-    const gap = BASE_GAP + xProximity * GAP_VARIATION
+    for (let row = 0; row <= rowCount; row++) {
+      const py = getP({ current: row, max: rowCount })
+      const y = lerp(SIDE_INSET, height - SIDE_INSET, py)
 
-    let currentY = 0
+      // Calculate distance from cursor
+      const yDist = Math.abs(y - mouse.elY)
+      const yProximity = Math.max(0, 1 - yDist / (height * 0.4))
 
-    while (currentY < height) {
-      const segmentEnd = Math.min(currentY + SEGMENT_LENGTH, height)
-      const segmentMidY = (currentY + segmentEnd) / 2
+      const xDist = Math.abs(x - mouse.elX)
+      const xProximity = Math.max(0, 1 - xDist / (width * 0.5))
 
-      // Calculate 2D distance from cursor to segment
-      const dx = x - mouse.elX
-      const dy = segmentMidY - mouse.elY
-      const distToCursor = Math.sqrt(dx * dx + dy * dy)
-      const proximity = Math.max(0, 1 - distToCursor / CURSOR_INFLUENCE_RADIUS)
+      const pp = yProximity * xProximity
 
-      // Darker when closer to cursor
-      const lineAlpha = lerp(0.15, 0.8, proximity)
+      // Opacity increases when closer to mouse
+      const lineAlpha = lerp(0.2, 0.7, pp)
 
-      // Draw segment
+      // Calculate angle from line position to cursor
+      const dx = mouse.elX - x
+      const dy = mouse.elY - y
+      const angle = Math.atan2(dy, dx)
+      const distanceToCursor = Math.sqrt(dx * dx + dy * dy)
+
+      // Calculate spacing constraints
+      const ySpacing = boxHeight / rowCount
+      const xSpacing = (width - DIR_INSET) / colCount
+
+      // Constrain max length based on angle to prevent overlap
+      // When horizontal (cos=1), use xSpacing; when vertical (sin=1), use ySpacing
+      const horizontalness = Math.abs(Math.cos(angle))
+      const verticalness = Math.abs(Math.sin(angle))
+      const maxLength = xSpacing * horizontalness + ySpacing * verticalness
+
+      // Line length based on proximity
+      const baseLineLength = lerp(maxLength * 0.2, maxLength * 0.8, pp)
+
+      // Keep lines from reaching the cursor - maintain a clear zone
+      const clearZone = 18 // pixels of clear space around cursor
+      const lineLength = Math.min(
+        baseLineLength,
+        Math.max(0, distanceToCursor - clearZone)
+      )
+
+      // Calculate end point based on angle
+      const endX = x + Math.cos(angle) * lineLength
+      const endY = y + Math.sin(angle) * lineLength
+
       ctx.globalAlpha = lineAlpha * alpha.get()
       ctx.beginPath()
-      ctx.moveTo(x, currentY)
-      ctx.lineTo(x, segmentEnd)
+      ctx.moveTo(x, y)
+      ctx.lineTo(endX, endY)
       ctx.stroke()
-
-      // Move to next segment (current position + segment length + gap)
-      currentY = segmentEnd + gap
     }
   }
 }
