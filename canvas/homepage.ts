@@ -110,7 +110,7 @@ export const homepageLines2 = (options: BaseHandlerOptions) => {
     options
 
   const elX = hasInteractedRef.current ? mouse.elX : width / 2
-  const elY = hasInteractedRef.current ? mouse.elY : height / 2
+  const elY = hasInteractedRef.current ? mouse.elY : height * 0.9
 
   const LINE_WIDTH = 1
   const SIDE_INSET = 12
@@ -150,7 +150,7 @@ export const homepageLines2 = (options: BaseHandlerOptions) => {
       const yProximity = Math.max(0, 1 - yDist / (height * 0.4))
 
       const xDist = Math.abs(x - elX)
-      const xProximity = Math.max(0, 1 - xDist / (width * 0.5))
+      const xProximity = Math.max(0, 1 - xDist / (width * 0.8))
 
       const pp = yProximity * xProximity
 

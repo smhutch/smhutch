@@ -1,19 +1,18 @@
 import { useIsDarkMode } from 'hooks/theme'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { css, cva } from 'system/css'
+import { css, cva, cx } from 'system/css'
 import { Container } from 'system/jsx'
-import { flex } from 'system/patterns'
 import type { StringRoute } from 'types/next'
 import { useIsHydrated } from 'utils/hooks'
 
-const LINKS = [
+const _LINKS = [
   // { href: '/writing', label: 'Writing' },
-  { href: '/sketches', label: 'Generative' },
+  // { href: '/sketches', label: 'Generative' },
 ] as const satisfies Array<{ href: StringRoute; label: string }>
 
 export const Header: React.FC = () => {
-  const router = useRouter()
+  const _router = useRouter()
   const isDark = useIsDarkMode()
   const isHydrated = useIsHydrated()
 
@@ -21,36 +20,73 @@ export const Header: React.FC = () => {
     <div
       className={css({
         w: '100%',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid',
-        borderBottomColor: 'border',
-        position: 'sticky',
-        top: 0,
+        // backdropFilter: 'blur(2px)',
+        // borderBottom: '1px solid',
+        // borderBottomColor: 'border',
+        position: 'absolute',
+        top: 4,
         zIndex: 2,
-        background: 'white/80',
+        // background: 'white/80',
+        minHeight: '64px',
+        display: 'flex',
+        alignItems: 'center',
 
         transition: 'common',
 
         _dark: {
-          background: 'neutral.950/90',
+          // background: 'neutral.950/80',
         },
       })}
     >
       <Container>
-        <div
-          className={flex({
-            align: 'center',
-            justify: 'space-between',
-          })}
-        >
-          <Link href="/">
+        <div>
+          <Link
+            href="/"
+            className={cx(
+              'group',
+              css({
+                display: 'inline-block',
+                alignItems: 'center',
+                padding: 3,
+                flexShrink: 0,
+                flexGrow: 0,
+                marginLeft: -3,
+                backdropFilter: 'blur(10px)',
+                borderRadius: 'full',
+                backgroundColor: 'white/80',
+                border: '1px solid',
+                borderColor: 'border',
+                transition: 'common',
+                transitionDuration: 'common',
+
+                _hover: {
+                  transformOrigin: 'center',
+                  transform: 'scale(1.6) rotate(6deg)',
+                },
+
+                _dark: {
+                  backgroundColor: 'neutral.950/20',
+                },
+              })
+            )}
+          >
             <img
               alt="SMHutch"
-              className={css({ w: 4, h: 4 })}
+              className={css({
+                display: 'block',
+                w: 5,
+                h: 5,
+                transition: 'common',
+                transitionDuration: 'common',
+                _groupHover: {
+                  transformOrigin: 'center',
+                  transform: 'scale(0.8)',
+                },
+              })}
               src={isHydrated && isDark ? '/logo-light.svg' : '/logo-dark.svg'}
             />
           </Link>
-          <div className={flex({ align: 'center', gap: 0 })}>
+          {/* <div className={flex({ align: 'center', gap: 0 })}>
             <ul className={flex({ gap: 0 })}>
               {LINKS.map((item) => {
                 return (
@@ -67,14 +103,14 @@ export const Header: React.FC = () => {
                 )
               })}
             </ul>
-          </div>
+          </div> */}
         </div>
       </Container>
     </div>
   )
 }
 
-const headerLinkItem = cva({
+const _headerLinkItem = cva({
   base: {
     display: 'block',
     fontSize: 'small',
