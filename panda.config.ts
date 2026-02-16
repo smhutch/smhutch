@@ -100,7 +100,7 @@ export default defineConfig({
       overflowX: 'hidden',
     },
     body: {
-      backgroundColor: 'surface.page',
+      backgroundColor: '{colors.surface.page}',
       color: 'text',
       transition: 'common',
       transitionDuration: '{durations.common}',
