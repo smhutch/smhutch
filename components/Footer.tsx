@@ -1,4 +1,5 @@
 import { hasAnimatedInIndex } from '@/atoms/animations'
+import { EMDASH } from '@/constants/typography'
 import { ThemeToggle } from 'components/ThemeToggle'
 import { useAtomValue } from 'jotai'
 import { motion } from 'motion/react'
@@ -30,11 +31,14 @@ export const Footer: React.FC = () => {
         <div className={flex({ align: 'center', justify: 'space-between' })}>
           <motion.p
             className={css({
-              display: 'inline-block',
-              fontSize: 'xs',
+              display: 'inline-flex',
+              fontSize: 'sm',
               color: 'text.tertiary',
               fontWeight: 'light',
               transformOrigin: 'left',
+              gap: 3,
+              alignItems: 'center',
+              textAlign: 'center',
             })}
             initial="hidden"
             animate={isVisible ? 'visible' : 'hidden'}
@@ -55,7 +59,9 @@ export const Footer: React.FC = () => {
               type: 'spring',
             }}
           >
-            SMHutch &#183; {currentYear}
+            <span>SMHutch</span>
+            <span className={css({ opacity: 0.4 })}>{EMDASH}</span>
+            <span>{currentYear}</span>
           </motion.p>
           <ThemeToggle />
         </div>

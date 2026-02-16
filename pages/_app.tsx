@@ -27,6 +27,8 @@ const App: React.FC<AppProps> = ({ Component, pageProps, router }) => {
           maxHeight: '100vh',
           overflowY: 'auto',
           backgroundColor: 'surface.page',
+          transition: 'common',
+          transitionDuration: 'common',
         })}
       >
         {hasHeader && <Header />}

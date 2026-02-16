@@ -99,7 +99,7 @@ export default defineConfig({
     body: {
       backgroundColor: '{colors.surface.page}',
       color: 'text',
-      transition: 'common',
+      transition: '{transitions.common}',
       transitionDuration: '{durations.common}',
     },
   },

@@ -20,22 +20,15 @@ export const Header: React.FC = () => {
     <div
       className={css({
         w: '100%',
-        // backdropFilter: 'blur(2px)',
-        // borderBottom: '1px solid',
-        // borderBottomColor: 'border',
         position: 'absolute',
         top: 4,
         zIndex: 2,
-        // background: 'white/80',
         minHeight: '64px',
         display: 'flex',
         alignItems: 'center',
 
         transition: 'common',
-
-        _dark: {
-          // background: 'neutral.950/80',
-        },
+        transitionDuration: 'common',
       })}
     >
       <Container>
