@@ -23,6 +23,7 @@ const FOOTER_LINK_STAGGER_DELAY = 0.06
 const Index: NextPage = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+  const hasInteractedRef = useRef(false)
 
   const mouse = useMouse(canvasRef as React.RefObject<Element>)
 
@@ -42,6 +43,7 @@ const Index: NextPage = () => {
       ctx,
       config: { type: 'lines' },
       mouse,
+      hasInteractedRef,
       isDarkMode,
       isOver,
       alpha,
@@ -73,6 +75,9 @@ const Index: NextPage = () => {
           direction: 'column',
           minHeight: '40vh',
         })}
+        onMouseMove={() => {
+          hasInteractedRef.current = true
+        }}
       >
         <div
           className={flex({
@@ -80,7 +85,7 @@ const Index: NextPage = () => {
             height: '100%',
             mt: 'auto',
             backgroundColor: '{colors.white}/60',
-            backdropFilter: 'blur(4px)',
+            backdropFilter: 'blur(2px)',
             py: 10,
             borderTop: '1px solid',
             borderColor: 'border',
@@ -161,7 +166,6 @@ const Index: NextPage = () => {
             transition: '0.4s ease opacity',
             position: 'absolute',
             inset: 0,
-            zIndex: -1,
           })}
         />
       </div>

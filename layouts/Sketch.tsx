@@ -161,7 +161,7 @@ export const Sketch: React.FC<Props> = (props) => {
       <main
         className={css({
           py: '24',
-          backgroundColor: 'gray.50',
+          backgroundColor: 'surface.sunken',
           flexGrow: 1,
         })}
       >

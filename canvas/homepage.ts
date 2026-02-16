@@ -9,6 +9,7 @@ type BaseConfig = {
   ctx: CanvasRenderingContext2D
   isDarkMode: boolean
   mouse: MouseState
+  hasInteractedRef: { current: boolean }
 }
 
 type InternalState = {
@@ -105,7 +106,11 @@ export const homepageLines = (options: BaseHandlerOptions) => {
 }
 
 export const homepageLines2 = (options: BaseHandlerOptions) => {
-  const { alpha, ctx, isDarkMode, width, height, mouse } = options
+  const { alpha, ctx, isDarkMode, width, height, mouse, hasInteractedRef } =
+    options
+
+  const elX = hasInteractedRef.current ? mouse.elX : width / 2
+  const elY = hasInteractedRef.current ? mouse.elY : height / 2
 
   const LINE_WIDTH = 1
   const SIDE_INSET = 12
@@ -141,10 +146,10 @@ export const homepageLines2 = (options: BaseHandlerOptions) => {
       const y = lerp(SIDE_INSET, height - SIDE_INSET, py)
 
       // Calculate distance from cursor
-      const yDist = Math.abs(y - mouse.elY)
+      const yDist = Math.abs(y - elY)
       const yProximity = Math.max(0, 1 - yDist / (height * 0.4))
 
-      const xDist = Math.abs(x - mouse.elX)
+      const xDist = Math.abs(x - elX)
       const xProximity = Math.max(0, 1 - xDist / (width * 0.5))
 
       const pp = yProximity * xProximity
@@ -153,8 +158,8 @@ export const homepageLines2 = (options: BaseHandlerOptions) => {
       const lineAlpha = lerp(0.2, 0.7, pp)
 
       // Calculate angle from line position to cursor
-      const dx = mouse.elX - x
-      const dy = mouse.elY - y
+      const dx = elX - x
+      const dy = elY - y
       const angle = Math.atan2(dy, dx)
       const distanceToCursor = Math.sqrt(dx * dx + dy * dy)
 
