@@ -1,5 +1,7 @@
+import { ThemeToggle } from 'components/ThemeToggle'
 import { css } from 'system/css'
 import { Container } from 'system/jsx'
+import { flex } from 'system/patterns'
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
@@ -16,15 +18,18 @@ export const Footer: React.FC = () => {
       })}
     >
       <Container py={6}>
-        <p
-          className={css({
-            fontSize: 'xs',
-            color: 'text.tertiary',
-            fontWeight: 'light',
-          })}
-        >
-          SMHutch &#183; {currentYear}
-        </p>
+        <div className={flex({ align: 'center', justify: 'space-between' })}>
+          <p
+            className={css({
+              fontSize: 'xs',
+              color: 'text.tertiary',
+              fontWeight: 'light',
+            })}
+          >
+            SMHutch &#183; {currentYear}
+          </p>
+          <ThemeToggle />
+        </div>
       </Container>
     </footer>
   )

@@ -1,5 +1,4 @@
-import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
-import { useIsDarkMode, useToggleTheme } from 'hooks/theme'
+import { useIsDarkMode } from 'hooks/theme'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { css, cva } from 'system/css'
@@ -15,7 +14,6 @@ const LINKS = [
 
 export const Header: React.FC = () => {
   const router = useRouter()
-  const toggleTheme = useToggleTheme()
   const isDark = useIsDarkMode()
   const isHydrated = useIsHydrated()
 
@@ -69,33 +67,6 @@ export const Header: React.FC = () => {
                 )
               })}
             </ul>
-            {isHydrated && (
-              <button
-                aria-label="Toggle theme"
-                className={css({
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  w: 8,
-                  h: 8,
-                  ml: 1,
-                  borderRadius: 'md',
-                  color: 'text.secondary',
-                  cursor: 'pointer',
-                  transition: 'color 0.3s, background 0.3s',
-                  '&:hover': {
-                    color: 'text.primary',
-                    background: 'border',
-                  },
-                })}
-                type="button"
-                onClick={() => {
-                  toggleTheme()
-                }}
-              >
-                {isDark ? <SunIcon /> : <MoonIcon />}
-              </button>
-            )}
           </div>
         </div>
       </Container>
