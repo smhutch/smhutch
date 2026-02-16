@@ -74,11 +74,8 @@ export default defineConfig({
             DEFAULT: {
               value: {
                 base: '{colors.neutral.100}',
-                _dark: '{colors.neutral.800}',
+                _dark: '{colors.neutral.900}',
               },
-            },
-            subtle: {
-              value: { base: '{colors.gray.100}', _dark: '{colors.gray.800}' },
             },
           },
           accent: {
