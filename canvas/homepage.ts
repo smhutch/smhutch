@@ -21,7 +21,7 @@ type BaseHandlerOptions = InternalState & BaseConfig
 export const homepageCanvas = (
   options: BaseConfig & {
     canvas: HTMLCanvasElement
-    config: { type: 'lines' } & LinesConfig
+    config: { type: 'lines' }
   }
 ) => {
   const { config, canvas, ctx } = options
