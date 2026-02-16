@@ -2,40 +2,37 @@ import { useIsDarkMode, useToggleTheme } from 'hooks/theme'
 import { css } from 'system/css'
 import { useIsHydrated } from 'utils/hooks'
 
-const MoonIcon = () => (
-  <svg
-    fill="currentColor"
-    height="15"
-    viewBox="0 0 15 15"
-    width="15"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>Dark mode</title>
-    <path d="M5 3A4.5 4.5 0 1 1 5 12A5.5 5.5 0 0 0 5 3Z" />
-  </svg>
-)
+const MoonIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M22 17v2h-1v1h-1v1h-2v1h-2v1h-6v-1H8v-1H6v-1H5v-1H4v-2H3v-2H2V9h1V7h1V5h1V4h1V3h2V2h2V1h5v1h-2v1h-2v1h-1v2H9v2H8v4h1v2h1v2h1v1h2v1h2v1h4v-1h2v-1z"
+      />
+    </svg>
+  )
+}
 
-const SunIcon = () => (
-  <svg
-    height="15"
-    viewBox="0 0 15 15"
-    width="15"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>Light mode</title>
-    <circle cx="7.5" cy="7.5" fill="currentColor" r="2.75" />
-    <g stroke="currentColor" strokeLinecap="round" strokeWidth="1.2">
-      <line x1="7.5" x2="7.5" y1="0.75" y2="3" />
-      <line x1="7.5" x2="7.5" y1="12" y2="14.25" />
-      <line x1="0.75" x2="3" y1="7.5" y2="7.5" />
-      <line x1="12" x2="14.25" y1="7.5" y2="7.5" />
-      <line x1="2.72" x2="4.31" y1="2.72" y2="4.31" />
-      <line x1="10.69" x2="12.28" y1="10.69" y2="12.28" />
-      <line x1="2.72" x2="4.31" y1="12.28" y2="10.69" />
-      <line x1="10.69" x2="12.28" y1="4.31" y2="2.72" />
-    </g>
-  </svg>
-)
+const SunIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M13 3h-2v2h2zm4 2h2v2h-2zm-6 6h2v2h-2zm-8 0h2v2H3zm18 0h-2v2h2zM5 5h2v2H5zm14 14h-2v-2h2zm-8 2h2v-2h-2zm-4-2H5v-2h2zM9 7h6v2H9zm0 8H7V9h2zm0 0v2h6v-2h2V9h-2v6z"
+      />
+    </svg>
+  )
+}
 
 const SIZE = 6
 
@@ -48,9 +45,12 @@ const buttonStyles = css({
   borderRadius: 'sm',
   color: 'text.tertiary',
   cursor: 'pointer',
-  transition: 'color 0.2s',
-  '&:hover': {
-    color: 'text.secondary',
+  transition: 'common',
+  transitionDuration: 'common',
+
+  _hover: {
+    color: 'text.primary',
+    transform: 'scale(1.4)',
   },
 })
 

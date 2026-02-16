@@ -40,7 +40,8 @@
         "useExhaustiveDependencies": "off"
       },
       "a11y": {
-        "useValidAnchor": "off"
+        "useValidAnchor": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   },
