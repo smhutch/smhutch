@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
           <Link href="/">
             <img
               alt="SMHutch"
-              className={css({ w: 5, h: 5 })}
+              className={css({ w: 4, h: 4 })}
               src={isHydrated && isDark ? '/logo-light.svg' : '/logo-dark.svg'}
             />
           </Link>

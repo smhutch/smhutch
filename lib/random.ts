@@ -145,3 +145,5 @@ export function createRandom(initialSeed?: Seed): Random {
     weightedSet,
   }
 }
+
+export const random = createRandom()

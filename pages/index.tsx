@@ -3,19 +3,20 @@ import { link } from 'css/link'
 import { motion, stagger, useSpring } from 'motion/react'
 import type { NextPage } from 'next'
 import { type PropsWithChildren, useEffect, useRef } from 'react'
-import { useMouse, useRafLoop } from 'react-use'
-import { css } from 'system/css'
+import { useMouse, useRafLoop, useTimeoutFn } from 'react-use'
+import { css, cx } from 'system/css'
 import { Container } from 'system/jsx'
 import { container, flex, stack } from 'system/patterns'
-import { lerp } from 'utils/math'
 import { STAGGER_FADE } from 'utils/motion'
 
+import { hasAnimatedInIndex } from '@/atoms/animations'
+import { homepageCanvas } from '@/canvas/homepage'
 import { Meta } from 'components/Meta'
 import { useIsDarkMode } from 'hooks/theme'
+import { useSetAtom } from 'jotai'
 import { doNothing } from 'remeda'
 import type { ExternalLinkConfig } from 'types/content'
 
-const GAP = 12
 const SHOW_WEB_3 = false
 const FOOTER_LINK_STAGGER_DELAY = 0.06
 
@@ -25,82 +26,42 @@ const Index: NextPage = () => {
 
   const mouse = useMouse(canvasRef as React.RefObject<Element>)
 
-  const xMovement = useSpring(0)
   const alpha = useSpring(0, { bounce: 0 })
+  const isOver = useSpring(0)
   const isDarkMode = useIsDarkMode()
+
+  const setAnimated = useSetAtom(hasAnimatedInIndex)
 
   useRafLoop(() => {
     if (!canvasRef.current) return
     if (!ctxRef.current) return
     const canvas = canvasRef.current
     const ctx = ctxRef.current
-
-    const { height, width } = canvas.getBoundingClientRect()
-
-    const SCALE = window.devicePixelRatio
-
-    canvas.width = width * SCALE
-    canvas.height = height * SCALE
-
-    ctx.scale(SCALE, SCALE)
-
-    ctx.globalAlpha = 1
-    ctx.fillStyle = 'transparent'
-    ctx.fillRect(0, 0, width, height)
-    ctx.fillStyle = isDarkMode ? 'black' : 'white'
-    ctx.strokeStyle = isDarkMode ? 'white' : 'black'
-    ctx.lineCap = 'round'
-
-    const colCount = Math.floor(width / GAP)
-
-    const mouseRangeWidth = width * 0.15
-    const mouseRangeMin = mouse.elX - mouseRangeWidth
-    const mouseRangeMax = mouse.elX + mouseRangeWidth
-
-    for (let col = 0; col < colCount; col++) {
-      // Percentage through columns
-      const p = col / (colCount - 1)
-      const centerDiff = Math.abs((p - 0.5) * 2)
-      const centerP = lerp(1, 0, centerDiff)
-      const x = lerp(-1, width + 1, p)
-
-      const xWeight =
-        x > mouseRangeMin && x < mouseRangeMax
-          ? lerp(1, 0, Math.abs(x - mouse.elX) / mouseRangeWidth)
-          : 0
-
-      const xMovementWeight = lerp(-0.15, 0.15, xMovement.get())
-      const xMovementAmount = width * xMovementWeight
-
-      const mouseAlpha = lerp(0.1, 0.8, xWeight)
-
-      ctx.globalAlpha = mouseAlpha * alpha.get()
-      ctx.lineWidth = lerp(0.4, 1, xWeight)
-
-      ctx.save()
-      ctx.beginPath()
-      ctx.moveTo(x, 0)
-
-      ctx.bezierCurveTo(
-        lerp(x, x + xMovementAmount, centerP),
-        height * 0.33,
-        lerp(x, x - xMovementAmount, centerP),
-        height * 0.66,
-        x,
-        height
-      )
-      ctx.stroke()
-      ctx.restore()
-    }
+    homepageCanvas({
+      canvas,
+      ctx,
+      config: { type: 'lines' },
+      mouse,
+      isDarkMode,
+      isOver,
+      alpha,
+    })
   })
 
   useEffect(() => {
     alpha.set(1)
   }, [])
 
-  const footerSection1Delay = 0.6
-  const footerSection2Delay =
-    footerSection1Delay + (WORK_LINKS.length + 2) * FOOTER_LINK_STAGGER_DELAY
+  const footerSection1DelayInSeconds = 0.4
+  const footerSection2DelayInSeconds =
+    footerSection1DelayInSeconds + WORK_LINKS.length * FOOTER_LINK_STAGGER_DELAY
+  const totalFooterStaggerDelayInSeconds =
+    footerSection2DelayInSeconds + WEB_LINKS.length * FOOTER_LINK_STAGGER_DELAY
+  const totalFooterStaggerDelayInMs = totalFooterStaggerDelayInSeconds * 1000
+
+  useTimeoutFn(() => {
+    setAnimated(true)
+  }, totalFooterStaggerDelayInMs)
 
   return (
     <>
@@ -119,7 +80,7 @@ const Index: NextPage = () => {
             height: '100%',
             mt: 'auto',
             backgroundColor: '{colors.white}/60',
-            backdropFilter: 'blur(2px)',
+            backdropFilter: 'blur(4px)',
             py: 10,
             borderTop: '1px solid',
             borderColor: 'border',
@@ -142,8 +103,8 @@ const Index: NextPage = () => {
           })}
           onFocus={doNothing}
           onBlur={doNothing}
-          onMouseOut={() => xMovement.set(0)}
-          onMouseOver={() => xMovement.set(1)}
+          onMouseOut={() => isOver.set(0)}
+          onMouseOver={() => isOver.set(1)}
         >
           <div
             className={container({
@@ -204,28 +165,56 @@ const Index: NextPage = () => {
           })}
         />
       </div>
-      <FooterLinkList heading="Work" startDelay={footerSection1Delay}>
-        {WORK_LINKS.map((item) => {
-          return (
-            <ExternalFooterLinkListItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-            />
-          )
+      <div
+        className={css({
+          borderTop: '1px solid',
+          borderColor: 'border',
+          transition: 'all',
+          transitionDuration: 'common',
         })}
-      </FooterLinkList>
-      <FooterLinkList heading="Web" startDelay={footerSection2Delay}>
-        {WEB_LINKS.map((item) => {
-          return (
-            <ExternalFooterLinkListItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-            />
-          )
-        })}
-      </FooterLinkList>
+      >
+        <Container>
+          <div
+            className={cx(
+              css({
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                margin: '0 auto',
+                gap: '20',
+              })
+            )}
+          >
+            <FooterLinkList
+              heading="Career"
+              startDelay={footerSection1DelayInSeconds}
+            >
+              {WORK_LINKS.map((item) => {
+                return (
+                  <ExternalFooterLinkListItem
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                  />
+                )
+              })}
+            </FooterLinkList>
+            <FooterLinkList
+              heading="Web"
+              startDelay={footerSection2DelayInSeconds}
+            >
+              {WEB_LINKS.map((item) => {
+                return (
+                  <ExternalFooterLinkListItem
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                  />
+                )
+              })}
+            </FooterLinkList>
+          </div>
+        </Container>
+      </div>
     </>
   )
 }
@@ -239,7 +228,7 @@ const AboutSection = (props: PropsWithChildren<{ startDelay: number }>) => {
       initial={STAGGER_FADE.initial}
       variants={STAGGER_FADE.variants.container}
       transition={{
-        delayChildren: stagger(0.08, {
+        delayChildren: stagger(0.06, {
           from: 'first',
           startDelay: startDelay,
           ease: 'easeIn',
@@ -248,13 +237,12 @@ const AboutSection = (props: PropsWithChildren<{ startDelay: number }>) => {
       className={css({
         pt: 8,
         pb: 16,
-        borderTop: '1px solid',
         borderColor: 'border',
         transition: 'common',
         transitionDuration: 'common',
       })}
     >
-      <Container>{props.children}</Container>
+      {props.children}
     </motion.section>
   )
 }
@@ -343,8 +331,8 @@ const Tagline = () => {
       transition={{ type: 'spring', duration: 1.4 }}
     >
       Engineer who ships polished <motion.strong>user interfaces</motion.strong>
-      , crafts <motion.strong>design systems</motion.strong>, and enjoys{' '}
-      <motion.strong>creative coding</motion.strong>.
+      , crafts <motion.strong>design systems</motion.strong>, and values{' '}
+      <motion.strong>type-safety</motion.strong>.
     </motion.p>
   )
 }
