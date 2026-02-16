@@ -1,12 +1,12 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'utils/math'
 
 import { getInvertedNormalDistribution } from 'lib/canvas'
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '008',
   title: 'Ring',
-  initialSeed: '812451',
+  initialSeed: 812451,
 }
 
 const arc = {
@@ -18,13 +18,12 @@ const arc = {
 const sketch008: SketchFn = ({ ctx, size, random }) => {
   const lines = 60
   const circlesPerLine = 60
-  const margin = size * 0.1
   const maxRadius = 60
   const minRadius = 5
   const anglePerLine = arc.full / lines
   const startAngle = 0 - arc.quarter
-  const circleCenter = margin
-  const circleEdge = size / 2 - margin
+  const circleCenter = size * 0.1
+  const circleEdge = size / 2 - circleCenter
   const maxAlpha = 0.2
   const minAlpha = 0
 
@@ -35,9 +34,7 @@ const sketch008: SketchFn = ({ ctx, size, random }) => {
     const pLoop = getInvertedNormalDistribution(pLine)
 
     ctx.save()
-    // Go to center of canvas
     ctx.translate(size / 2, size / 2)
-    // Rotate around center
     ctx.rotate(lerp(startAngle, arc.full + startAngle - anglePerLine, pLine))
 
     for (let dot = 0; dot < circlesPerLine; dot++) {

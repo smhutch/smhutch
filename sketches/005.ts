@@ -1,19 +1,22 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'utils/math'
 
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '005',
   title: 'Noise wave',
-  initialSeed: '450581',
+  initialSeed: 450581,
 }
 
 const sketch005: SketchFn = ({ ctx, size, random }) => {
   ctx.fillStyle = 'white'
-  const lines = random.range(50, 150)
+  ctx.lineWidth = 1
+
+  const lines = random.range(50, 100)
   const steps = 100
   const marginX = size * 0.1
   const marginY = size * 0.2
+
   for (let line = 0; line < lines; line++) {
     const p = line / (lines - 1)
     const startX = marginX
@@ -29,6 +32,7 @@ const sketch005: SketchFn = ({ ctx, size, random }) => {
     }
     ctx.stroke()
   }
+
   ctx.restore()
 }
 

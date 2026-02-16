@@ -1,4 +1,4 @@
-import { SketchInitialProps } from 'types/sketches'
+import type { SketchInitialProps } from 'types/sketches'
 
 import { sketchIds } from '../build/sketches'
 

@@ -1,19 +1,18 @@
-import { lerp } from 'canvas-sketch-util/math'
-import palettes from 'nice-color-palettes/200.json'
+import chroma from 'chroma-js'
+import { lerp } from 'utils/math'
 
 import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '001',
   title: 'Noise grid',
-  initialSeed: '14168',
+  initialSeed: 321268,
 }
 
 const sketch001: SketchFn = ({ ctx, size, random }) => {
-  const count = 20
+  const count = random.rangeFloor(20, 100)
   ctx.fillStyle = 'white'
 
-  const palette = random.pick(palettes)
   const margin = size * 0.1
 
   for (let col = 0; col < count; col++) {
@@ -22,20 +21,29 @@ const sketch001: SketchFn = ({ ctx, size, random }) => {
       const px = row / (count - 1)
       const py = col / (count - 1)
 
-      const x = lerp(margin, size - margin, px)
-      const y = lerp(margin, size - margin, py)
+      const x = lerp(margin, size - margin - space, px)
+      const y = lerp(margin, size - margin - space, py)
       const noise = random.noise2D(px, py)
-      const scale = Math.sin(noise)
+      const scale = Math.sin(Math.PI * Math.abs(noise * 0.6))
+      const color = chroma.hsl(lerp(160, 200, py), 1, lerp(0.6, 0.33, scale))
 
-      ctx.globalAlpha = 1
-      ctx.fillStyle = random.pick(palette)
+      ctx.fillStyle = color.hex()
 
       ctx.save()
-      ctx.beginPath()
       ctx.translate(x, y)
-      ctx.scale(scale, scale)
-      ctx.fillRect(-space / 2, -space / 2, space, space)
-      ctx.fill()
+
+      ctx.strokeStyle = color
+        .brighten(Math.PI * 0.2)
+        .alpha(0.4)
+        .hex()
+      ctx.strokeRect(0, 0, space, space)
+
+      const fillSize = lerp(space * 0.3, space * 0.8, scale)
+      const startX = lerp(0, space - fillSize, px)
+      const startY = lerp(0, space - fillSize, py)
+
+      ctx.fillRect(startX, startY, fillSize, fillSize)
+
       ctx.restore()
     }
   }

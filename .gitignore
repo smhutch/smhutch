@@ -19,3 +19,15 @@ yarn-error.log*
 
 # Env
 .env
+
+# Typescript
+*.tsbuildinfo
+
+# Panda
+system
+
+# contentLayer
+.contentlayer
+
+# inbox
+inbox

@@ -1,54 +1,45 @@
-import type { NextComponentType } from 'next'
-import type { AppProps } from 'next/app'
-import Router from 'next/router'
+import '../css/global.css'
 
-import { Article } from 'components/Article'
-import { GlobalCSS } from 'components/CSS'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
+import { ThemeProvider } from 'next-themes'
+import type { AppProps } from 'next/app'
+import { css } from 'system/css'
+import { flex } from 'system/patterns'
+
 import { Footer } from 'components/Footer'
 import { Header } from 'components/Header'
 import { GlobalMeta } from 'components/Meta'
-import { GA_TRACKING_ID, trackPage } from 'lib/gtag'
 
-Router.events.on('routeChangeComplete', (url) => {
-  GA_TRACKING_ID && trackPage(url)
-})
+const App: React.FC<AppProps> = ({ Component, pageProps, router }) => {
+  const isMetaRoute = router.asPath.startsWith('/sketches/meta')
 
-const isPuppeteer = process.env.IS_PUPPETEER
-
-interface Props extends AppProps {
-  // MDX adds isMDXComponent as a static property to pages written in .mdx
-  Component: NextComponentType & { isMDXComponent?: boolean }
-}
-
-const App: React.FC<Props> = ({ Component, pageProps }) => {
-  const ui = <Component {...pageProps} />
-  const page = Component.isMDXComponent ? <Article>{ui}</Article> : ui
+  const hasHeader = !isMetaRoute
+  const hasFooter = !isMetaRoute
 
   return (
-    <>
-      <GlobalCSS />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <GlobalMeta />
-      <div className="app">
-        {!isPuppeteer && <Header />}
-        <div className="page">{page}</div>
-        {!isPuppeteer && (
-          <div className="footer">
+      <VercelAnalytics />
+      <div
+        className={flex({
+          direction: 'column',
+          minHeight: '100vh',
+          maxHeight: '100vh',
+          overflowY: 'auto',
+          backgroundColor: 'surface.page',
+          transition: 'common',
+          transitionDuration: 'common',
+        })}
+      >
+        {hasHeader && <Header />}
+        <Component {...pageProps} />
+        {hasFooter && (
+          <div className={css({ marginTop: 'auto' })}>
             <Footer />
           </div>
         )}
       </div>
-      <style jsx>{`
-        .app {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-        }
-
-        .footer {
-          margin-top: auto;
-        }
-      `}</style>
-    </>
+    </ThemeProvider>
   )
 }
 

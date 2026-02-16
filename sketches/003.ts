@@ -1,24 +1,17 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'utils/math'
 
 import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '003',
   title: 'Photo grid',
-  initialSeed: '764883',
+  initialSeed: 49562,
   images: [
     {
       src: '/open/surf.jpg',
       credit: {
         id: 'cmt3JdS5MC4',
         owner: 'Jeremy Bishop',
-      },
-    },
-    {
-      src: '/open/pier.jpg',
-      credit: {
-        id: 'VBBGigIuaDY',
-        owner: 'Sherman Yang',
       },
     },
     {
@@ -29,73 +22,99 @@ export const settings: SketchSettings = {
       },
     },
     {
-      src: '/open/porsche.jpg',
-      credit: {
-        id: 'znzlxOfFbWs',
-        owner: 'Eric Saunders',
-      },
-    },
-    {
-      src: '/open/skate.jpg',
-      credit: {
-        id: 'ISkeH2SLqNU',
-        owner: 'Robson Hatsukami Morgan',
-      },
-    },
-    {
       src: '/open/plane.jpg',
       credit: {
         id: 'rGVxtVVtv7E',
         owner: 'Joshua Sortino',
       },
     },
+    {
+      src: '/open/wave.jpg',
+      credit: {
+        id: 'UD5drKd4H6w',
+        owner: 'Ricardo Gomez Angel',
+      },
+    },
+    {
+      src: '/open/pipe.jpg',
+      credit: {
+        id: 'oDSWuj1YS00',
+        owner: 'Pipe A.',
+      },
+    },
+    {
+      src: '/open/stairs.jpg',
+      credit: {
+        id: 'wgMzQo-v474',
+        owner: 'Tom Byrom',
+      },
+    },
   ],
 }
 
 export const sketch003: SketchFn = ({ expose, ctx, size, random }) => {
-  const asset = random.pick(settings.images)
+  const asset = random.pick(settings.images || [])
 
-  const grid = 5
-  const square = size / grid
-
-  const crops = []
-  for (let col = 0; col < grid; col++) {
-    for (let row = 0; row < grid; row++) {
-      const px = row / (grid - 1)
-      const py = col / (grid - 1)
-
-      crops.push({
-        x: lerp(0, size - square, px),
-        y: lerp(0, size - square, py),
-      })
-    }
-  }
-
-  const places = random.shuffle(crops)
+  const grid = random.rangeFloor(4, 12)
 
   const image = new Image()
-  image.onload = () => {
+  image.onload = (event) => {
+    const image = event.target as HTMLImageElement
+
+    const imageSize = Math.max(image.width, image.height)
+
+    const sourceSquare = imageSize / grid
+    const canvasSquare = size / grid
+
+    const crops: Array<{
+      /** source position on x axis */
+      sx: number
+      /** source position on y axis */
+      sy: number
+      /** destination position on x axis */
+      dx: number
+      /** destination position on y axis */
+      dy: number
+    }> = []
+    for (let col = 0; col < grid; col++) {
+      for (let row = 0; row < grid; row++) {
+        const px = row / (grid - 1)
+        const py = col / (grid - 1)
+
+        crops.push({
+          sx: lerp(0, image.width - sourceSquare, px),
+          sy: lerp(0, image.height - sourceSquare, py),
+          dx: lerp(0, size - canvasSquare, px),
+          dy: lerp(0, size - canvasSquare, py),
+        })
+      }
+    }
+
+    const places = random.shuffle(crops)
+
     crops.forEach((crop, i) => {
       const place = places[i]
       ctx.drawImage(
         image,
-        crop.x,
-        crop.y,
-        square,
-        square,
-        place.x,
-        place.y,
-        square,
-        square
+        crop.sx,
+        crop.sy,
+        sourceSquare,
+        sourceSquare,
+        place.dx, // TODO: use place instead
+        place.dy, // TODO: use place instead
+        canvasSquare,
+        canvasSquare
       )
     })
   }
 
   image.src = asset.src
 
-  expose({
-    asset,
-  })
+  if (expose) {
+    expose({
+      asset,
+    })
+  }
 }
 
 export const sketch = sketch003

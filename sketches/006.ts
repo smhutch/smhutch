@@ -1,11 +1,11 @@
-import { lerp } from 'canvas-sketch-util/math'
+import { lerp } from 'utils/math'
 
-import { SketchFn, SketchSettings } from 'types/sketches'
+import type { SketchFn, SketchSettings } from 'types/sketches'
 
 export const settings: SketchSettings = {
   id: '006',
   title: 'Merge',
-  initialSeed: '41029',
+  initialSeed: 41029,
 }
 
 const sketch006: SketchFn = ({ ctx, size, random }) => {

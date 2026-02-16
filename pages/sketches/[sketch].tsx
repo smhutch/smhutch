@@ -1,6 +1,6 @@
 import { sketchIds, sketchSettings } from 'build/sketches'
-import { createRandom } from 'canvas-sketch-util/random'
-import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
+import { createRandom } from 'lib/random'
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 
 import { Sketch } from 'layouts/Sketch'
 import { getSketchPagination } from 'lib/pagination'
@@ -8,8 +8,8 @@ import type { SketchInitialProps } from 'types/sketches'
 
 const random = createRandom()
 
-const UI: NextPage<SketchInitialProps> = (props) => {
-  return <Sketch random={random} {...props} />
+const SketchRoute: NextPage<SketchInitialProps> = (props) => {
+  return <Sketch mode="app" random={random} {...props} />
 }
 
 type Params = {
@@ -20,8 +20,10 @@ export const getStaticProps: GetStaticProps<
   SketchInitialProps,
   Params
 > = async ({ params }) => {
+  if (!params) throw new Error('No params')
+
   const sketchId = params.sketch
-  const settings = sketchSettings(sketchId)
+  const settings = await sketchSettings(sketchId)
   const paginationProps = getSketchPagination(sketchId)
 
   return {
@@ -45,4 +47,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default UI
+export default SketchRoute

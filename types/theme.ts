@@ -1,22 +1,8 @@
-export type FontScale = readonly [
-  number,
-  number,
-  number,
-  number,
-  number,
-  number,
-  number
-]
+import type { Hsl } from './design'
 
-// NOTE: length of SpaceLookup enum must be kept in sync with
-// SpaceScale array.
-export type SpaceLookup = 0 | 1 | 2 | 3 | 4 | 5 | 6
-export type SpaceScale = readonly [
-  number,
-  number,
-  number,
-  number,
-  number,
-  number,
-  number
-]
+export type ThemeColorKey = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+export type ThemeColors = Record<ThemeColorKey, Hsl>
+
+export type Theme = {
+  colors: ThemeColors
+}
